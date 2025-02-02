@@ -11,6 +11,10 @@ const HeaderCell = (props) => {
           fontWeight: 'bold',
           textAlign: 'center',
           borderBottom: '2px solid #d9d9d9',
+          paddingTop:'16px',
+          paddingBottom:'16px',
+          paddingLeft:'29px',
+          paddingRight:'29px'
         }}// 헤더 스타일 지정
         >
             {children}

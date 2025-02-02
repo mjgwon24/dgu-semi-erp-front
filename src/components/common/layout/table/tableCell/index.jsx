@@ -111,7 +111,7 @@ const EditableCell = ({
                 </div>
             </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
                     {record[dataIndex] || new Date().toISOString().split(" T ")[0]}
                 </div>
             );
@@ -160,14 +160,14 @@ const EditableCell = ({
                         />
                         <label
                             htmlFor={inputId}
-                            className="cursor-pointer text-[#1890ff]"
+                            className="cursor-pointer text-[#1890ff] text-[15px]"
                         >
                             📁 파일 선택하기
                         </label>
                     </div>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
                     {record[dataIndex] ? record[dataIndex] : '파일 업로드'}
                 </div>
             );
@@ -205,7 +205,7 @@ const EditableCell = ({
                     </Select>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
                     {record[dataIndex] || '선택'}
                 </div>
             );
@@ -221,7 +221,7 @@ const EditableCell = ({
             />
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="min-h-2 text-center cursor-pointer py-[10px]">
+                <div onClick={toggleEdit} className=" text-center cursor-pointer text-[15px]">
                     {/* 천단위 구분 표시 */}
                     {Number(children[1]).toLocaleString()}
                 </div>
@@ -233,7 +233,7 @@ const EditableCell = ({
                     <Input ref={inputRef} onPressEnter={save} onBlur={save} maxLength={maxlength}/>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="min-h-2 text-center cursor-pointer py-[10px]">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
                     {children}
                 </div>
             );
@@ -241,7 +241,7 @@ const EditableCell = ({
     }
     //No필드
     else{
-        childNode = (<div className="min-h-2 text-center">
+        childNode = (<div className="text-center text-[15px]">
                         {children}
                     </div>);
     }
