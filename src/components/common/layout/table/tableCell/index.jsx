@@ -246,6 +246,6 @@ const EditableCell = ({
                     </div>);
     }
     
-    return <td {...restProps}>{childNode}</td>;
+    return <td {...restProps} style={{paddingLeft:'16px',paddingRight:'16px',paddingTop:`${editing?'8px':'16px'}`,paddingBottom:`${editing?'8px':'16px'}`}}>{childNode}</td>;
 };
 export default EditableCell;
