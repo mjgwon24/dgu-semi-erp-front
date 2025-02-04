@@ -2,62 +2,20 @@ import locale from 'antd/locale/ko_KR';
 import React, { useEffect, useState } from 'react';
 import { Table,Button } from 'antd';
 import dayjs from 'dayjs';
-import axios from 'axios';
 import EditableCell from '../tableCell';
 import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
-
-const EditableTable = ({dataSource, setDataSource,defaultColumns}) => {
+const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading}) => {
 // const App = ({ dataSource, setDataSource, columns, pagination, rowKey = "No" }) => {
 
 //   const [dataSource, setDataSource] = useState([]);
-    const [count, setCount] = useState(null);//불러오는 데이터 행의 개수(fetchData에서 설정됨)
-    const [loading, setLoading] = useState(true);
+    // //불러오는 데이터 행의 개수(fetchData에서 설정됨)
+    
 
     // 페이지네이션 현재 페이지
     const [currentPage,setCurrentPage] = useState(1);
 
-    // 데이터 요청 함수
-    const fetchData = async () => {
-        try{
-            setLoading(true);
-            // 임의의 API 호출(여기서 API 연결)
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-            const baseData = response.data;
     
-            // 임의로 100개의 데이터 생성
-            const data = Array.from({ length: 100 }, (_, index) => {
-                const item = baseData[index % baseData.length]; // 데이터 순환
-                return {
-                    No: index + 1,
-                    how: '운영비',
-                    crew: 'DEVELOPER',
-                    content: `${item.name} - ${index + 1}`, // 고유한 이름 추가
-                    person: item.username,
-                    howpay: '카드',
-                    date: dayjs().add(index, 'day').format('YYYY-MM-DD'), // 날짜를 하루씩 증가
-                    amount: (18000 + index * 100).toString(), // 금액에 변동 추가
-                    status: index % 2 === 0 ? '대기' : '완료', // 상태를 번갈아 표시
-                    file: null,
-                };
-            });
-  
-            setDataSource(data);
-            setCount(data.length);
-        }
-        catch(error){
-            console.error('데이터 로딩 실패:', error);
-        }
-        finally{
-            setLoading(false);
-        }
-    };
-  
-
-    // 컴포넌트 마운트 시 데이터 로드
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     // 행 추가 함수
     const handleAdd = () => {
