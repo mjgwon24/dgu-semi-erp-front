@@ -7,7 +7,7 @@ const EditableRow = ({ index, ...props }) => {
     return (
         <Form form={form} component={false}>
             <EditableContext.Provider value={form}>
-                <tr {...props} className="p-0" />
+                <tr {...props} className="p-0 hover:bg-gray-100"/>
             </EditableContext.Provider>
         </Form>
     );
