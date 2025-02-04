@@ -6,17 +6,8 @@ import EditableCell from '../tableCell';
 import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
 const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading}) => {
-// const App = ({ dataSource, setDataSource, columns, pagination, rowKey = "No" }) => {
-
-//   const [dataSource, setDataSource] = useState([]);
-    // //불러오는 데이터 행의 개수(fetchData에서 설정됨)
-    
-
     // 페이지네이션 현재 페이지
     const [currentPage,setCurrentPage] = useState(1);
-
-    
-
     // 행 추가 함수
     const handleAdd = () => {
         const newData = defaultColumns.reduce((acc, column) => {
