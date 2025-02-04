@@ -44,6 +44,9 @@ const EditableCell = ({
     const save = async ()=>{
         try{
             const values = await form.validateFields();
+            if(values.amount&&values.amount.match(/[^0-9]/g)){
+                values.amount = values.amount.replace(/[^0-9]/g, '');
+            }
             toggleEdit();
             handleSave({ ...record, ...values });
         }
@@ -81,7 +84,7 @@ const EditableCell = ({
             }, [editing, isDatePickerOpen]);
             childNode = editing ? (
             <Form.Item name={dataIndex} className="m-0">
-                <div ref={datePickerRef}>
+                <div ref={datePickerRef} className='flex justify-center'>
                     <DatePicker
                         value={record[dataIndex] ? dayjs(record[dataIndex], 'YYYY-MM-DD') : null}
                         format="YYYY-MM-DD"
@@ -142,7 +145,7 @@ const EditableCell = ({
           
             childNode = editing ? (
                 <Form.Item name={dataIndex} className="m-0">
-                    <div ref={wrapperRef}>
+                    <div ref={wrapperRef} className="flex justify-center">
                         <input
                             type="file"
                             id={inputId}
@@ -160,14 +163,14 @@ const EditableCell = ({
                         />
                         <label
                             htmlFor={inputId}
-                            className="cursor-pointer text-[#1890ff] text-[15px]"
+                            className="cursor-pointer text-[#1890ff] text-[15px] text-center"
                         >
                             📁 파일 선택하기
                         </label>
                     </div>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px] overflow-hidden text-ellipsis whitespace-nowrap">
                     {record[dataIndex] ? record[dataIndex] : '파일 업로드'}
                 </div>
             );
@@ -213,12 +216,20 @@ const EditableCell = ({
         else if(type=='money'){
             childNode = editing ? (
                 <Form.Item name={dataIndex} className="m-0">
-                    <Input 
-                        ref={inputRef} onPressEnter={save} onBlur={save} maxLength={maxlength} inputMode="numeric"
-                        // 숫자만 입력 가능
-                        onKeyDown={(e) => !"0123456789".includes(e.key) && e.preventDefault()}
-                        type="text" 
-            />
+                    <Input
+            ref={inputRef}
+            onPressEnter={save}
+            onBlur={save}
+            maxLength={maxlength}
+            inputMode="numeric"
+            className="text-center"
+            onKeyDown={(e) => {
+                if(e.key.match(/[^0-9]/g)){
+                    setTimeout(()=>{e.target.value =  e.target.value.replace(/[^0-9]/g, '');},10)
+                }
+            }}
+            type="text"
+        />
                 </Form.Item>
             ) : (
                 <div onClick={toggleEdit} className=" text-center cursor-pointer text-[15px]">
@@ -230,7 +241,7 @@ const EditableCell = ({
         else if(type=='text'){
             childNode = editing ? (
                 <Form.Item name={dataIndex} className="m-0">
-                    <Input ref={inputRef} onPressEnter={save} onBlur={save} maxLength={maxlength}/>
+                    <Input ref={inputRef} onPressEnter={save} onBlur={save} maxLength={maxlength} className="text-center"/>
                 </Form.Item>
             ) : (
                 <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
@@ -246,6 +257,7 @@ const EditableCell = ({
                     </div>);
     }
     
-    return <td {...restProps} style={{paddingLeft:'16px',paddingRight:'16px',paddingTop:`${editing?'8px':'16px'}`,paddingBottom:`${editing?'8px':'16px'}`}}>{childNode}</td>;
+    
+    return <td {...restProps} style={{paddingLeft:`${editing?'0px':'16px'}`,paddingRight:`${editing?'0px':'16px'}`,paddingTop:`${editing?'8px':'16px'}`,paddingBottom:`${editing?'8px':'16px'}`}}>{childNode}</td>;
 };
 export default EditableCell;
