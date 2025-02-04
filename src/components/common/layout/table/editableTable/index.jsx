@@ -5,25 +5,12 @@ import dayjs from 'dayjs';
 import EditableCell from '../tableCell';
 import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
-const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading}) => {
+const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,permission}) => {
     // 페이지네이션 현재 페이지
     const [currentPage,setCurrentPage] = useState(1);
+    const isAdmin = permission=="admin";
     // 행 추가 함수
-    const handleAdd = () => {
-        const newData = defaultColumns.reduce((acc, column) => {
-            const { dataIndex, type } = column;
-            if (type === 'text') acc[dataIndex] = '';
-            else if (type === 'select') acc[dataIndex] = column.selects ? column.selects[0] : '';
-            else if (type === 'date') acc[dataIndex] = dayjs().format('YYYY-MM-DD'); // 현재 날짜
-            else if (type === 'file') acc[dataIndex] = null;
-            else if (type === 'id') acc[dataIndex] = count + 1; // No 필드 자동 증가
-            else if (type === 'money') acc[dataIndex] = 0; // No 필드 자동 증가
-            else acc[dataIndex] = ''; // 나머지는 빈 문자열로 초기화
-            return acc;
-        }, {});
-        setDataSource([...dataSource, newData]);
-        setCount(count + 1);
-    };
+    
 
     // 행 삭제 함수
     const handleDelete = (key) => {
@@ -62,7 +49,7 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
             ...col,
             onCell: (record) => ({
                 record,
-                editable: col.editable,
+                editable: isAdmin?col.editable:false,
                 dataIndex: col.dataIndex,
                 type: col.type,
                 selects: col.selects,
