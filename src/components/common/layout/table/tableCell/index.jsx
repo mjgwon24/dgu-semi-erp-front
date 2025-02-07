@@ -114,7 +114,7 @@ const EditableCell = ({
                 </div>
             </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px]">
                     {record[dataIndex] || new Date().toISOString().split(" T ")[0]}
                 </div>
             );
@@ -163,14 +163,14 @@ const EditableCell = ({
                         />
                         <label
                             htmlFor={inputId}
-                            className="cursor-pointer text-[#1890ff] text-[15px] text-center"
+                            className="cursor-pointer text-[#1890ff] text-[16px] text-center"
                         >
                             📁 파일 선택하기
                         </label>
                     </div>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px] overflow-hidden text-ellipsis whitespace-nowrap">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px] overflow-hidden text-ellipsis whitespace-nowrap">
                     {record[dataIndex] ? record[dataIndex] : '파일 업로드'}
                 </div>
             );
@@ -208,7 +208,7 @@ const EditableCell = ({
                     </Select>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px]">
                     {record[dataIndex] || '선택'}
                 </div>
             );
@@ -232,7 +232,7 @@ const EditableCell = ({
         />
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className=" text-center cursor-pointer text-[15px]">
+                <div onClick={toggleEdit} className=" text-center cursor-pointer text-[16px]">
                     {/* 천단위 구분 표시 */}
                     {Number(children[1]).toLocaleString()}
                 </div>
@@ -244,7 +244,7 @@ const EditableCell = ({
                     <Input ref={inputRef} onPressEnter={save} onBlur={save} maxLength={maxlength} className="text-center"/>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer text-[15px]">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px]">
                     {children}
                 </div>
             );
@@ -252,7 +252,7 @@ const EditableCell = ({
     }
     //No필드
     else{
-        childNode = (<div className="text-center text-[15px]">
+        childNode = (<div className="text-center text-[16px]">
                         {children}
                     </div>);
     }
