@@ -34,7 +34,7 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
     // <Table>에서 사용할 props 값 세팅
     const components = {
         header:{
-            cell:HeaderCell
+            cell:HeaderCell,
         },
         body: {
         row: EditableRow,
@@ -59,7 +59,11 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
         };
     });
 
-    const pageSize = 5; // 한 페이지당 항목 수
+    const [pageSize,setPageSize] = useState(5); // 한 페이지당 항목 수
+    const [selected,setSelected] = useState(-1);
+    const onRowClick = (index)=>{
+        setSelected(selected==index?-1:index);//토글
+    }
     const totalPages = Math.ceil(dataSource.length / pageSize); // 전체 페이지 수
 
     // 페이지네이션 버튼 생성 함수
@@ -189,25 +193,29 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
             {/* 행 추가 버튼 */}
             {/* <Button onClick={handleAdd} type="primary" className='mb-4'>행 추가</Button> */}
             <Table
-                className='rounded-md bg-white border border-gray-300 min-h-[312px] max-h-[456px] overflow-hidden'
+                className={`rounded-md bg-white border border-gray-300 h-[346px] overflow-hidden`}
                 components={components}
                 rowClassName={() => 'editable-row'}
                 bordered={false}
                 dataSource={dataSource.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
                 columns={columns}
                 pagination={false}
-                rowKey="No"/>
-            <div className='flex justify-center'>
-                {/* <div className='flex '> */}
-                <div className='flex justify-between w-[222px]'>
+                rowKey="No"
+                onRow={(record, rowIndex) => ({
+                    record,
+                    index:rowIndex,
+                    onRowClick,
+                    className: rowIndex==selected?"bg-gray-100":"",
+                })}/>
+            <div className='flex justify-center items-center'>
+                <div className='flex gap-2'>
                     {renderPagination(currentPage,totalPages)} {/* 커스텀 페이지네이션 */}
                 </div>
             </div>
         </div>
     );
 };
-// const StyledTable = styled(EditableTable)`
-// `;
+
 
   
 
