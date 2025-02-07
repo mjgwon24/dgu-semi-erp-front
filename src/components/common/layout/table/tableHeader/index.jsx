@@ -4,18 +4,7 @@ const HeaderCell = (props) => {
     return (
         <th
         {...restProps}
-        // className="bg-[#FFFFFF] text-[#1F1F1F] font-bold text-center border-b-2 border-[#D9D9D9]"
-        style={{
-          backgroundColor: '#FFFFFF',
-          color: '#1f1f1f',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          borderBottom: '2px solid #d9d9d9',
-          paddingTop:'16px',
-          paddingBottom:'16px',
-          paddingLeft:'29px',
-          paddingRight:'29px'
-        }}// 헤더 스타일 지정
+        className={"ant-table-cell !break-words !bg-[#FFFFFF] !text-[#1F1F1F] !font-bold !text-center !py-[16px] !px-[29px]"}
         >
             {children}
         </th>
