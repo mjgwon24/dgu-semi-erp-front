@@ -21,7 +21,7 @@ export default function BudgetPlan() {
 
     const labels = {
         expenseType: "집행 유형",
-        clubName: "동아리명",
+        clubName: "동아리",
         paymentDate: "결제 예정일",
         status: "상태",
         content: "내용",
