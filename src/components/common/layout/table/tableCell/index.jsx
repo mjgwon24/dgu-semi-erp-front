@@ -232,7 +232,7 @@ const EditableCell = ({
         />
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className=" text-center cursor-pointer text-[16px]">
+                <div onClick={toggleEdit} className=" text-center cursor-pointer text-[16px] w-full min-h-[16px]">
                     {/* 천단위 구분 표시 */}
                     {Number(children[1]).toLocaleString()}
                 </div>
@@ -244,7 +244,7 @@ const EditableCell = ({
                     <Input ref={inputRef} onPressEnter={save} onBlur={save} maxLength={maxlength} className="text-center"/>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px]">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px] w-full min-h-[16px]">
                     {children}
                 </div>
             );
