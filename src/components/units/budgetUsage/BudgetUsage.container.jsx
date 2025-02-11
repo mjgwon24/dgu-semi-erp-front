@@ -1,6 +1,7 @@
 import BudgetUsageUI from "@/src/components/units/budgetUsage/BudgetUsage.presenter";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
+import axios from "axios";
 
 export default function BudgetUsage() {
     const today = new Date();
@@ -143,17 +144,15 @@ export default function BudgetUsage() {
     const [count, setCount] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // 데이터 요청 함수
+    // 데이터 요청 함수 - 백엔드 개발 후 대체 필요
     const fetchData = async () => {
         try{
             setLoading(true);
-            // 임의의 API 호출(여기서 API 연결)
             const response = await axios.get('https://jsonplaceholder.typicode.com/users');
             const baseData = response.data;
 
-            // 임의로 100개의 데이터 생성
             const data = Array.from({ length: 100 }, (_, index) => {
-                const item = baseData[index % baseData.length]; // 데이터 순환
+                const item = baseData[index % baseData.length];
                 return {
                     No: index + 1,
                     executionType: '소모품 구매',
@@ -161,7 +160,7 @@ export default function BudgetUsage() {
                     content: '',
                     drafter: '',
                     paymentType: ['카드', '현금', '무통장입금'][index % 3],
-                    paymentDate: dayjs().add(index, 'day').format('YYYY-MM-DD'), // 날짜를 하루씩 증가
+                    paymentDate: dayjs().add(index, 'day').format('YYYY-MM-DD'),
                     amount: 0,
                     status: ['대기', '승인', '반려'][index % 3],
                     attachment: '',
@@ -184,11 +183,11 @@ export default function BudgetUsage() {
             const { dataIndex, type } = column;
             if (type === 'text') acc[dataIndex] = '';
             else if (type === 'select') acc[dataIndex] = column.selects ? column.selects[0] : '';
-            else if (type === 'date') acc[dataIndex] = dayjs().format('YYYY-MM-DD'); // 현재 날짜
+            else if (type === 'date') acc[dataIndex] = dayjs().format('YYYY-MM-DD');
             else if (type === 'file') acc[dataIndex] = null;
-            else if (type === 'id') acc[dataIndex] = count + 1; // No 필드 자동 증가
-            else if (type === 'money') acc[dataIndex] = 0; // No 필드 자동 증가
-            else acc[dataIndex] = ''; // 나머지는 빈 문자열로 초기화
+            else if (type === 'id') acc[dataIndex] = count + 1;
+            else if (type === 'money') acc[dataIndex] = 0;
+            else acc[dataIndex] = '';
             return acc;
         }, {});
         setDataSource([...dataSource, newData]);
