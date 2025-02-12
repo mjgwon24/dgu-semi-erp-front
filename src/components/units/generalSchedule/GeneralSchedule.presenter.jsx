@@ -10,7 +10,7 @@ export default function GeneralScheduleUI() {
                     {/* 달력 레이아웃 */}
                     <div className="flex flex-col items-center gap-[30px] bg-white px-[41px] py-[32px] w-[65%] border border-[#DBDBDB] rounded-[8px]">
                         {/* 달력 헤더 */}
-                        <div className="flex gap-[400px]">
+                        <div className="flex gap-[350px]">
                             <div className="flex items-center gap-[8px]">
                                 <div className="text-[18px] w-[90px] font-semibold">2024년 {new Date().getMonth() + 1}월</div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="15" viewBox="0 0 13 15"
