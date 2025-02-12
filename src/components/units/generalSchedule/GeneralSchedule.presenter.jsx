@@ -3,12 +3,11 @@ import Calendar from "@/src/components/common/calendar"
 export default function GeneralScheduleUI() {
     return (
         <div className="bg-[#F7F7F7] min-h-full flex flex-col p-[30px] gap-[20px]">
-
             <div className="flex flex-col gap-[20px]">
                 <div className="text-[20px] font-bold">일정</div>
 
-                {/* 달력 레이아웃 */}
                 <div className="flex justify-between gap-[21px]">
+                    {/* 달력 레이아웃 */}
                     <div className="flex flex-col items-center gap-[30px] bg-white px-[41px] py-[32px] w-[65%] border border-[#DBDBDB] rounded-[8px]">
                         {/* 달력 헤더 */}
                         <div className="flex gap-[400px]">
@@ -82,6 +81,7 @@ export default function GeneralScheduleUI() {
                             + 8개
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
