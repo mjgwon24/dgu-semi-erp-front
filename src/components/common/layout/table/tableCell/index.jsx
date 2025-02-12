@@ -240,6 +240,30 @@ const EditableCell = ({
                 </div>
             );
         }
+        else if(type=='number'){
+            childNode = editing ? (
+                <Form.Item name={dataIndex} className="m-0">
+                    <Input
+            ref={inputRef}
+            onPressEnter={save}
+            onBlur={save}
+            maxLength={maxlength}
+            inputMode="numeric"
+            className="text-center"
+            onKeyDown={(e) => {
+                if(e.key.match(/[^0-9]/g)){
+                    setTimeout(()=>{e.target.value =  e.target.value.replace(/[^0-9]/g, '');},10)
+                }
+            }}
+            type="text"
+        />
+                </Form.Item>
+            ) : (
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px] w-full min-h-[16px]">
+                    {children}
+                </div>
+            );
+        }
         else if(type=='text'){
             childNode = editing ? (
                 <Form.Item name={dataIndex} className="m-0">
