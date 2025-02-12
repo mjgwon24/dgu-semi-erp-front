@@ -13,6 +13,7 @@ const EditableCell = ({
     dataIndex,
     record,
     selects,
+    selectboxWidth,
     handleSave,
     children,
     ...restProps
@@ -199,6 +200,7 @@ const EditableCell = ({
                         onBlur={() => {
                             toggleEdit(); // 포커스 아웃 시 편집 종료
                         }}
+                        style={{width:selectboxWidth}}
                     >
                         {selects.map((data) => (
                             <Select.Option key={data} value={data}>
