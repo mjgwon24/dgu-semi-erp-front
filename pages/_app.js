@@ -12,19 +12,19 @@ export default function App({ Component, pageProps }) {
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
                 <div className="flex h-screen">
-                    <div className="w-[12%] bg-gray-100">
+                    <div className="w-[15%] bg-gray-100">
                         <SideBarLayout />
                     </div>
                     <div className="flex-grow flex flex-col border-l-[1px] border-gray-300">
                         <div className="h-[10%]">
                             <HeaderLayout />
                         </div>
-                        <div className="flex-grow">
+                        <div className="flex-grow overflow-auto">
                             <Component {...pageProps} />
                         </div>
                     </div>
                 </div>
             </QueryClientProvider>
         </Provider>
-    );
+    )
 }
