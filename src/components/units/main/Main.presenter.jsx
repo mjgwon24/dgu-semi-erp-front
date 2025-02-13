@@ -15,7 +15,7 @@ export default function MainUI({announcements, clubs}) {
                 <div className="flex flex-col border border-[#DBDBDB] rounded-lg h-full ">
                     {announcements.length > 0 ? (
                         announcements.map((announcement, index) => (
-                            <div key={index} className="flex flex-col gap-4 p-6" style={{ borderBottom: "1px solid #DBDBDB" , height: "16.6667%"}}>
+                            <div key={index} className="flex flex-col gap-4 p-6" style={{ borderBottom: index !== announcements.length - 1 ? "1px solid #DBDBDB" : "none", height: "16.6667%"}}>
                                 <div className="flex flex-row justify-between">
                                     <p className="text-lg font-semibold">{announcement.title}</p>
                                     <p style={{ color: "#4C545B" }}>{dayjs(announcement.date).format("YYYY.MM.DD")}</p>
