@@ -85,6 +85,8 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
 
     // 페이지네이션 생성 함수
     const renderPagination = (currentPage,totalPages) => {
+        if(totalPages==0)
+            return;
         const pages = [];
 
         // 항상 첫 페이지와 마지막 페이지 표시
