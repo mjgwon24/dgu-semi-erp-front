@@ -65,7 +65,7 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
     const onRowClick = (index)=>{
         setSelected(selected==index?-1:index);//토글
     }
-    const totalPages = Math.ceil(dataSource.length / pageSize); // 전체 페이지 수
+    const totalPages = dataSource&&dataSource.length!=0?Math.ceil(dataSource.length / pageSize):0; // 전체 페이지 수
 
     // 페이지네이션 버튼 생성 함수
     const generatePageButton = (page) => (
@@ -85,6 +85,8 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
 
     // 페이지네이션 생성 함수
     const renderPagination = (currentPage,totalPages) => {
+        if(totalPages==0)
+            return;
         const pages = [];
 
         // 항상 첫 페이지와 마지막 페이지 표시
@@ -198,7 +200,7 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
                 components={components}
                 rowClassName={() => 'editable-row cursor-pointer'}
                 bordered={false}
-                dataSource={dataSource.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+                dataSource={dataSource?dataSource.slice((currentPage - 1) * pageSize, currentPage * pageSize):[]}
                 columns={columns}
                 pagination={false}
                 rowKey="No"
