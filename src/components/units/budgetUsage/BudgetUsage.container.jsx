@@ -135,8 +135,8 @@ export default function BudgetUsage() {
             title: '첨부파일',
             dataIndex: 'attachment',
             width: '3%',
-            editable: false,
-            type: 'text'
+            editable: true,
+            type: 'file'
         }
     ];
 
