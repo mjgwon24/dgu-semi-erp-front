@@ -73,7 +73,7 @@ export default function BudgetReport() {
         {
             title:'동아리',
             dataIndex: 'clubName',
-            width: '5%',
+            width: '10%',
             editable: true,
             type:'select',
             selects: ['빅데이터 동아리', '머신러닝 동아리', '개발 동아리']
@@ -104,7 +104,7 @@ export default function BudgetReport() {
         {
             title:'사용 예산',
             dataIndex: 'usedBudget',
-            width: '1%',
+            width: '5%',
             editable: true,
             type:'money',
             maxlength:10000000
@@ -112,7 +112,7 @@ export default function BudgetReport() {
         {
             title:'잔여 예산',
             dataIndex: 'remainingBudget',
-            width: '1%',
+            width: '5%',
             editable: true,
             type:'money',
             maxlength:10000000
