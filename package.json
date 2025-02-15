@@ -11,14 +11,21 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.1",
-    "@mui/material": "^6.4.1",
-    "@reduxjs/toolkit": "^2.5.0",
+    "@mui/icons-material": "^6.4.3",
+    "@mui/material": "^6.4.3",
+    "@reduxjs/toolkit": "^2.5.1",
     "@tanstack/react-query": "^5.64.2",
+    "antd": "^5.23.3",
+    "axios": "^1.7.9",
+    "dateutil": "^0.1.0",
+    "dayjs": "^1.11.13",
     "next": "14.2.23",
+    "next-transpile-modules": "^10.0.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-redux": "^9.2.0"
+    "react-redux": "^9.2.0",
+    "styled-components": "^6.1.14",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
