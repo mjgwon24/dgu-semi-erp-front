@@ -9,14 +9,13 @@ export default function HeaderLayout(props) {
 
     return (
         <div className="flex items-center justify-end px-6 py-4 bg-[#F7F7F7] border-b-[1px] border-gray-300 w-full h-full space-x-4">
-            {/* 알림 아이콘 */}
+
             <div>
                 <IconButton>
-                    <NotificationsIcon fontSize="large" className="text-[#4C545B]" />
+                    <NotificationsIcon style={{ fontSize: "28px" }} className="text-[#4C545B]" />
                 </IconButton>
             </div>
 
-            {/* 사용자 이름 또는 로그인 버튼 */}
             <div>
                 {userName ? (
                     <div className="w-14 h-14 bg-[#212121] flex items-center justify-center rounded-full text-[white] font-[Pretendard] text-[16px] font-semibold leading-normal">

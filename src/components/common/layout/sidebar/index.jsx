@@ -13,7 +13,7 @@ export default function SideBarLayout() {
     return (
         <div className="bg-[#212121] h-full flex flex-col p-6 text-white">
             <Link href="/main">
-                <div className="text-white font-[Pretendard] pt-3 text-[21px] font-extrabold leading-normal cursor-pointer">
+                <div className="text-white font-[Pretendard] pt-3 text-[16px] font-extrabold leading-normal cursor-pointer">
                     동국대학교<br />동아리행정정보시스템
                 </div>
             </Link>
