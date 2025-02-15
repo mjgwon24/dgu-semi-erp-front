@@ -10,11 +10,13 @@ export default function HeaderLayout(props) {
     return (
         <div className="flex items-center justify-end px-6 py-4 bg-[#F7F7F7] border-b-[1px] border-gray-300 w-full h-full space-x-4">
 
+
             <div>
                 <IconButton>
                     <NotificationsIcon style={{ fontSize: "28px" }} className="text-[#4C545B]" />
                 </IconButton>
             </div>
+
 
             <div>
                 {userName ? (
