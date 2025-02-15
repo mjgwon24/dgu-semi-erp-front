@@ -28,6 +28,7 @@ export default function BudgetReportUI({ conditions, setConditions, labels, orde
                         loading={loading}
                         setLoading={setLoading}
                         permission={permission1}
+                        setSelected={() => { }}
                     />
 
                 </TableWrapper>
