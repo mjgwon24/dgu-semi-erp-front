@@ -196,7 +196,7 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
             {/* 행 추가 버튼 */}
             {/* <Button onClick={handleAdd} type="primary" className='mb-4'>행 추가</Button> */}
             <Table
-                className={`rounded-md bg-white border border-gray-300 h-[346px] overflow-hidden`}
+                className={`rounded-md bg-white border border-gray-300 h-[350px] overflow-auto`}
                 components={components}
                 rowClassName={() => 'editable-row cursor-pointer'}
                 bordered={false}
