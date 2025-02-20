@@ -60,10 +60,10 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
         };
     });
 
-    const [pageSize,setPageSize] = useState(5); // 한 페이지당 항목 수
+    const [pageSize,setPageSize] = useState(7); // 한 페이지당 항목 수
     
     const onRowClick = (index)=>{
-        setSelected(selected==index?-1:index);//토글
+        setSelected(index);
     }
     const totalPages = dataSource&&dataSource.length!=0?Math.ceil(dataSource.length / pageSize):0; // 전체 페이지 수
 
@@ -196,7 +196,7 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
             {/* 행 추가 버튼 */}
             {/* <Button onClick={handleAdd} type="primary" className='mb-4'>행 추가</Button> */}
             <Table
-                className={`rounded-md bg-white border border-gray-300 h-[346px] overflow-hidden`}
+                className={`rounded-md bg-white border border-gray-300 h-[464px] overflow-auto`}
                 components={components}
                 rowClassName={() => 'editable-row cursor-pointer'}
                 bordered={false}
