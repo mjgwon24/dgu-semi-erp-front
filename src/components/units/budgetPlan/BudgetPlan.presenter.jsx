@@ -23,6 +23,7 @@ export default function BudgetPlanUI({ conditions, setConditions, labels, orderK
                     title="예산 계획 현황 조회"
                     subTitle={`${dataSource.length}건`}
                     hasAddButton={permission1 == "admin"}
+                    handleAddTitle="등록"
                     handleAdd={handleAdd}
                     width="100%">
                     <EditableTable
@@ -32,6 +33,7 @@ export default function BudgetPlanUI({ conditions, setConditions, labels, orderK
                         loading={loading}
                         setLoading={setLoading}
                         permission={permission1}
+                        setSelected={() => {}}
                     />
 
                 </TableWrapper>
