@@ -37,7 +37,16 @@ export default function Calendar() {
                     {week.map((day, dayIndex) => (
                         <div key={dayIndex}
                              className="w-[85px] h-[75px] mt-[8px] text-center text-[#717171] border-b-[1px] border-[#D4D4D4]">
-                            {day !== null ? day : ''}
+                            <div>
+                                {day !== null ? day : ''}
+                            </div>
+                            <div>
+                                {day !== null && (day === 10 || day === 17) ? (
+                                    <div className="bg-[#EFEFEF] px-[0px] py-[2px] border rounded-[4px] text-[#616161] border-none">
+                                        <div className="text-[10px]">정규회의</div>
+                                    </div>
+                                ) : ''}
+                            </div>
                         </div>
                     ))}
                 </div>
