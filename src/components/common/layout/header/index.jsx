@@ -8,17 +8,27 @@ export default function HeaderLayout(props) {
     const userName = useSelector((state) => state.user.userName);
 
     return (
-        <div className="flex gap-[5px] items-center justify-end px-6 py-4 bg-[#F7F7F7] border-b-[1px] border-gray-300 w-full h-full">
-            {/* 알림 아이콘 */}
-            <IconButton>
-                <NotificationsIcon fontSize="medium" className="text-[#4C545B]" />
-            </IconButton>
+        <div className="flex items-center justify-end px-6 pt-3 w-full space-x-2">
 
-            {/* 사용자 이름 */}
             <div>
-                <div className="w-[45px] h-[45px] bg-[#212121] flex items-center justify-center rounded-full text-[white] font-[Pretendard] text-[14px] font-semibold leading-normal">
-                    {userName}
-                </div>
+                <IconButton>
+                    <NotificationsIcon style={{ fontSize: "27px" }} className="text-[#4C545B]" />
+                </IconButton>
+            </div>
+
+
+            <div>
+                {userName ? (
+                    <div className="w-10 h-10 bg-[#212121] flex items-center justify-center rounded-full text-[white] text-[13px] weight-600 select-none cursor-pointer">
+                        {userName}
+                    </div>
+                ) : (
+                    <Link href="/login">
+                        <button className="text-white bg-black px-4 py-2 rounded-md hover:bg-[#F4F4F4]">
+                            로그인
+                        </button>
+                    </Link>
+                )}
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
-import store from "@/redux/store";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import store from "../redux/store";
 import SideBarLayout from "@/src/components/common/layout/sidebar";
 import HeaderLayout from "@/src/components/common/layout/header";
 
@@ -11,12 +11,12 @@ export default function App({ Component, pageProps }) {
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-                <div className="flex h-screen">
-                    <div className="w-[15%] bg-gray-100">
+                <div className="flex min-h-screen">
+                    <div className="">
                         <SideBarLayout />
                     </div>
-                    <div className="flex-grow flex flex-col border-l-[1px] border-gray-300">
-                        <div className="h-[10%]">
+                    <div className="flex-grow flex flex-col">
+                        <div className="">
                             <HeaderLayout />
                         </div>
                         <div className="flex-grow overflow-auto">
@@ -26,5 +26,5 @@ export default function App({ Component, pageProps }) {
                 </div>
             </QueryClientProvider>
         </Provider>
-    )
+    );
 }
