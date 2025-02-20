@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 
 export default function BudgetPlanUI({ conditions, setConditions, labels, orderKeys, options, types, defaultColumns, dataSource, setDataSource, loading, setLoading, permission1, handleAdd }) {
     return (
-        <div className="flex flex-col gap-7 border-t-[1px] border-solid border-black p-5">
+        <div className="flex flex-col gap-7 p-5">
             <ConditionBar
                 title={"예산 계획"}
                 conditions={conditions}
@@ -23,6 +23,7 @@ export default function BudgetPlanUI({ conditions, setConditions, labels, orderK
                     title="예산 계획 현황 조회"
                     subTitle={`${dataSource.length}건`}
                     hasAddButton={permission1 == "admin"}
+                    handleAddTitle="등록"
                     handleAdd={handleAdd}
                     width="100%">
                     <EditableTable
@@ -32,6 +33,7 @@ export default function BudgetPlanUI({ conditions, setConditions, labels, orderK
                         loading={loading}
                         setLoading={setLoading}
                         permission={permission1}
+                        setSelected={() => {}}
                     />
 
                 </TableWrapper>
