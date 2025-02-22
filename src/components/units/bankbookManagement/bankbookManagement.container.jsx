@@ -12,7 +12,7 @@ export default function BankbookManagementPage() {
     const lastMonthString = lastMonth.toISOString().split("T")[0];
     const permission1 = "notadmin";
     const permission2 = "admin";
-    const [selected,setSelected] = useState(-1);
+    const [selected,setSelected] = useState(0);
     const [selected2,setSelected2] = useState(-1);
     const defaultColumns = [
         {

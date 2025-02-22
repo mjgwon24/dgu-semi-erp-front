@@ -68,46 +68,44 @@ export default function BankbookManagementUI({
                                 />
                             
                         </TableWrapper>
-                        {selected!=-1&&
-                            <TableWrapper
-                                title={`${dataSource[selected].crew} 통장 내역 상세`} 
-                                subTitle={`${setDataSource2==undefined?0:dataSource.length}건`} 
-                                hasAddButton={permission2=="admin"} 
-                                handleAdd={handleAdd2}
-                                handleAddTitle={"통장 추가"}
-                                width="1300px">
-                                <div className="flex flex-row gap-2">
-                                    <div className="w-[330px] rounded-md bg-white border border-gray-300 h-[346px] overflow-hidden p-6">
-                                        <div className="flex flex-col gap-3">
-                                            <div className="flex flex-col">
-                                                <div>{selected2!=-1?"계좌번호":""}</div>
-                                                <div>{selected2!=-1?dataSource2[selected2].bankbook.bankbookNumber:""}</div>
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <div>{selected2!=-1?"개설일":""}</div>
-                                                <div>{selected2!=-1?dataSource2[selected2].bankbook.createdAt:""}</div>
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <div>{selected2!=-1?"소유주":""}</div>
-                                                <div>{selected2!=-1?dataSource2[selected2].bankbook.owner:""}</div>
-                                            </div>
+                        <TableWrapper
+                            title={`${dataSource[selected]?`${dataSource[selected].crew} 통장 내역 상세`:""}`} 
+                            subTitle={`${setDataSource2==undefined?0:dataSource.length}건`} 
+                            hasAddButton={permission2=="admin"} 
+                            handleAdd={handleAdd2}
+                            handleAddTitle={"통장 추가"}
+                            width="1300px">
+                            <div className="flex flex-row gap-2">
+                                <div className="w-[330px] rounded-md bg-white border border-gray-300 h-[464px] overflow-hidden p-6">
+                                    <div className="flex flex-col gap-3">
+                                        <div className="flex flex-col">
+                                            <div>{selected2!=-1?"계좌번호":""}</div>
+                                            <div>{selected2!=-1?dataSource2[selected2].bankbook.bankbookNumber:""}</div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <div>{selected2!=-1?"개설일":""}</div>
+                                            <div>{selected2!=-1?dataSource2[selected2].bankbook.createdAt:""}</div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <div>{selected2!=-1?"소유주":""}</div>
+                                            <div>{selected2!=-1?dataSource2[selected2].bankbook.owner:""}</div>
                                         </div>
                                     </div>
-                                    <EditableTable
-                                        dataSource={dataSource2}
-                                        setDataSource={setDataSource2}
-                                        defaultColumns={defaultColumns2}
-                                        loading={loading2}
-                                        setLoading={setLoading2}
-                                        permission={permission2}
-                                        selected={selected2}
-                                        setSelected={setSelected2}
-                                        />
                                 </div>
-                                
-                                
-                            </TableWrapper>
-                        }
+                                <EditableTable
+                                    dataSource={dataSource2}
+                                    setDataSource={setDataSource2}
+                                    defaultColumns={defaultColumns2}
+                                    loading={loading2}
+                                    setLoading={setLoading2}
+                                    permission={permission2}
+                                    selected={selected2}
+                                    setSelected={setSelected2}
+                                    />
+                            </div>
+                            
+                            
+                        </TableWrapper>
                     </div>
         </div>
 </div>
