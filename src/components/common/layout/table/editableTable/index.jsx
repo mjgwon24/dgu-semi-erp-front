@@ -5,6 +5,8 @@ import dayjs from 'dayjs';
 import EditableCell from '../tableCell';
 import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
+import { Empty } from "antd";
+
 const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,selected,setSelected,permission}) => {
     // 페이지네이션 현재 페이지
     const [currentPage,setCurrentPage] = useState(1);
@@ -209,7 +211,15 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
                     index:rowIndex,
                     onRowClick,
                     className: rowIndex==selected?"bg-gray-100 font-semibold":"",
-                })}/>
+                })}
+                locale={{
+                    emptyText: (
+                        <div className="flex flex-col items-center justify-center text-gray-400 h-[374px]">
+                            <Empty description={"현재 조회된 데이터가 없습니다."}/>
+                        </div>
+                    ),
+                }}
+                />
             <div className='flex justify-center items-center'>
                 <div className='flex gap-2'>
                     {renderPagination(currentPage,totalPages)} {/* 커스텀 페이지네이션 */}
