@@ -38,7 +38,7 @@ export default function BankbookManagementUI({
     return (
         <div className="flex h-full bg-[#F7F7F7]">
 
-                <div className="flex flex-col gap-7 border-t-[1px] border-solid border-black p-5">
+                <div className="flex flex-col gap-7 p-5">
                     <ConditionBar
                         title={"통장 관리"}
                         conditions={conditions}
