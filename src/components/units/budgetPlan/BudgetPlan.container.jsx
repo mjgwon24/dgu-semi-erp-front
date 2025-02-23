@@ -16,7 +16,7 @@ export default function BudgetPlan() {
         content: "",
         draftDate: {from: todayString, to: lastMonthString},
         drafter: "",
-        amount: {from: 0, to: 5000000}
+        amount: {from: 0, to: 100000, maxNum: 100000}
     });
 
     const labels = {
