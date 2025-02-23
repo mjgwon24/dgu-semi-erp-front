@@ -30,7 +30,7 @@ export default function ConditionBar(props) {
                 <h3 className="text-xl weight-700">{title}</h3>
             </div>
 
-            <div className="border border-solid border-[#DBDBDB] rounded-md pl-1 pr-3 py-2">
+            <div className="border border-solid border-[#DBDBDB] rounded-md pl-1 pr-3 py-2 bg-white">
                 <ConditionPanel
                     conditions={conditions}
                     onConditionChange={handleConditionChange}
