@@ -49,7 +49,7 @@ export default function BudgetPlan() {
         content: "text",
         draftDate: "rangeDate",
         drafter: "text",
-        amount: "number"
+        amount: "rangeNumber"
     }
 
     const options = {

@@ -43,6 +43,44 @@ export default function ConditionPicker(props) {
         );
     }
 
+    if (type === "rangeNumber") {
+        const {from, to} = value;
+
+        return (
+            <Input.Group compact>
+                <InputNumber
+                    type="number"
+                    defaultValue={from}
+                    onChange={(value) => onChange({ target: { value: { from: value, to } }})}
+                    min={min}
+                    max={max}
+                    style={{width: 110, fontSize: "14px", borderRight: 0}}
+                />
+                <Input
+                    style={{
+                        width: 30,
+                        borderLeft: 0,
+                        borderRight: 0,
+                        borderLeftWidth: 0,
+                        borderRightWidth: 0,
+                        pointerEvents: 'none',
+                        backgroundColor: '#fff',
+                    }}
+                    placeholder="~"
+                    disabled
+                />
+                <InputNumber
+                    type="number"
+                    defaultValue={to}
+                    onChange={(value) => onChange({ target: { value: { from, to: value } }})}
+                    min={min}
+                    max={max}
+                    style={{width: 110, fontSize: "14px", borderLeft: 0}}
+                />
+            </Input.Group>
+        );
+    }
+
     if (type === "selectWithSearch") {
         return (
             <Select
