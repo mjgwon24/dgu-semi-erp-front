@@ -2,7 +2,7 @@ import MainUI from "@/src/components/units/main/Main.presenter";
 
 export default function Main() {
     let announcements = [
-        {title: '공지1', content: '공지내용 1 공지내용 1 공지내용 1 공지내용 1공지내용  1 공지내용 1공지내용 1 공지내용 1  ', date: '2024-01-12'},
+        {title: '공지1', content: '공지내용 1 공지내용 1 공지내용 1 공지내용 1공지내용  1 공지내용 1공지내용 1 공지내용 1  공지내용 1공지내용 1공지내용 1공지내용 1', date: '2024-01-12'},
         {title: '공지1', content: '공지내용 1', date: '2024-01-12'},
         {title: '공지1', content: '공지내용 1', date: '2024-01-12'},
         {title: '공지1', content: '공지내용 1', date: '2024-01-12'},
