@@ -13,7 +13,8 @@ export default function AnnouncementUI({
     setEndDate,
     currentPage,
     setCurrentPage,
-    totalPages
+    totalPages,
+    renderPagination
 }) {
     
     const { RangePicker } = DatePicker;
@@ -53,6 +54,7 @@ export default function AnnouncementUI({
                             }}
                         >
                             <Link key={announcement.id} href={`/announcement/${announcement.id}`} className="flex flex-col gap-4 p-5 h-full hover:bg-gray-100">
+                                
                                 <div className="flex flex-row justify-between">
                                     <p className="text-lg font-semibold">{announcement.title}</p>
                                     <p style={{ color: "#4C545B" }}>{dayjs(announcement.date).format("YYYY.MM.DD")}</p>
@@ -70,7 +72,8 @@ export default function AnnouncementUI({
 
             {/* 페이지네이션 */}
             <div className="flex justify-center gap-4">
-                <button
+                {renderPagination(currentPage,totalPages)}
+                {/* <button
                     onClick={() => setCurrentPage(currentPage - 1)}
                     disabled={currentPage === 1}
                     className="px-4 py-2 rounded-md"
@@ -94,7 +97,7 @@ export default function AnnouncementUI({
                     style={{ color: "#3A3A3A" }}
                 >
                     {">"}
-                </button>
+                </button> */}
             </div>
         </div>
     );
