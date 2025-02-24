@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    userName: '석진', // 초기값 설정
+    userName: '관리자', // 초기값 설정
 };
 
 const userSlice = createSlice({
