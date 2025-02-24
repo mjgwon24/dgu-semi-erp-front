@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
+import Link from "next/link";
 import { DatePicker, Space } from 'antd';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -45,17 +46,20 @@ export default function AnnouncementUI({
                     announcements.map((announcement, index) => (
                         <div
                             key={index}
-                            className="flex flex-col gap-4 p-6"
+                            className="flex flex-col w-full h-full"
                             style={{
                                 borderBottom: (index + 1) % 6 === 0 ?  "none" : "1px solid #DBDBDB",
                                 height: "16.6667%"
                             }}
                         >
-                            <div className="flex flex-row justify-between">
-                                <p className="text-lg font-semibold">{announcement.title}</p>
-                                <p style={{ color: "#4C545B" }}>{dayjs(announcement.date).format("YYYY.MM.DD")}</p>
-                            </div>
-                            <p className="truncate" style={{ color: "#4C545B" }}>{announcement.content}</p>
+                            <Link key={announcement.id} href={`/announcement/${announcement.id}`} className="flex flex-col gap-4 p-5 h-full hover:bg-gray-100">
+                                <div className="flex flex-row justify-between">
+                                    <p className="text-lg font-semibold">{announcement.title}</p>
+                                    <p style={{ color: "#4C545B" }}>{dayjs(announcement.date).format("YYYY.MM.DD")}</p>
+                                </div>
+                                <p className="truncate w-[1200px]" style={{ color: "#4C545B" }}>{announcement.content}</p>
+                            </Link>
+                            
                         </div>
                     ))
                 ) : (
