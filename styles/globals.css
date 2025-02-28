@@ -64,3 +64,23 @@
   padding: 0;
   box-sizing : border-box;
 }
+/* 헤더를 고정 */
+.ant-table-thead > tr > th {
+  position: sticky !important;
+  top: 0;
+  z-index: 10;
+  background: white; /* 스크롤 시 헤더가 투명해지는 문제 방지 */
+  border-bottom: 1px solid #d1d1d1;
+}
+
+/* 테이블 본문에 스크롤 적용 */
+.ant-table-body {
+  max-height: 400px;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+}
+
+/* 스크롤이 필요하지 않을 때 숨기기 */
+.hide-scroll .ant-table-body {
+  overflow-y: hidden !important;
+}
