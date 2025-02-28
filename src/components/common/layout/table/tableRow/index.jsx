@@ -7,7 +7,7 @@ const EditableRow = ({ index,className,onRowClick, ...props }) => {
     return (
         <Form form={form} component={false}>
             <EditableContext.Provider value={form}>
-                <tr {...props} className={`${className}`} onClick={()=>{index!=undefined&&onRowClick(index)}}/>
+                <tr {...props} className={`${className} cursor-pointer`} onClick={()=>{index!=undefined&&onRowClick(index)}}/>
             </EditableContext.Provider>
         </Form>
     );
