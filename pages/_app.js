@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }) {
                         <div className="">
                             <HeaderLayout />
                         </div>
-                        <div className="flex-grow">
+                        <div className="flex-grow overflow-auto">
                             <Component {...pageProps} />
                         </div>
                     </div>
