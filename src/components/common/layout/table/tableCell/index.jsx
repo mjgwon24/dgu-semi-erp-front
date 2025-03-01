@@ -13,6 +13,7 @@ const EditableCell = ({
     dataIndex,
     record,
     selects,
+    selectboxWidth,
     handleSave,
     children,
     ...restProps
@@ -199,6 +200,7 @@ const EditableCell = ({
                         onBlur={() => {
                             toggleEdit(); // 포커스 아웃 시 편집 종료
                         }}
+                        style={{width:selectboxWidth}}
                     >
                         {selects.map((data) => (
                             <Select.Option key={data} value={data}>
@@ -232,9 +234,33 @@ const EditableCell = ({
         />
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className=" text-center cursor-pointer text-[16px]">
+                <div onClick={toggleEdit} className=" text-center cursor-pointer text-[16px] w-full min-h-[16px]">
                     {/* 천단위 구분 표시 */}
                     {Number(children[1]).toLocaleString()}
+                </div>
+            );
+        }
+        else if(type=='number'){
+            childNode = editing ? (
+                <Form.Item name={dataIndex} className="m-0">
+                    <Input
+            ref={inputRef}
+            onPressEnter={save}
+            onBlur={save}
+            maxLength={maxlength}
+            inputMode="numeric"
+            className="text-center"
+            onKeyDown={(e) => {
+                if(e.key.match(/[^0-9]/g)){
+                    setTimeout(()=>{e.target.value =  e.target.value.replace(/[^0-9]/g, '');},10)
+                }
+            }}
+            type="text"
+        />
+                </Form.Item>
+            ) : (
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px] w-full min-h-[16px]">
+                    {children}
                 </div>
             );
         }
@@ -244,7 +270,7 @@ const EditableCell = ({
                     <Input ref={inputRef} onPressEnter={save} onBlur={save} maxLength={maxlength} className="text-center"/>
                 </Form.Item>
             ) : (
-                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px]">
+                <div onClick={toggleEdit} className="text-center cursor-pointer text-[16px] w-full min-h-[16px]">
                     {children}
                 </div>
             );

@@ -5,7 +5,9 @@ import dayjs from 'dayjs';
 import EditableCell from '../tableCell';
 import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
-const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,permission}) => {
+import { Empty } from "antd";
+
+const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,selected,setSelected,permission}) => {
     // 페이지네이션 현재 페이지
     const [currentPage,setCurrentPage] = useState(1);
     const isAdmin = permission=="admin";
@@ -53,18 +55,19 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
                 dataIndex: col.dataIndex,
                 type: col.type,
                 selects: col.selects,
+                selectboxWidth: col.selectboxWidth,
                 maxlength: col.maxlength,
-                handleSave,
+                handleSave
             }),
         };
     });
 
-    const [pageSize,setPageSize] = useState(5); // 한 페이지당 항목 수
-    const [selected,setSelected] = useState(-1);
+    const [pageSize,setPageSize] = useState(7); // 한 페이지당 항목 수
+    
     const onRowClick = (index)=>{
-        setSelected(selected==index?-1:index);//토글
+        setSelected(index);
     }
-    const totalPages = Math.ceil(dataSource.length / pageSize); // 전체 페이지 수
+    const totalPages = dataSource&&dataSource.length!=0?Math.ceil(dataSource.length / pageSize):0; // 전체 페이지 수
 
     // 페이지네이션 버튼 생성 함수
     const generatePageButton = (page) => (
@@ -84,6 +87,8 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
 
     // 페이지네이션 생성 함수
     const renderPagination = (currentPage,totalPages) => {
+        if(totalPages==0)
+            return;
         const pages = [];
 
         // 항상 첫 페이지와 마지막 페이지 표시
@@ -189,15 +194,15 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
         return pages;
     };
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 w-full'>
             {/* 행 추가 버튼 */}
             {/* <Button onClick={handleAdd} type="primary" className='mb-4'>행 추가</Button> */}
             <Table
-                className={`rounded-md bg-white border border-gray-300 h-[346px] overflow-hidden`}
+                className={`rounded-md bg-white border border-gray-300 h-[464px] overflow-auto`}
                 components={components}
-                rowClassName={() => 'editable-row'}
+                rowClassName={() => 'editable-row cursor-pointer'}
                 bordered={false}
-                dataSource={dataSource.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+                dataSource={dataSource?dataSource.slice((currentPage - 1) * pageSize, currentPage * pageSize):[]}
                 columns={columns}
                 pagination={false}
                 rowKey="No"
@@ -205,8 +210,16 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
                     record,
                     index:rowIndex,
                     onRowClick,
-                    className: rowIndex==selected?"bg-gray-100":"",
-                })}/>
+                    className: rowIndex==selected?"bg-gray-100 font-semibold":"",
+                })}
+                locale={{
+                    emptyText: (
+                        <div className="flex flex-col items-center justify-center text-gray-400 h-[374px]">
+                            <Empty description={"현재 조회된 데이터가 없습니다."}/>
+                        </div>
+                    ),
+                }}
+                />
             <div className='flex justify-center items-center'>
                 <div className='flex gap-2'>
                     {renderPagination(currentPage,totalPages)} {/* 커스텀 페이지네이션 */}

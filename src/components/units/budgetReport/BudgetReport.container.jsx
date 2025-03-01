@@ -1,8 +1,9 @@
+import BudgetUsageUI from "@/src/components/units/budgetReport/BudgetReport.presenter";
 import {useEffect, useState} from "react";
-import BudgetPlanUI from "@/src/components/units/budgetPlan/BudgetPlan.presenter";
 import dayjs from "dayjs";
+import axios from "axios";
 
-export default function BudgetPlan() {
+export default function BudgetReport() {
     const today = new Date();
     const todayString = today.toISOString().split("T")[0];
     const lastMonth = new Date(today.setMonth(today.getMonth() - 1));
@@ -11,50 +12,45 @@ export default function BudgetPlan() {
     const [conditions, setConditions] = useState({
         expenseType: "운영비",
         clubName: "개발 동아리",
-        paymentDate: {from: todayString, to: lastMonthString},
-        status: "대기",
-        content: "",
-        draftDate: {from: todayString, to: lastMonthString},
+        writingDate: {from: lastMonthString, to: todayString},
         drafter: "",
-        amount: {from: 0, to: 100000, maxNum: 100000}
+        content: "",
+        usedBudget: {from: 0, to: 5000000},
+        remainingBudget: {from: 0, to: 5000000}
     });
 
     const labels = {
         expenseType: "집행 유형",
         clubName: "동아리",
-        paymentDate: "결제 예정일",
-        status: "상태",
-        content: "내용",
-        draftDate: "기안일",
+        writingDate: "작성일",
         drafter: "기안자",
-        amount: "금액"
+        content: "내용",
+        usedBudget: "사용 예산",
+        remainingBudget: "잔여 예산",
     };
 
     const orderKeys = [
         "expenseType",
         "clubName",
-        "paymentDate",
-        "status",
-        "content",
-        "draftDate",
+        "writingDate",
         "drafter",
-        "amount"
+        "content",
+        "usedBudget",
+        "remainingBudget"
     ];
 
     const types = {
         expenseType: "select",
         clubName: "selectWithSearch",
-        paymentDate: "rangeDate",
-        status: "select",
-        content: "text",
-        draftDate: "rangeDate",
+        writingDate: "rangeDate",
         drafter: "text",
-        amount: "rangeNumber"
+        content: "text",
+        usedBudget: "number",
+        remainingBudget: "number",
     }
 
     const options = {
         expenseType: ["운영비", "행사비", "소모품 구매"],
-        status: ["대기", "승인", "반려"],
         clubName: ["빅데이터 동아리", "머신러닝 동아리", "개발 동아리"]
     }
 
@@ -85,7 +81,7 @@ export default function BudgetPlan() {
         {
             title:'내용',
             dataIndex: 'content',
-            width: '15%',
+            width: '12%',
             editable: true,
             type:'text',
             maxlength: 30
@@ -99,34 +95,27 @@ export default function BudgetPlan() {
             maxlength: 5
         },
         {
-            title:'기안일',
-            dataIndex: 'draftDate',
-            width: '5%',
-            editable: true,
-            type:'date'
-        },
-        {
-            title:'결제 예정일',
-            dataIndex: 'paymentDate',
+            title:'작성일',
+            dataIndex: 'writingDate',
             width: '5%',
             editable: true,
             type:'date',
         },
         {
-            title:'금액',
-            dataIndex: 'amount',
-            width: '1%',
+            title:'사용 예산',
+            dataIndex: 'usedBudget',
+            width: '3%',
             editable: true,
             type:'money',
             maxlength:10000000
         },
         {
-            title:'상태',
-            dataIndex: 'status',
-            width: '1%',
+            title:'잔여 예산',
+            dataIndex: 'remainingBudget',
+            width: '3%',
             editable: true,
-            type:'select',
-            selects:['대기', '승인', '반려']
+            type:'money',
+            maxlength:10000000
         }
     ];
 
@@ -134,27 +123,24 @@ export default function BudgetPlan() {
     const [count, setCount] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // 데이터 요청 함수
+    // 데이터 요청 함수 - 백엔드 개발 후 대체 필요
     const fetchData = async () => {
         try{
             setLoading(true);
-            // 임의의 API 호출(여기서 API 연결)
             const response = await axios.get('https://jsonplaceholder.typicode.com/users');
             const baseData = response.data;
 
-            // 임의로 100개의 데이터 생성
             const data = Array.from({ length: 100 }, (_, index) => {
-                const item = baseData[index % baseData.length]; // 데이터 순환
+                const item = baseData[index % baseData.length];
                 return {
                     No: index + 1,
                     executionType: '소모품 구매',
                     clubName: '빅데이터 동아리',
                     content: '',
                     drafter: '',
-                    draftDate: dayjs().add(index, 'day').format('YYYY-MM-DD'), // 날짜를 하루씩 증가
-                    paymentDate: dayjs().add(index, 'day').format('YYYY-MM-DD'), // 날짜를 하루씩 증가
-                    amount: 0,
-                    status: ['대기', '승인', '반려'][index % 3],
+                    writingDate: dayjs().add(index, 'day').format('YYYY-MM-DD'),
+                    usedBudget: 0,
+                    remainingBudget: 0,
                 };
             });
 
@@ -174,11 +160,11 @@ export default function BudgetPlan() {
             const { dataIndex, type } = column;
             if (type === 'text') acc[dataIndex] = '';
             else if (type === 'select') acc[dataIndex] = column.selects ? column.selects[0] : '';
-            else if (type === 'date') acc[dataIndex] = dayjs().format('YYYY-MM-DD'); // 현재 날짜
+            else if (type === 'date') acc[dataIndex] = dayjs().format('YYYY-MM-DD');
             else if (type === 'file') acc[dataIndex] = null;
-            else if (type === 'id') acc[dataIndex] = count + 1; // No 필드 자동 증가
-            else if (type === 'money') acc[dataIndex] = 0; // No 필드 자동 증가
-            else acc[dataIndex] = ''; // 나머지는 빈 문자열로 초기화
+            else if (type === 'id') acc[dataIndex] = count + 1;
+            else if (type === 'money') acc[dataIndex] = 0;
+            else acc[dataIndex] = '';
             return acc;
         }, {});
         setDataSource([...dataSource, newData]);
@@ -192,7 +178,7 @@ export default function BudgetPlan() {
 
     const permission1 = "admin";
 
-    return <BudgetPlanUI
+    return <BudgetUsageUI
         conditions={conditions}
         setConditions={setConditions}
         labels={labels}
@@ -206,5 +192,5 @@ export default function BudgetPlan() {
         setLoading={setLoading}
         handleAdd={handleAdd}
         permission1={permission1}
-        />
+    />;
 }
