@@ -9,7 +9,7 @@ function TableWrapper({ title,subTitle,width,hasAddButton,handleAdd,handleAddTit
                 </div>
                 {hasAddButton&&<Button onClick={handleAdd} type="primary" className='bg-[#4368BA]'>{handleAddTitle}</Button>}
             </div>
-            <div className="w-full">
+            <div className="w-full flex flex-row gap-2">
                 {children}
             </div>
         </div>

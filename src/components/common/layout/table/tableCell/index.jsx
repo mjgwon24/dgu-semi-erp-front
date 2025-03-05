@@ -278,12 +278,15 @@ const EditableCell = ({
     }
     //No필드
     else{
-        childNode = (<div className="text-center text-[16px]">
+        childNode = (<div className="text-center text-[16px] cursor-pointer">
                         {children}
                     </div>);
     }
     
     
-    return <td {...restProps} style={{paddingLeft:`${editing?'0px':'16px'}`,paddingRight:`${editing?'0px':'16px'}`,paddingTop:`${editing?'8px':'16px'}`,paddingBottom:`${editing?'8px':'16px'}`}}>{childNode}</td>;
+    return <td {...restProps} style={{paddingLeft:`${editing?'0px':'16px'}`,paddingRight:`${editing?'0px':'16px'}`,paddingTop:`${editing?'8px':'15px'}`,paddingBottom:`${editing?'8px':'15px'}`,
+    wordBreak: 'break-word',  // 줄바꿈 적용
+    whiteSpace: 'normal',  // 공백 유지
+    overflowWrap: 'break-word'}}>{childNode}</td>;
 };
 export default EditableCell;
