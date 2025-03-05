@@ -37,6 +37,7 @@ export default function BankbookManagementPage() {
     const [loading, setLoading] = useState(true);
     // 데이터 요청 함수
     const fetchData = async () => {
+        console.log("fetchData");
         try{
             setLoading(true);
             // 임의의 API 호출(여기서 API 연결)
@@ -48,7 +49,7 @@ export default function BankbookManagementPage() {
                 const item = baseData[index % baseData.length]; // 데이터 순환
                 return {
                     No: index + 1,
-                    crew: 'DEVELOPER'+index
+                    crew: 'DEVELOPERDEVELOPERDEVELOPERDEVELOPERDEVELOPERDEVELOPERDEVELOPER'+index
                 };
             });
   
@@ -82,7 +83,7 @@ export default function BankbookManagementPage() {
         {
           title: 'No',
           dataIndex: 'No',
-          width: '2%',
+          width: '4%',
           editable: false,
           type:'id'
         },
@@ -123,6 +124,7 @@ export default function BankbookManagementPage() {
     const [count2, setCount2] = useState(null);
     const [loading2, setLoading2] = useState(true);
     const fetchData2 = async () => {
+        console.log("fetchData2");
         try{
             setLoading2(true);
             const response = await axios.get('https://jsonplaceholder.typicode.com/users');
@@ -136,7 +138,7 @@ export default function BankbookManagementPage() {
                     amount: `${index * 1000}`,
                     restAmount: `${index * 1000}`,
                     bankbook:{
-                        'bankbookNumber':"1521564556"+dataSource[selected].No,
+                        'bankbookNumber':"1521564556"+dataSource&&dataSource[selected]?dataSource[selected].No:"",
                         'createdAt':'2021.12.21'+index,
                         'owner':'홍길동'+index
                     }
@@ -204,10 +206,11 @@ export default function BankbookManagementPage() {
 
     useEffect(()=>{
         fetchData2().then(()=>{
-            setSelected2(-1);
+            setSelected2(0);
         });
     },[selected])
     useEffect(() => {
+        fetchData2();
         fetchData().then(()=>{
             setSelected(0);
             console.log(dataSource);
