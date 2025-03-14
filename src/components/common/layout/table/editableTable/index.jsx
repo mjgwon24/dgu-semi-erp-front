@@ -120,7 +120,11 @@ const columns = defaultColumns.map((col) => {
             selects: col.selects,
             selectboxWidth: col.selectboxWidth,
             maxlength: col.maxlength,
-            handleSave: handleSave
+            handleSave: handleSave,
+            PositiveTitle: col.PositiveTitle,
+            NagativeTitle: col.NagativeTitle,
+            handlePositive: col.handlePositive,
+            handleNagative: col.handleNagative,
         }),
     };
 });
