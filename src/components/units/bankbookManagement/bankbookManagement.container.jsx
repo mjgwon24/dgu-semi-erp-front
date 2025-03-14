@@ -37,6 +37,7 @@ export default function BankbookManagementPage() {
     const [loading, setLoading] = useState(true);
     // 데이터 요청 함수
     const fetchData = async () => {
+        console.log("fetchData");
         try{
             setLoading(true);
             // 임의의 API 호출(여기서 API 연결)
@@ -48,7 +49,7 @@ export default function BankbookManagementPage() {
                 const item = baseData[index % baseData.length]; // 데이터 순환
                 return {
                     No: index + 1,
-                    crew: 'DEVELOPER'
+                    crew: 'DEVELOPERDEVELOPERDEVELOPERDEVELOPERDEVELOPERDEVELOPERDEVELOPER'+index
                 };
             });
   
@@ -82,7 +83,7 @@ export default function BankbookManagementPage() {
         {
           title: 'No',
           dataIndex: 'No',
-          width: '2%',
+          width: '4%',
           editable: false,
           type:'id'
         },
@@ -101,7 +102,7 @@ export default function BankbookManagementPage() {
             width: '15%',
             editable: true,
             type:'text',
-            maxlength:7
+            maxlength:15
         },
         {
           title: '금액',
@@ -123,11 +124,11 @@ export default function BankbookManagementPage() {
     const [count2, setCount2] = useState(null);
     const [loading2, setLoading2] = useState(true);
     const fetchData2 = async () => {
+        console.log("fetchData2");
         try{
             setLoading2(true);
             const response = await axios.get('https://jsonplaceholder.typicode.com/users');
             const baseData = response.data;
-    
             const data = Array.from({ length: 100 }, (_, index) => {
                 const item = baseData[index % baseData.length];
                 return {
@@ -137,7 +138,7 @@ export default function BankbookManagementPage() {
                     amount: `${index * 1000}`,
                     restAmount: `${index * 1000}`,
                     bankbook:{
-                        'bankbookNumber':'1521564556'+dataSource[selected].No,
+                        'bankbookNumber':"1521564556"+dataSource&&dataSource[selected]?dataSource[selected].No:"",
                         'createdAt':'2021.12.21'+index,
                         'owner':'홍길동'+index
                     }
@@ -171,14 +172,10 @@ export default function BankbookManagementPage() {
         setCount2(count2 + 1);
     };
     const [conditions, setConditions] = useState({
-        expenseType: "운영비",
         clubName: "개발 동아리",
-        paymentDate: {from: todayString, to: lastMonthString},
+        currentPeoples: {from: todayString, to: lastMonthString},
         status: "대기",
-        content: "",
-        draftDate: {from: todayString, to: lastMonthString},
-        drafter: "",
-        amount: {from: 0, to: 5000000}
+        totalPeoples: {from: todayString, to: lastMonthString},
     });
 
     const labels = {
@@ -198,8 +195,8 @@ export default function BankbookManagementPage() {
     const types = {
         clubName: "selectWithSearch",
         status: "select",
-        currentPeoples:"rangeNumber",
-        totalPeoples:"rangeNumber"
+        currentPeoples:"rangeDate",
+        totalPeoples:"rangeDate"
     }
 
     const options = {
@@ -207,14 +204,19 @@ export default function BankbookManagementPage() {
         clubName: ["빅데이터 동아리", "머신러닝 동아리", "개발 동아리"]
     }
 
-
-    useEffect(() => {
-        fetchData();
-        fetchData2();
-    }, []);
     useEffect(()=>{
-        fetchData2();
+        fetchData2().then(()=>{
+            setSelected2(0);
+        });
     },[selected])
+    useEffect(() => {
+        fetchData2();
+        fetchData().then(()=>{
+            setSelected(0);
+            console.log(dataSource);
+        });
+    }, []);
+    
 
     return (
         <BankbookManagementUI conditions={conditions}
