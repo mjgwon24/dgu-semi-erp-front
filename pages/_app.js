@@ -8,22 +8,26 @@ import HeaderLayout from "@/src/components/common/layout/header";
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }) {
+    const getLayout = (Component.getLayout || ((page) => (
+        <div className="flex min-h-screen">
+            <div className="">
+                <SideBarLayout />
+            </div>
+            <div className="flex-grow flex flex-col">
+                <div className="">
+                    <HeaderLayout />
+                </div>
+                <div className="flex-grow overflow-auto">
+                    {page}
+                </div>
+            </div>
+        </div>
+    )));
+
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-                <div className="flex min-h-screen">
-                    <div className="">
-                        <SideBarLayout />
-                    </div>
-                    <div className="flex-grow flex flex-col">
-                        <div className="">
-                            <HeaderLayout />
-                        </div>
-                        <div className="flex-grow overflow-auto">
-                            <Component {...pageProps} />
-                        </div>
-                    </div>
-                </div>
+                {getLayout(<Component {...pageProps} />)}
             </QueryClientProvider>
         </Provider>
     );
