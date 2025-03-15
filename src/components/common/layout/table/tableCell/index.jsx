@@ -4,6 +4,7 @@ import { Form, Input, DatePicker, Select } from 'antd';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
 import EditableContext from '..';
+import { Button } from 'antd';
 // import styled from 'styled-components';
 
 const EditableCell = ({
@@ -15,6 +16,10 @@ const EditableCell = ({
     selects,
     selectboxWidth,
     handleSave,
+    PositiveTitle,
+    NagativeTitle,
+    handlePositive,
+    handleNagative,
     children,
     ...restProps
 }) => {
@@ -275,6 +280,12 @@ const EditableCell = ({
                 </div>
             );
         }
+        else if(type=='accept'){
+            childNode = (<div className="flex flex-row gap-2 w-full justify-center">
+                <Button onClick={handlePositive} type="primary" className='border-2 border-solid border-[#1E7EE4] text-[#1E7EE4] bg-[#FFFFFF] h-[32px]'>{PositiveTitle}</Button>
+                <Button onClick={handleNagative} type="danger" className='border-2 border-solid border-[#D11E1E] text-[#D11E1E] bg-[#FFFFFF] hover:bg-[#D11E1E] hover:text-[#FFFFFF]'>{NagativeTitle}</Button>
+            </div>)
+        }
     }
     //No필드
     else{
@@ -284,7 +295,7 @@ const EditableCell = ({
     }
     
     
-    return <td {...restProps} style={{paddingLeft:`${editing?'0px':'16px'}`,paddingRight:`${editing?'0px':'16px'}`,paddingTop:`${editing?'8px':'15px'}`,paddingBottom:`${editing?'8px':'15px'}`,
+    return <td {...restProps} style={{paddingLeft:`${editing||type=='accept'?'0px':'16px'}`,paddingRight:`${editing||type=='accept'?'0px':'16px'}`,paddingTop:`${editing||type=='accept'?'8px':'15px'}`,paddingBottom:`${editing||type=='accept'?'8px':'15px'}`,
     wordBreak: 'break-word',  // 줄바꿈 적용
     whiteSpace: 'normal',  // 공백 유지
     overflowWrap: 'break-word'}}>{childNode}</td>;
