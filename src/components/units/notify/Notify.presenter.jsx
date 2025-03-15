@@ -1,14 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { renderPagination } from "@/src/components/common/layout/table/pagination";
 
-export default function NotifyUI() {
-    const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = 8; // Example total pages, replace with actual logic
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
-
+export default function NotifyUI({ currentPage, totalPages, handlePageChange }) {
     return (
         <div className="flex flex-col gap-7 p-5 h-full">
             <div className="flex flex-col gap-2">
