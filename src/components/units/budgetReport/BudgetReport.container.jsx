@@ -1,4 +1,5 @@
 import BudgetUsageUI from "@/src/components/units/budgetReport/BudgetReport.presenter";
+import BudgetReportModal from "@/src/components/common/modals/BudgetReport/BudgetReportModal"; // 모달 경로 추가
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -122,6 +123,7 @@ export default function BudgetReport() {
     const [dataSource, setDataSource] = useState([]);
     const [count, setCount] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [selectedReport, setSelectedReport] = useState(null); // 모달 표시 데이터 상태 추가
 
     // 데이터 요청 함수 - 백엔드 개발 후 대체 필요
     const fetchData = async () => {
@@ -176,9 +178,22 @@ export default function BudgetReport() {
         fetchData();
     }, []);
 
+    // 행 더블 클릭 시 모달 열기
+    const handleRowDoubleClick = (record) => {
+        setSelectedReport(record);
+    };
+
+    // 모달 닫기
+    const handleCloseModal = () => {
+        setSelectedReport(null);
+    };
+
+
     const permission1 = "admin";
 
-    return <BudgetUsageUI
+    return (
+        <>
+            <BudgetUsageUI
         conditions={conditions}
         setConditions={setConditions}
         labels={labels}
@@ -192,5 +207,13 @@ export default function BudgetReport() {
         setLoading={setLoading}
         handleAdd={handleAdd}
         permission1={permission1}
-    />;
+        onRowDoubleClick={handleRowDoubleClick} // 모달 handle 추가
+             />
+
+            {/* 모달 추가 */}
+            {selectedReport && (
+                <BudgetReportModal report={selectedReport} onClose={handleCloseModal} />
+            )}
+        </>
+    );
 }
