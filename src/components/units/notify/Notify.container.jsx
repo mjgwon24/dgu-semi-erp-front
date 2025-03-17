@@ -4,11 +4,17 @@ import {useState} from "react";
 export default function Notify() {
     /**
      * 알림 사이드 메뉴
-     * - 한 페이지당 7개의 알림
+     * - 한 페이지당 8개의 알림
      */
     const [selectedMenu, setSelectedMenu] = useState("동아리");
     const [data, setData] = useState([
             {
+                title: "동아리 가입 승인",
+                description: "동아리 가입이 승인되었습니다.",
+                date: "2021-09-01",
+                isNew: true
+            },
+        {
                 title: "동아리 가입 승인",
                 description: "동아리 가입이 승인되었습니다.",
                 date: "2021-09-01",
