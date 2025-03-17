@@ -2,7 +2,9 @@ import ConditionBar from "@/src/components/common/layout/conditions/conditionbar
 import TableWrapper from "@/src/components/common/layout/table/tableWrapper";
 import EditableTable from "@/src/components/common/layout/table/editableTable";
 
-export default function BudgetReportUI({ conditions, setConditions, labels, orderKeys, options, types, defaultColumns, dataSource, setDataSource, loading, setLoading, permission1, handleAdd }) {
+export default function BudgetReportUI({ conditions, setConditions, labels, orderKeys, options,
+                                           types, defaultColumns, dataSource, setDataSource, loading,
+                                           setLoading, permission1, handleAdd, onRowDoubleClick, }) {
     return (
         <div className="flex flex-col gap-7 p-5">
             <ConditionBar
@@ -29,6 +31,7 @@ export default function BudgetReportUI({ conditions, setConditions, labels, orde
                         setLoading={setLoading}
                         permission={permission1}
                         setSelected={() => { }}
+                        onRowDoubleClick={onRowDoubleClick} // 모달 더블 클릭 추가
                     />
 
                 </TableWrapper>
