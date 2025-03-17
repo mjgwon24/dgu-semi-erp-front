@@ -60,7 +60,7 @@ export default function SideBarLayout() {
                             <GroupsIcon fontSize="small"/>
                             <span className="select-none weight-600 text-[#FDFDFD]"
                                   style={{
-                                      color: currentUrl === "/main" ? "#106BDB"
+                                      color: currentUrl === "/clubManagement" ? "#106BDB"
                                           : ""
                                   }}>동아리</span>
                         </Link>
