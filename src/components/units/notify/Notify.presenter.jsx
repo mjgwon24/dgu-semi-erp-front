@@ -3,7 +3,7 @@ import { renderPagination } from "@/src/components/common/layout/table/paginatio
 
 export default function NotifyUI({ currentPage, totalPages, handlePageChange, selectedMenu, setSelectedMenu, sideMenus, data }) {
     return (
-        <div className="flex flex-col gap-7 p-5 h-full">
+        <div className="flex flex-col gap-5 p-5 h-full">
             <div className="flex flex-col gap-2">
                 <div>
                     <h3 className="text-xl weight-700">알림</h3>
