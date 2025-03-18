@@ -4,7 +4,6 @@ import NotificationsIcon from '@mui/icons-material/NotificationsNone';
 import Link from 'next/link';
 
 export default function HeaderLayout(props) {
-    // Redux 상태 가져오기
     const userName = useSelector((state) => state.user.userName);
 
     return (
@@ -12,7 +11,9 @@ export default function HeaderLayout(props) {
 
             <div>
                 <IconButton>
-                    <NotificationsIcon style={{ fontSize: "27px" }} className="text-[#4C545B]" />
+                    <Link href="/notify">
+                        <NotificationsIcon style={{ fontSize: "27px" }} className="text-[#4C545B]" />
+                    </Link>
                 </IconButton>
             </div>
 
