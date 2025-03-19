@@ -11,15 +11,15 @@ export default function App({ Component, pageProps }) {
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-                <div className="flex min-h-screen">
+                <div className="flex min-h-screen bg-gradient-to-b from-[#4A96EC] via-[#4A96EC] to-[#237BE6]">
                     <div className="">
                         <SideBarLayout />
                     </div>
-                    <div className="flex-grow flex flex-col">
+                    <div className="flex-grow flex flex-col bg-[#FCFCFC] rounded-2xl my-3 mr-3">
                         <div className="">
                             <HeaderLayout />
                         </div>
-                        <div className="flex-grow overflow-auto">
+                        <div className="flex-grow overflow-auto px-3">
                             <Component {...pageProps} />
                         </div>
                     </div>

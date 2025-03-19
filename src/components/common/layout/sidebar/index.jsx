@@ -21,10 +21,12 @@ export default function SideBarLayout() {
                     }}
         >
             <div className="flex flex-col"
-                 style={{ padding: "20px 10px 20px 10px"}}>
+                 style={{
+                     padding: isSidebarFolded ? "30px 10px 20px 10px" : "30px 20px 20px 20px"
+            }}>
                 <Link href="/main" className="cursor-pointer">
                     <h1 className="text-white weight-700 text-[17px]"
-                        style={{fontSize: isSidebarFolded ? "10px" : "17px",
+                        style={{fontSize: isSidebarFolded ? "10px" : "18px",
                             paddingLeft: isSidebarFolded ? "2px" : "10px"
                         }}
                     >
@@ -35,7 +37,7 @@ export default function SideBarLayout() {
                 <ul className="flex flex-col space-y-5 pt-10"
                     style={{display: isSidebarFolded ? "none" : ""}}
                 >
-                    <li className="flex items-center text-white cursor-pointer weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 "
+                    <li className="flex items-center text-white cursor-pointer rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 "
                         style={{
                             backgroundColor: currentUrl === "/announcement" ? "white" : "",
                             color: currentUrl === "/announcement" ? "#106BDB" : ""
@@ -50,7 +52,7 @@ export default function SideBarLayout() {
                                   }}>공지사항</span>
                         </Link>
                     </li>
-                    <li className="flex items-center text-white cursor-pointer weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25"
+                    <li className="flex items-center text-white cursor-pointer rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25"
                         style={{
                             backgroundColor: currentUrl === "/clubManagement" ? "white" : "",
                             color: currentUrl === "/clubManagement" ? "#106BDB" : ""
@@ -68,7 +70,7 @@ export default function SideBarLayout() {
                     <li>
                         <div
                             onClick={() => setBudgetMenuOpen(!isBudgetMenuOpen)}
-                            className="flex items-center space-x-3 text-white cursor-pointer weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25"
+                            className="flex items-center space-x-3 text-white cursor-pointer rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25"
                             style={{
                                 backgroundColor: currentUrl === "/budgetPlan" || currentUrl === "/budgetUsage" || currentUrl === "/budgetReport" ? "white"
                                     : isBudgetMenuOpen ? "#EFF7FF" : "",
