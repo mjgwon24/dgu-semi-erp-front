@@ -7,7 +7,7 @@ import EditableCell from '../tableCell';
 import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
 import { Empty } from "antd";
-const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,selected,setSelected,permission,width,height}) => {
+const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,selected,setSelected,permission,width,height,  onRowDoubleClick}) => {
 
     const today = new Date();
     const todayString = today.toISOString().split("T")[0];
@@ -311,9 +311,12 @@ useEffect(()=>{
                 rowKey="No"
                 scroll={scrollConfig}
                 onRow={(record, rowIndex) => ({
-                    record,
-                    index:rowIndex,
-                    onRowClick:onRowClick,
+                    onClick: () => onRowClick(rowIndex),
+                    onDoubleClick: () => {
+                        if (onRowDoubleClick) {
+                            onRowDoubleClick(record);
+                        }
+                    },
                     className: rowIndex==selected?"bg-gray-100 font-semibold text-center":"text-center",
                 })}
                 locale={{
