@@ -7,6 +7,7 @@ import EditableCell from '../tableCell';
 import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
 import { Empty } from "antd";
+import { renderPagination } from "@/src/components/common/layout/table/pagination";
 const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,selected,setSelected,currentPage,setCurrentPage,permission,width,height}) => {
     const today = new Date();
     const todayString = today.toISOString().split("T")[0];
@@ -146,113 +147,7 @@ const handlePageChange = (page) => {
     setCurrentPage(page);
 };
   // 페이지네이션 생성 함수
-  const renderPagination = (currentPage,totalPages) => {
-    if(totalPages==0)
-        return;
-    const pages = [];
 
-    // 항상 첫 페이지와 마지막 페이지 표시
-    const firstPage = 1;
-    const lastPage = totalPages;
-    // 처음으로 이동 버튼
-    // pages.push(
-    //     <button
-    //     key="first"
-    //     onClick={() => handlePageChange(1)}
-    //     className='text-[#3A3A3A] border-none rounded cursor-pointer px-1 py-2'
-    //     >
-    //     &lt;&lt;
-    //     </button>
-    // );
-
-    // 이전 버튼
-    pages.push(
-        <button
-        key="prev"
-        onClick={() => {handlePageChange((currentPage-2+totalPages)%totalPages+1)}}
-        className='text-[#3A3A3A] border-none rounded cursor-pointer px-1 py-2'
-        >
-        &lt;
-        </button>
-    );
-    // 페이지가 7개 이하일 경우 모두 표시
-    if (totalPages <= 7) {
-        for (let i = 1; i <= totalPages; i++) {
-            pages.push(generatePageButton(i));
-        }
-        // "다음" 버튼 추가
-        pages.push(
-            <button
-            key="next"
-            onClick={() => {handlePageChange((currentPage%totalPages)+1)}}
-            className='text-[#3A3A3A] border-none rounded cursor-pointer px-1 py-2'
-            >
-                &gt;
-            </button>
-        );
-    
-        // 끝으로 이동 버튼
-        // pages.push(
-        //     <button
-        //       key="last"
-        //       onClick={() => handlePageChange(totalPages)}
-        //       className='text-[#3A3A3A] border-none rounded cursor-pointer px-1 py-2'
-        //     >
-        //       &gt;&gt;
-        //     </button>
-        //   );
-        return pages;
-    }
-
-    // 첫 페이지 추가
-    pages.push(generatePageButton(firstPage));
-
-    // 현재 페이지가 3 이상일 경우 앞 부분 생략 표시
-    if (currentPage > 3) {
-        pages.push(<span key="dots1" className='text-[#3A3A3A] py-2'>...</span>);
-    }
-
-    // 현재 페이지 기준으로 앞뒤 2개 페이지 표시
-    const startPage = Math.max(2, currentPage - 1);
-    const endPage = Math.min(totalPages - 1, currentPage + 1);
-
-    for (let i = startPage; i <= endPage; i++) {
-        pages.push(generatePageButton(i));
-    }
-
-    // 현재 페이지가 마지막에서 2개 이상 떨어져 있으면 뒷부분 생략 표시
-    if (currentPage < totalPages - 2) {
-        pages.push(<span key="dots2" className='text-[#3A3A3A] py-2'>...</span>);
-    }
-
-    // 마지막 페이지 버튼
-    pages.push(generatePageButton(lastPage));
-    // 다음 버튼
-    pages.push(
-        <button
-        key="next"
-        onClick={() => {handlePageChange((currentPage%totalPages)+1)}}
-        className='text-[#3A3A3A] border-none rounded cursor-pointer px-1 py-2'
-        >
-        &gt;
-        </button>
-    );
-
-    // 끝으로 이동 버튼
-    //   pages.push(
-    //     <button
-    //       key="last"
-    //       onClick={() => handlePageChange(totalPages)}
-    //       className='text-[#3A3A3A] border-none rounded cursor-pointer px-1 py-2'
-    //     >
-    //       &gt;&gt;
-    //     </button>
-    //   );
-
-
-
-    return pages;
-};
 useEffect(() => {
     setTimeout(()=>{
         setScrollConfig({
@@ -325,7 +220,7 @@ useEffect(()=>{
                 />
             </div>
         </div>
-        <div className="w-full flex flex-row justify-center">{renderPagination(currentPage,totalPages)}</div>
+        <div className="w-full flex flex-row justify-center">{renderPagination(currentPage,totalPages,handlePageChange)}</div>
     </div>
             
 
