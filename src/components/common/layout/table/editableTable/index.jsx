@@ -7,8 +7,7 @@ import EditableCell from '../tableCell';
 import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
 import { Empty } from "antd";
-const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,selected,setSelected,permission,width,height}) => {
-
+const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,selected,setSelected,currentPage,setCurrentPage,permission,width,height}) => {
     const today = new Date();
     const todayString = today.toISOString().split("T")[0];
     const lastMonth = new Date(today.setMonth(today.getMonth() - 1));
@@ -104,7 +103,7 @@ const handleSave = (row) => {
 };
 
 
-const [currentPage,setCurrentPage] = useState(1);
+
 const [pageSize,setPageSize] = useState(8); // 한 페이지당 항목 수
 const columns = defaultColumns.map((col) => {
     if (!col.editable) {
@@ -318,7 +317,7 @@ useEffect(()=>{
                 })}
                 locale={{
                     emptyText: (
-                        <div className="flex flex-col items-center justify-center text-gray-400 h-[450px]">
+                        <div className={`flex flex-col items-center justify-center text-gray-400 h-[418px]`}>
                             <Empty description={"현재 조회된 데이터가 없습니다."}/>
                         </div>
                     ),
