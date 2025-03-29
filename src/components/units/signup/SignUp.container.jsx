@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Checkbox } from "antd";
 import SignUpUI from "@/src/components/units/signup/SignUp.presenter";
+import SignUpModalUI from "./signupModal/SignUpModal.presenter";
 
 export default function SignUp() {
     const [studentNum, setStudentNum] = useState("");
@@ -12,6 +13,7 @@ export default function SignUp() {
         option1:false,
         option2:false
     })
+    const [isContractModalOpen, setIsContractModalOpen] = useState(false);
 
     const onStudentNumChange = (e) => {
         setStudentNum(e.target.value);
@@ -61,10 +63,49 @@ export default function SignUp() {
 
       };
 
+    const clubOptions = [
+        {
+            value: 'developer',
+            label: '디벨로퍼',
+        },
+        {
+            value: 'club1',
+            label: '동아리1',
+        },
+        {
+            value: 'club2',
+            label: '동아리2',
+        }
+    ];
+
+    const majorOptions = [
+        {
+            value: '1',
+            label: '전자정보통신',
+        },
+        {
+            value: '2',
+            label: '컴퓨터공학',
+        },
+        {
+            value: '3',
+            label: '뭐시기',
+        }
+    ];
+
+    const openContractModal = () => {
+        setIsContractModalOpen(true);
+    }
+
+    const closeContractModal = () => {
+        setIsContractModalOpen(false);
+    }
+
 
     
 
     return (
+        <>
         <SignUpUI
             email={email}
             password={password}
@@ -79,6 +120,15 @@ export default function SignUp() {
             checkedList={checkedList}
             onCheckChange={onCheckChange}
             allChecked={allChecked}
+            clubOptions={clubOptions}
+            majorOptions={majorOptions}
+            openContractModal={openContractModal}
         />
+        <SignUpModalUI
+            isOpen={isContractModalOpen}
+            onClose={closeContractModal}
+        />
+      </>
+
     )
 }
