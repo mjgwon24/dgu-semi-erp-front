@@ -34,6 +34,10 @@ export default function BankbookManagementUI({
     setLoading2,
     selected2,
     setSelected2,
+    currentPage,
+    setCurrentPage,
+    currentPage2,
+    setCurrentPage2
 }) {
     return (
         <div className="flex h-full bg-[#F7F7F7]">
@@ -48,73 +52,77 @@ export default function BankbookManagementUI({
                         options={options}
                         types={types}
                     />
-                    <div className="flex flex-row gap-2">
+                    <div className="flex flex-row gap-2 w-full">
                         <TableWrapper 
                             title="통장 조회" 
                             subTitle={`${dataSource==undefined?0:dataSource.length}건`} 
                             hasAddButton={permission1=="admin"} 
                             handleAdd={handleAdd}
                             handleAddTitle={"추가"}
-                            width="20%">
-                            <div className="w-[100%]">
-                                <EditableTable
-                                    dataSource={dataSource}
-                                    setDataSource={setDataSource}
-                                    defaultColumns={defaultColumns}
-                                    loading={loading}
-                                    setLoading={setLoading}
-                                    permission={permission1}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                    width={"100%"}
-                                    height={530}
-                                    />
-                            </div>
+                            width="18%">
+                            <EditableTable
+                                dataSource={dataSource}
+                                setDataSource={setDataSource}
+                                defaultColumns={defaultColumns}
+                                loading={loading}
+                                setLoading={setLoading}
+                                permission={permission1}
+                                selected={selected}
+                                setSelected={setSelected}
+                                width={"100%"}
+                                height={513}
+                                currentPage={currentPage}
+                                setCurrentPage={setCurrentPage}
+                                />
                             
                         </TableWrapper>
-                        <TableWrapper
-                            title={`${dataSource&&dataSource[selected]?`${dataSource[selected].crew} 통장 내역 상세`:""}`} 
-                            subTitle={`${dataSource2==undefined?0:dataSource2.length}건`} 
-                            hasAddButton={permission2=="admin"} 
-                            handleAdd={handleAdd2}
-                            handleAddTitle={"통장 추가"}
-                            width="80%">
-                            <div className="flex flex-row gap-2 w-[100%]">
-                                <div className="w-[20%] rounded-md bg-white border border-gray-300 h-[510px] overflow-hidden p-6">
-                                    <div className="flex flex-col gap-3">
-                                        <div className="flex flex-col">
-                                            <div>{selected2!=-1?"계좌번호":""}</div>
-                                            <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.bankbookNumber:""}</div>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <div>{selected2!=-1?"개설일":""}</div>
-                                            <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.createdAt:""}</div>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <div>{selected2!=-1?"소유주":""}</div>
-                                            <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.owner:""}</div>
+                        {selected!=-1&&
+                            <TableWrapper
+                                title={`${dataSource[selected]?dataSource[selected].crew:""} 통장 내역 상세`} 
+                                subTitle={`${setDataSource2==undefined?0:dataSource.length}건`} 
+                                hasAddButton={permission2=="admin"} 
+                                handleAdd={handleAdd2}
+                                handleAddTitle={"통장 추가"}
+                                width="82%"
+                                height="600px">
+                                <div className="flex flex-row gap-2 w-full">
+                                    <div className="w-[20%] rounded-md bg-white border border-gray-300 h-[504px] overflow-hidden p-6">
+                                        <div className="flex flex-col gap-3">
+                                            <div className="flex flex-col">
+                                                <div>{selected2!=-1?"계좌번호":""}</div>
+                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.bankbookNumber:""}</div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <div>{selected2!=-1?"개설일":""}</div>
+                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.createdAt:""}</div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <div>{selected2!=-1?"소유주":""}</div>
+                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.owner:""}</div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div className="w-[80%] h-[513px]">
+                                        <EditableTable
+                                            dataSource={dataSource2}
+                                            setDataSource={setDataSource2}
+                                            defaultColumns={defaultColumns2}
+                                            loading={loading2}
+                                            setLoading={setLoading2}
+                                            permission={permission2}
+                                            selected={selected2}
+                                            setSelected={setSelected2}
+                                            width={"100%"}
+                                            height={513}
+                                            currentPage={currentPage2}
+                                            setCurrentPage={setCurrentPage2}
+                                            />
+                                    </div>
                                 </div>
-                                <div className="w-[80%]">
-                                    <EditableTable
-                                        dataSource={dataSource2}
-                                        setDataSource={setDataSource2}
-                                        defaultColumns={defaultColumns2}
-                                        loading={loading2}
-                                        setLoading={setLoading2}
-                                        permission={permission2}
-                                        selected={selected2}
-                                        setSelected={setSelected2}
-                                        width={"100%"}
-                                        height={517}
-                                        />
-                                </div>
-
-                            </div>
-                            
-                            
-                        </TableWrapper>
+                                
+                                
+                            </TableWrapper>
+                        }
                     </div>
         </div>
 </div>
