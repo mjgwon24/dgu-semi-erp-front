@@ -2,7 +2,7 @@ import Calendar from "@/src/components/common/calendar"
 
 export default function GeneralScheduleUI() {
     return (
-        <div className="bg-[#F7F7F7] min-h-full flex flex-col p-[30px] gap-[20px]">
+        <div className="min-h-full flex flex-col p-[30px] gap-[20px]">
             <div className="flex flex-col gap-[20px]">
                 <div className="text-[20px] font-bold">일정</div>
 
@@ -12,7 +12,7 @@ export default function GeneralScheduleUI() {
                         {/* 달력 헤더 */}
                         <div className="flex gap-[350px]">
                             <div className="flex items-center gap-[8px]">
-                                <div className="text-[18px] w-[90px] font-semibold">2024년 {new Date().getMonth() + 1}월</div>
+                                <div className="text-[18px] w-[95px] font-semibold">2024년 {new Date().getMonth() + 1}월</div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="15" viewBox="0 0 13 15"
                                      fill="none">
                                     <path
