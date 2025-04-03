@@ -11,9 +11,11 @@ export default function SignUp() {
     const [allChecked, setAllchecked] = useState(false);
     const [checkedList, setCheckedList] = useState({
         option1:false,
-        option2:false
+        option2:false,
+        option3:false
     })
     const [isContractModalOpen, setIsContractModalOpen] = useState(false);
+    const [isContractOpen, setIsContractOpen] = useState(false);
 
     const onStudentNumChange = (e) => {
         setStudentNum(e.target.value);
@@ -42,8 +44,19 @@ export default function SignUp() {
         setAllchecked(isChecked);
         setCheckedList({
             option1:isChecked,
-            option2:isChecked
+            option2:isChecked,
+            option3:isChecked
         })
+    };
+
+    const onAgreeAllClick = (e) => {
+        setAllchecked(true);
+        setCheckedList({
+            option1:true,
+            option2:true,
+            option3:true
+        })
+        setIsContractOpen(false);
     };
     
       // 개별 체크박스 클릭 시
@@ -93,12 +106,24 @@ export default function SignUp() {
         }
     ];
 
+    //약관 모달
     const openContractModal = () => {
         setIsContractModalOpen(true);
     }
 
     const closeContractModal = () => {
         setIsContractModalOpen(false);
+    }
+
+    //약관 전환
+    const openContract = () => {
+        setIsContractOpen(true);
+        console.log(isContractOpen)
+    }
+
+    const closeContract = () => {
+        setIsContractOpen(false);
+        console.log(isContractOpen)
     }
 
 
@@ -123,11 +148,16 @@ export default function SignUp() {
             clubOptions={clubOptions}
             majorOptions={majorOptions}
             openContractModal={openContractModal}
+            openContract={openContract}
+            closeContract={closeContract}
+            isContractOpen={isContractOpen}
+            onAgreeAllClick={onAgreeAllClick}
         />
-        <SignUpModalUI
+        
+        {/* <SignUpModalUI
             isOpen={isContractModalOpen}
             onClose={closeContractModal}
-        />
+        /> */}
       </>
 
     )

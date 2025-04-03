@@ -8,7 +8,7 @@ export default function FindPasswordUI({
     handleSubmit
 }) {
     return (
-        <div className="flex w-full h-screen justify-center items-center" style={{color: "#F7F7F7"}}>
+        <div className="flex w-full h-screen justify-center items-center bg-[#F7F7F7]">
             <form className="flex flex-col items-center border rounded-2xl shadow-xl bg-[#FFFFFF] h-5/6 py-40 px-32 gap-12 w-2/5" onSubmit={handleSubmit}>
                 <div className="flex flex-col items-center gap-1">
                     <label className="text-3xl font-bold" style={{color: "#247CE6"}}>동국대학교</label>
@@ -22,7 +22,7 @@ export default function FindPasswordUI({
                 </div>
 
                 <div className="flex flex-col gap-2 w-full items-center">
-                    <button className="bg-[#237BE6] rounded-lg w-full text-lg p-4" type="submit">비밀번호 재발급</button>
+                    <button className="bg-[#237BE6] rounded-lg w-full text-lg p-4 text-[#FFFFFF]" type="submit">비밀번호 재발급</button>
                     <label className="text-[#3C3C3C]">비밀번호가 생각나셨나요? <Link href={"/login"} className="text-[#247CE6]">로그인</Link> 하러가기</label>
                 </div>
             </form>
