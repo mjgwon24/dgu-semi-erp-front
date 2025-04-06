@@ -14,7 +14,7 @@ export default function SignUp() {
         option2:false,
         option3:false
     })
-    const [isContractModalOpen, setIsContractModalOpen] = useState(false);
+    const [isNextStep, setIsNextStep] = useState(false);
     const [isContractOpen, setIsContractOpen] = useState(false);
 
     const onStudentNumChange = (e) => {
@@ -60,7 +60,7 @@ export default function SignUp() {
     };
     
       // 개별 체크박스 클릭 시
-      const onCheckChange = (e) => {
+    const onCheckChange = (e) => {
         const { name, checked } = e.target;
         setCheckedList((prev) => {
             const updatedCheckedList = {
@@ -74,7 +74,11 @@ export default function SignUp() {
         });
 
 
-      };
+    };
+
+    const onNextStepButton = (e) => {
+        setIsNextStep(true);
+    };
 
     const clubOptions = [
         {
@@ -152,6 +156,8 @@ export default function SignUp() {
             closeContract={closeContract}
             isContractOpen={isContractOpen}
             onAgreeAllClick={onAgreeAllClick}
+            isNextStep={isNextStep}
+            onNextStepButton={onNextStepButton}
         />
         
         {/* <SignUpModalUI
