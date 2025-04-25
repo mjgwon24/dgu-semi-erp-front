@@ -1,47 +1,80 @@
-export default function Calendar() {
-    const today = new Date(); // 현재 날짜 가져오기
-    const year = today.getFullYear(); // 현재 연도
-    const month = today.getMonth() + 1; // 현재 월 (0부터 시작하므로 1을 더함)
-    const daysInMonth = new Date(year, month, 0).getDate(); // 해당 월의 마지막 날
-    const startDay = new Date(year, month - 1, 1).getDay(); // 해당 월의 1일의 요일
-    const weeks = []; // 주 배열
 
-    // 빈 공간을 추가하여 첫 주의 시작 요일을 맞춤
+export default function Calendar({ scheduleList = [], date}) {
+    const today = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth(); // 0부터 시작하는 월 (0 = 1월)
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate(); // 현재 월의 마지막 날짜
+    const startDay = new Date(year, month, 1).getDay(); // 현재 월 1일의 요일
+    const weeks = [];
+
     let week = Array(startDay).fill(null);
 
     for (let day = 1; day <= daysInMonth; day++) {
-        week.push(day); // 현재 날짜 추가
+        week.push(day);
 
-        // 주가 7일이 되면 새로운 주를 시작
         if (week.length === 7) {
             weeks.push(week);
-            week = []; // 새로운 주를 위한 초기화
+            week = [];
         }
     }
 
-    // 마지막 주가 7일이 안 될 경우 추가
     if (week.length > 0) {
         weeks.push(week);
     }
 
     return (
-        <div>
+        <div className="w-full h-full">
+            {/* 요일 헤더 */}
             <div className="flex">
                 {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
-                    <div key={index}
-                         className="w-[85px] text-center pb-2 text-[#717171] border-b-[1px] border-[#D4D4D4]">{day}</div>
+                    <div
+                        key={index}
+                        className="text-center pb-2 text-[#717171] border-b border-[#D4D4D4] basis-[14.285%]"
+                    >
+                        {day}
+                    </div>
                 ))}
             </div>
+    
+            {/* 날짜 렌더링 */}
             {weeks.map((week, weekIndex) => (
-                <div key={weekIndex} className="flex">
-                    {week.map((day, dayIndex) => (
-                        <div key={dayIndex}
-                             className="w-[85px] h-[75px] mt-[8px] text-center text-[#717171] border-b-[1px] border-[#D4D4D4]">
-                            {day !== null ? day : ''}
-                        </div>
-                    ))}
+                <div key={weekIndex} className="flex border-b border-[#D4D4D4] h-1/6">
+                    {week.map((day, dayIndex) => {
+                        const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+                        const schedules = day
+                            ? scheduleList.filter(schedule => {
+                                const scheduleDate = new Date(schedule.date);
+                                return scheduleDate.getDate() === day;
+                            })
+                            : [];
+
+                        return (
+                            <div
+                                key={dayIndex}
+                                className={`h-full pt-2 text-center text-[#717171] basis-[14.285%] ${isToday ? 'text-blue-500' : 'text-[#717171]'}`}
+                            >
+                                <div className="flex flex-col items-center justify-start h-full px-1 gap-1">
+                                    {/* 날짜 */}
+                                    <div className="text-sm font-semibold self-end">
+                                        {day !== null ? day : ''}
+                                    </div>
+
+                                    {/* 일정 목록 */}
+                                    {day !== null && schedules.map((schedule, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="p-1 text-xs bg-[#EFEFEF] text-[#616161] w-full rounded-lg truncate"
+                                        >
+                                            {schedule.title}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             ))}
         </div>
-    )
+    );
 }

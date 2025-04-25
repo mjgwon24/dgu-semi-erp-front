@@ -2,13 +2,14 @@ import { useState } from "react";
 import AddSchedulePresenter from "./AddSchedulePresenter";
 import dayjs from "dayjs";
 
-export default function AddScheduleContainer({ isOpen, onClose, onSave }) {
+export default function AddScheduleContainer({ isOpen, onClose, onSave, club, setSelectedDate }) {
+    if (!isOpen) return null;
+
     const [form, setForm] = useState({
         title: "",
-        clubName: "",
         date: null,
-        location: "",
-        repeat: "안함",
+        place: "",
+        repeat: null,
     });
 
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -26,9 +27,8 @@ export default function AddScheduleContainer({ isOpen, onClose, onSave }) {
     const validateForm = () => {
         let newErrors = {};
         if (!form.title.trim()) newErrors.title = "제목을 입력하세요.";
-        if (!form.clubName.trim()) newErrors.clubName = "동아리를 입력하세요.";
         if (!form.date) newErrors.date = "일시를 선택하세요.";
-        if (!form.location.trim()) newErrors.location = "장소를 입력하세요.";
+        if (!form.place.trim()) newErrors.place = "장소를 입력하세요.";
 
         setErrors(newErrors);
         setHasErrors(Object.keys(newErrors).length > 0);
@@ -36,12 +36,39 @@ export default function AddScheduleContainer({ isOpen, onClose, onSave }) {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!validateForm()) return;
+    
+        const payload = {
+            club_id: club.club_id,
+            ...form,
+            place: form.place,
+            date: form.date ? form.date.format("YYYY-MM-DDTHH:mm") : "",
+        };
 
-        onSave({ ...form, date: form.date ? form.date.format("YYYY-MM-DD") : "" });
-        onClose();
-        setHasErrors(false);
+        console.log(payload)
+    
+        try {
+            const res = await fetch("http://localhost:8081/schedule", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+    
+            if (!res.ok) throw new Error("서버 오류");
+    
+            const result = await res.json();
+            console.log("추가 성공:", result);
+    
+            // 이 부분에서 전달
+            onSave(form.date.toDate()); // 선택한 날짜를 부모에 전달
+            setHasErrors(false);
+            setSelectedDate(form.date.toDate());
+        } catch (error) {
+            console.error("일정 저장 실패:", error);
+        }
     };
 
     return (
@@ -56,6 +83,7 @@ export default function AddScheduleContainer({ isOpen, onClose, onSave }) {
             setIsDatePickerOpen={setIsDatePickerOpen}
             hasErrors={hasErrors}
             errors={errors}
+            club={club}
         />
     );
 }

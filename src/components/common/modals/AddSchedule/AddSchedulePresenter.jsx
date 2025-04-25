@@ -12,16 +12,16 @@ export default function AddSchedulePresenter({
                                                  isDatePickerOpen,
                                                  setIsDatePickerOpen,
                                                  hasErrors,
-                                                 errors
+                                                 errors,
+                                                 club
                                              }) {
-    const dialogHeight = hasErrors || isDatePickerOpen ? "800px" : "600px";
 
     return (
         <Dialog
             open={isOpen}
             onClose={onClose}
             slotProps={{
-                paper: { style: { width: "450px", height: dialogHeight, overflow: "visible" } }
+                paper: { style: { width: "450px", height: "auto", overflow: "visible" } }
             }}
         >
             <DialogTitle className="flex justify-start pt-10 pl-[50px] text-black text-[23px] font-semibold">
@@ -41,19 +41,22 @@ export default function AddSchedulePresenter({
 
                     <div className="flex flex-col">
                         <label className="text-black text-[16px] font-medium">동아리</label>
-                        <input type="text" name="clubName" value={form.clubName} onChange={handleChange}
+                        <label className="text-gray-600 text-[18px] font-[500]">{club.club_name}</label>
+                        {/* <input type="text" name="clubName" value={form.clubName} onChange={handleChange}
                                className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.clubName ? "border-red-500" : ""}`}
                                placeholder="동아리 이름 입력"/>
-                        {errors.clubName && <p className="text-red-500 text-sm">{errors.clubName}</p>}
+                        {errors.clubName && <p className="text-red-500 text-sm">{errors.clubName}</p>} */}
                     </div>
 
                     <div className="flex flex-col">
                         <label className="text-black text-[16px] font-medium">일시</label>
                         <ConfigProvider locale={locale}>
                             <DatePicker
+                                showTime
+                                format="YYYY-MM-DD HH:mm"
                                 value={form.date}
                                 onChange={handleDateChange}
-                                format="YYYY-MM-DD"
+           
                                 className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.date ? "border-red-500" : ""}`}
                                 getPopupContainer={(trigger) => trigger.parentElement}
                                 open={isDatePickerOpen}
@@ -65,10 +68,10 @@ export default function AddSchedulePresenter({
 
                     <div className="flex flex-col">
                         <label className="text-black text-[16px] font-medium">장소</label>
-                        <input type="text" name="location" value={form.location} onChange={handleChange}
-                               className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.location ? "border-red-500" : ""}`}
+                        <input type="text" name="place" value={form.place} onChange={handleChange}
+                               className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.place ? "border-red-500" : ""}`}
                                placeholder="장소 입력"/>
-                        {errors.location && <p className="text-red-500 text-sm">{errors.location}</p>}
+                        {errors.place && <p className="text-red-500 text-sm">{errors.place}</p>}
                     </div>
 
                     <div className="flex flex-col">
@@ -95,10 +98,10 @@ export default function AddSchedulePresenter({
                                     border: "1px solid #d1d5db",
                                 }}
                                 options={[
-                                    { value: "안함", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>안함</div> },
-                                    { value: "매일", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매일</div> },
-                                    { value: "매주", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매주</div> },
-                                    { value: "매월", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매월</div> },
+                                    { value: null, label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>안함</div> },
+                                    { value: "DAILY", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매일</div> },
+                                    { value: "WEEKLY", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매주</div> },
+                                    { value: "MONTHLY", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매월</div> },
                                 ]}
                             />
                         </ConfigProvider>
