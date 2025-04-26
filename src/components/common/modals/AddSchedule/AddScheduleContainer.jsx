@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddSchedulePresenter from "./AddSchedulePresenter";
 import dayjs from "dayjs";
 
-export default function AddScheduleContainer({ isOpen, onClose, onSave, club, setSelectedDate }) {
+export default function AddScheduleContainer({ type, isOpen, onClose, onSave, club, currentSchedule }) {
     if (!isOpen) return null;
 
     const [form, setForm] = useState({
@@ -24,6 +24,19 @@ export default function AddScheduleContainer({ isOpen, onClose, onSave, club, se
         setForm({ ...form, date });
     };
 
+    console.log(currentSchedule);
+
+    useEffect(() => {
+        if (type === "edit" && currentSchedule) {
+            setForm({
+                title: currentSchedule.title || "",
+                date: currentSchedule.date ? dayjs(currentSchedule.date) : null,
+                place: currentSchedule.place || "",
+                repeat: currentSchedule.repeat || null,
+            });
+        }
+    }, [type, currentSchedule]);
+
     const validateForm = () => {
         let newErrors = {};
         if (!form.title.trim()) newErrors.title = "제목을 입력하세요.";
@@ -36,7 +49,7 @@ export default function AddScheduleContainer({ isOpen, onClose, onSave, club, se
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         if (!validateForm()) return;
     
         const payload = {
@@ -45,34 +58,13 @@ export default function AddScheduleContainer({ isOpen, onClose, onSave, club, se
             place: form.place,
             date: form.date ? form.date.format("YYYY-MM-DDTHH:mm") : "",
         };
-
-        console.log(payload)
     
-        try {
-            const res = await fetch("http://localhost:8081/schedule", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
-    
-            if (!res.ok) throw new Error("서버 오류");
-    
-            const result = await res.json();
-            console.log("추가 성공:", result);
-    
-            // 이 부분에서 전달
-            onSave(form.date.toDate()); // 선택한 날짜를 부모에 전달
-            setHasErrors(false);
-            setSelectedDate(form.date.toDate());
-        } catch (error) {
-            console.error("일정 저장 실패:", error);
-        }
+        onSave(payload); // 서버 요청은 부모가 담당
     };
 
     return (
         <AddSchedulePresenter
+            modalType={type}
             isOpen={isOpen}
             onClose={onClose}
             form={form}

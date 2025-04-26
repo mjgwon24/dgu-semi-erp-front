@@ -3,18 +3,19 @@ import { DatePicker, Select, ConfigProvider } from "antd";
 import locale from "antd/locale/ko_KR";
 
 export default function AddSchedulePresenter({
-                                                 isOpen,
-                                                 onClose,
-                                                 form,
-                                                 handleChange,
-                                                 handleDateChange,
-                                                 handleSubmit,
-                                                 isDatePickerOpen,
-                                                 setIsDatePickerOpen,
-                                                 hasErrors,
-                                                 errors,
-                                                 club
-                                             }) {
+    modalType,
+    isOpen,
+    onClose,
+    form,
+    handleChange,
+    handleDateChange,
+    handleSubmit,
+    isDatePickerOpen,
+    setIsDatePickerOpen,
+    hasErrors,
+    errors,
+    club
+}) {
 
     return (
         <Dialog
@@ -25,7 +26,7 @@ export default function AddSchedulePresenter({
             }}
         >
             <DialogTitle className="flex justify-start pt-10 pl-[50px] text-black text-[23px] font-semibold">
-                일정 추가
+                {modalType === "create" ? "일정 추가" : "일정 편집"}
             </DialogTitle>
 
             <DialogContent className="p-6 flex flex-col justify-between h-full items-center">
@@ -42,10 +43,6 @@ export default function AddSchedulePresenter({
                     <div className="flex flex-col">
                         <label className="text-black text-[16px] font-medium">동아리</label>
                         <label className="text-gray-600 text-[18px] font-[500]">{club.club_name}</label>
-                        {/* <input type="text" name="clubName" value={form.clubName} onChange={handleChange}
-                               className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.clubName ? "border-red-500" : ""}`}
-                               placeholder="동아리 이름 입력"/>
-                        {errors.clubName && <p className="text-red-500 text-sm">{errors.clubName}</p>} */}
                     </div>
 
                     <div className="flex flex-col">
@@ -111,7 +108,7 @@ export default function AddSchedulePresenter({
 
                 <button onClick={handleSubmit}
                         className="w-[120px] h-[40px] bg-[#4368BA] text-white text-[16px] font-bold rounded-lg hover:bg-blue-700 mt-4">
-                    추가
+                    {modalType === "create" ? "추가" : "편집"}
                 </button>
             </DialogContent>
         </Dialog>

@@ -11,10 +11,16 @@ export default function GeneralSchedule() {
         permission : "ADMIN"
     }
 
-    const club = {
-        club_id : 1,
-        club_name : "DEVELOPER"
-    }
+    const clubList = [
+        { 
+            club_id : 1,
+            club_name : "DEVELOPER"
+        },
+        { 
+            club_id : 2,
+            club_name : "머시기동아리"
+        }
+    ]
 
     const permission = true;
 
@@ -22,20 +28,35 @@ export default function GeneralSchedule() {
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [openModal, setOpenModal] = useState(false);
+    const [currentSchedule, setCurrentSchedule] = useState(null);
+    const [currentClub, setCurrentClub] = useState(clubList[0]);
+    const [modalType, setModalType] = useState(null);
 
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
+    const handleOpenModal = (type, schedule = null) => {
+        setModalType(type);
+        setCurrentSchedule(schedule);
+        console.log(currentSchedule);
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalType(null);
+        setOpenModal(false);
+      };
 
     const handleDateChange = (date) => {
         setSelectedDate(date.toDate());
         setDatePickerOpen(false);
     };
 
+    const handleClubChange = (club) => {
+        setCurrentClub(club);
+    }
+
     const onSvgClick = () => {
         setDatePickerOpen(true);
     };
 
-    const clubId = 1;
 
     const fetchScheduleList = async (clubId) => {
         const res = await axios.get(`http://localhost:8081/schedule?club_id=${clubId}&year=${selectedDate.getFullYear()}&month=${selectedDate.getMonth() + 1}`);
@@ -45,35 +66,48 @@ export default function GeneralSchedule() {
     const queryClient = useQueryClient();
 
     const { data: scheduleList = [], isLoading, isError } = useQuery({
-        queryKey: ["scheduleList", clubId, selectedDate.getFullYear(), selectedDate.getMonth()],
-        queryFn: () => fetchScheduleList(clubId, selectedDate),
+        queryKey: ["scheduleList", currentClub?.club_id, selectedDate.getFullYear(), selectedDate.getMonth()],
+        queryFn: () => fetchScheduleList(currentClub?.club_id, selectedDate),
         keepPreviousData: true,
     });
 
-    const { mutate: addSchedule } = useMutation({
-        mutationFn: async (newSchedule) => {
-            const res = await axios.post("http://localhost:8081/schedule", newSchedule);
-            return res.data;
+    const { mutate: saveSchedule } = useMutation({
+        mutationFn: async (scheduleData) => {
+            if (modalType === "edit") {
+                // 수정일 경우 (PATCH 요청)
+                const res = await axios.put(`http://localhost:8081/schedule/${currentSchedule.id}`, scheduleData);
+                return res.data;
+            } else {
+                // 추가일 경우 (POST 요청)
+                const res = await axios.post("http://localhost:8081/schedule", scheduleData);
+                return res.data;
+            }
         },
         onSuccess: () => {
-            // 성공 시 캐시 무효화하여 scheduleList 재요청
-            queryClient.invalidateQueries(["scheduleList", clubId, selectedDate.getFullYear(), selectedDate.getMonth()]);
+            queryClient.invalidateQueries(["scheduleList", currentClub?.club_id, selectedDate.getFullYear(), selectedDate.getMonth()]);
             handleCloseModal();
         },
         onError: (err) => {
-            console.error("일정 추가 실패:", err);
+            console.error("일정 저장 실패:", err);
         }
     });
 
-    const handleSaveSchedule = (form) => {
-        const payload = {
-            club_id: club.club_id,
-            title: form.title,
-            place: form.location,
-            repeat: form.repeat,
-            date: form.date ? form.date.format("YYYY-MM-DDTHH:mm") : "",
-        };
-        addSchedule(payload);
+    const { mutate: deleteSchedule } = useMutation({
+        mutationFn: async (scheduleId) => {
+            await axios.delete(`http://localhost:8081/schedule/${scheduleId}`);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["scheduleList", currentClub?.club_id, selectedDate.getFullYear(), selectedDate.getMonth()]);
+            toast.success("일정이 삭제되었습니다.");
+        },
+        onError: (err) => {
+            console.error("일정 삭제 실패:", err);
+            toast.error("삭제에 실패했습니다.");
+        },
+    });
+
+    const handleSaveSchedule = (payload) => {
+        saveSchedule(payload);
     };
 
     function groupByDate(scheduleList) {
@@ -103,12 +137,18 @@ export default function GeneralSchedule() {
             handleDateChange={handleDateChange}
             selectedDate={selectedDate}
             handleOpenModal={handleOpenModal}
+            deleteSchedule={deleteSchedule}
+            clubList={clubList}
+            handleClubChange={handleClubChange}
+            currentClub={currentClub}
         />
         <AddScheduleContainer
+            type={modalType}
+            currentSchedule={currentSchedule}
             isOpen={openModal}
             onClose={handleCloseModal}
             onSave={handleSaveSchedule}
-            club={club}
+            club={currentClub}
             setSelectedDate={setSelectedDate}
         />
         </>
