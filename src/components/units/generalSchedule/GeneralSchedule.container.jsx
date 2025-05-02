@@ -136,11 +136,13 @@ export default function GeneralSchedule() {
             setDatePickerOpen={setDatePickerOpen}
             handleDateChange={handleDateChange}
             selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
             handleOpenModal={handleOpenModal}
             deleteSchedule={deleteSchedule}
             clubList={clubList}
             handleClubChange={handleClubChange}
             currentClub={currentClub}
+            
         />
         <AddScheduleContainer
             type={modalType}

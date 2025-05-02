@@ -52,23 +52,33 @@ export default function Calendar({ scheduleList = [], date}) {
                         return (
                             <div
                                 key={dayIndex}
-                                className={`h-full pt-2 text-center text-[#717171] basis-[14.285%] ${isToday ? 'text-blue-500' : 'text-[#717171]'}`}
+                                className={`h-full pt-1 text-center text-[#717171] basis-[14.285%] ${isToday ? 'text-blue-500' : 'text-[#717171]'}`}
                             >
                                 <div className="flex flex-col items-center justify-start h-full px-1 gap-1">
                                     {/* 날짜 */}
-                                    <div className="text-sm font-semibold self-end">
+                                    <div className="text-sm font-semibold self-end h-1/4 ">
                                         {day !== null ? day : ''}
                                     </div>
 
                                     {/* 일정 목록 */}
-                                    {day !== null && schedules.map((schedule, idx) => (
+                                    {day !== null && (
+                                    <>
+                                        {schedules.slice(0, 2).map((schedule, idx) => (
                                         <div
                                             key={idx}
-                                            className="p-1 text-xs bg-[#EFEFEF] text-[#616161] w-full rounded-lg truncate"
+                                            className="text-xs bg-[#EFEFEF] text-[#616161] w-full rounded-lg truncate border h-1/5"
                                         >
                                             {schedule.title}
                                         </div>
-                                    ))}
+                                        ))}
+
+                                        {schedules.length > 2 && (
+                                        <div className="text-xs  text-[#616161] w-full rounded-lg truncate h-1/5">
+                                            +{schedules.length - 2}개
+                                        </div>
+                                        )}
+                                    </>
+                                    )}
                                 </div>
                             </div>
                         );

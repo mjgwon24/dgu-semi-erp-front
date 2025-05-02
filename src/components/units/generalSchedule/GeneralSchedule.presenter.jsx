@@ -17,8 +17,15 @@ export default function GeneralScheduleUI({
     handleOpenModal,
     deleteSchedule,
     handleClubChange,
-    currentClub
+    currentClub,
+    setSelectedDate
 }) {
+
+    const repeatText = {
+        DAILY: "매일",
+        WEEKLY: "매주",
+        MONTHLY: "매월"
+      };
 
     return (
 
@@ -57,14 +64,16 @@ export default function GeneralScheduleUI({
                                     picker="month"
                                     ref={datePickerRef}
                                     open={datePickerOpen}
-                                    getPopupContainer={(trigger) => trigger.parentNode}
-                                    onOpenChange={(open) => {
-                                        if (open) setDatePickerOpen(true);
-                                    }}
-                                    onChange={handleDateChange}
+                                    onOpenChange={(open) => setDatePickerOpen(open)}
                                     onPanelChange={(value) => {
-                                        handleDateChange(value); 
-                                      }}
+                                        setSelectedDate(value.toDate());
+                                    }}
+                                    onChange={(value) => {
+                                        if (value) {
+                                        setSelectedDate(value.toDate());
+                                        setDatePickerOpen(false);
+                                        }
+                                    }}
                                     style={{ visibility: "hidden", position: "absolute" }}
                                     />
                                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="15" viewBox="0 0 13 15"
@@ -125,6 +134,9 @@ export default function GeneralScheduleUI({
                                                         <div>
                                                             <div className="text-xl  font-[600]">
                                                                 {format(parseISO(item.date), "HH:mm")}
+                                                            </div>
+                                                            <div className="text-sm text-[#A6A6A6]">
+                                                                {repeatText[item.repeat] ?? ""}
                                                             </div>
                                                         </div>
                                                     </div>
