@@ -8,14 +8,15 @@ import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import {usePathname} from "next/navigation";
 import {ArrowBackIos} from "@mui/icons-material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 export default function SideBarLayout() {
     const [isBudgetMenuOpen, setBudgetMenuOpen] = useState(false);
     const currentUrl = usePathname();
     const [isSidebarFolded, setIsSidebarFolded] = useState(false);
 
-    const menuBaseClass =
-        "flex items-center cursor-pointer space-x-3 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full";
+    const menuBaseClass = "flex items-center cursor-pointer space-x-3 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full";
     const textBaseClass = "select-none weight-700 text-[#FDFDFD]";
 
     return (
@@ -41,8 +42,7 @@ export default function SideBarLayout() {
 
                 <div className="flex flex-col space-y-5 pt-10" style={{ display: isSidebarFolded ? "none" : "" }}>
                     <Link href="/announcement"
-                          className={`${menuBaseClass} 
-                          ${currentUrl === "/announcement" ? "bg-white text-[#106BDB]" : "text-white"}`}
+                          className={`${menuBaseClass} ${currentUrl === "/announcement" ? "bg-white text-[#106BDB]" : "text-white"}`}
                           style={{color: currentUrl === "/announcement" ? "#106BDB" : "", backgroundColor: currentUrl === "/announcement" ? "white" : "",}}
                           onClick={() => setBudgetMenuOpen(false)}>
                         <ArticleIcon fontSize="small" />
@@ -62,68 +62,75 @@ export default function SideBarLayout() {
                         </span>
                     </Link>
 
-                    <div className={`${menuBaseClass} ${isBudgetMenuOpen ? "bg-[#EFF7FF]" : ""}`}
+                    <div className={`${menuBaseClass} justify-between ${isBudgetMenuOpen ? "bg-[#EFF7FF]" : ""}`}
                          style={{
-                             backgroundColor:
-                                 currentUrl === "/budgetPlan" ||
-                                 currentUrl === "/budgetUsage" ||
-                                 currentUrl === "/budgetReport"
-                                     ? "white"
-                                     : isBudgetMenuOpen
-                                         ? "#EFF7FF"
-                                         : "",
-                             color:
-                                 currentUrl === "/budgetPlan" ||
-                                 currentUrl === "/budgetUsage" ||
-                                 currentUrl === "/budgetReport"
-                                     ? "#106BDB"
-                                     : "",
-                         }}
-                         onClick={() => setBudgetMenuOpen((prev) => !prev)}>
-                        <CreditCardIcon
-                            fontSize="small"
-                            style={{
-                                color:
-                                    currentUrl === "/budgetPlan" ||
-                                    currentUrl === "/budgetUsage" ||
-                                    currentUrl === "/budgetReport" ||
-                                    isBudgetMenuOpen
-                                        ? "#106BDB"
-                                        : "white",
-                            }}/>
-                        <span
-                            className={textBaseClass}
-                            style={{
-                                color:
-                                    currentUrl === "/budgetPlan" ||
-                                    currentUrl === "/budgetUsage" ||
-                                    currentUrl === "/budgetReport" ||
-                                    isBudgetMenuOpen
-                                        ? "#106BDB"
+                            backgroundColor:
+                                currentUrl === "/budgetPlan" ||
+                                currentUrl === "/budgetUsage" ||
+                                currentUrl === "/budgetReport"
+                                    ? "white"
+                                    : isBudgetMenuOpen
+                                        ? "#EFF7FF"
                                         : "",
-                            }}>
-                            예산
+                            color:
+                                currentUrl === "/budgetPlan" ||
+                                currentUrl === "/budgetUsage" ||
+                                currentUrl === "/budgetReport"
+                                    ? "#106BDB"
+                                    : "",}}
+                         onClick={() => setBudgetMenuOpen((prev) => !prev)}>
+                        <div className="flex items-center space-x-3">
+                            <CreditCardIcon
+                                fontSize="small"
+                                style={{
+                                    color:
+                                        currentUrl === "/budgetPlan" ||
+                                        currentUrl === "/budgetUsage" ||
+                                        currentUrl === "/budgetReport" ||
+                                        isBudgetMenuOpen
+                                            ? "#106BDB"
+                                            : "white"
+                            }}/>
+                            <span
+                                className={textBaseClass}
+                                style={{
+                                    color:
+                                        currentUrl === "/budgetPlan" ||
+                                        currentUrl === "/budgetUsage" ||
+                                        currentUrl === "/budgetReport" ||
+                                        isBudgetMenuOpen
+                                            ? "#106BDB"
+                                            : "",
+                                }}>
+                                예산
+                            </span>
+                        </div>
+
+                        <span className="flex items-center">
+                            {isBudgetMenuOpen ? (
+                                <ExpandLessIcon fontSize="small" style={{ color: "#106BDB" }} />) : (
+                                <ExpandMoreIcon fontSize="small" style={{ color: "#FDFDFD" }} />)}
                         </span>
                     </div>
 
                     {isBudgetMenuOpen && (
                         <div className="ml-2 mt-2 flex flex-col space-y-2">
                             <Link href="/budgetPlan"
-                                  className="text-gray-300 cursor-pointer text-[15px] weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full flex items-center"
+                                  className="text-gray-100 cursor-pointer text-[15px] weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full flex items-center"
                                   style={{backgroundColor: currentUrl === "/budgetPlan" ? "#69A9F5" : "", color: currentUrl === "/budgetPlan" ? "#fff" : "",}}
                                   onClick={() => setBudgetMenuOpen(false)}>
                                 예산 계획
                             </Link>
 
                             <Link href="/budgetUsage"
-                                  className="text-gray-300 cursor-pointer text-[15px] weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full flex items-center"
+                                  className="text-gray-100 cursor-pointer text-[15px] weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full flex items-center"
                                   style={{backgroundColor: currentUrl === "/budgetUsage" ? "#69A9F5" : "", color: currentUrl === "/budgetUsage" ? "#fff" : "",}}
                                   onClick={() => setBudgetMenuOpen(false)}>
                                 예산 사용 내역
                             </Link>
 
                             <Link href="/budgetReport"
-                                  className="text-gray-300 cursor-pointer text-[15px] weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full flex items-center"
+                                  className="text-gray-100 cursor-pointer text-[15px] weight-700 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full flex items-center"
                                   style={{backgroundColor: currentUrl === "/budgetReport" ? "#69A9F5" : "", color: currentUrl === "/budgetReport" ? "#fff" : "",}}
                                   onClick={() => setBudgetMenuOpen(false)}>
                                 예산 보고서
