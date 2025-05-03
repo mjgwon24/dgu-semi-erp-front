@@ -70,7 +70,7 @@ export default function BankbookManagementUI({
                                 selected={selected}
                                 setSelected={setSelected}
                                 width={"100%"}
-                                height={513}
+                                height={505}
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
                                 />
@@ -113,7 +113,7 @@ export default function BankbookManagementUI({
                                             selected={selected2}
                                             setSelected={setSelected2}
                                             width={"100%"}
-                                            height={513}
+                                            height={505}
                                             currentPage={currentPage2}
                                             setCurrentPage={setCurrentPage2}
                                             />
