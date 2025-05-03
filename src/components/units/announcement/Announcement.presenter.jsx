@@ -44,15 +44,15 @@ export default function AnnouncementUI({
                     </div>
                 </div>
 
-                <div className="border border-solid border-[#DBDBDB] rounded-md pl-1 pr-3 bg-white">
+                <div className="border border-solid border-[#DBDBDB] rounded-md bg-white h-[695px]">
                     {announcements.length > 0 ? (
                         announcements.map((announcement, index) => (
                             <div key={index} className="flex flex-col w-full"
                                  style={{borderBottom: (index + 1) % 7 === 0 ?  "none" : "1px solid #DBDBDB",}}>
-                                <Link key={announcement.id} href={`/announcement/${announcement.id}`} className="flex flex-col gap-2 p-5 h-full hover:bg-gray-100">
+                                <Link key={announcement.id} href={`/announcement/${announcement.id}`} className="flex flex-col gap-1.5 pt-5 pb-6 px-8 h-full hover:bg-gray-100">
                                     <div className="flex flex-row justify-between">
-                                        <p className="text-lg font-semibold">{announcement.title}</p>
-                                        <p className="text-[#4C545B]">{dayjs(announcement.date).format("YYYY.MM.DD")}</p>
+                                        <p className="weight-600">{announcement.title}</p>
+                                        <p className="text-[#4C545B] text-sm">{dayjs(announcement.date).format("YYYY.MM.DD")}</p>
                                     </div>
 
                                     <p className="truncate w-[1200px] text-[#4C545B]">{announcement.content}</p>
@@ -61,7 +61,9 @@ export default function AnnouncementUI({
                             </div>
                         ))
                     ) : (
-                        <p className="p-4 text-center text-gray-500">공지사항이 없습니다.</p>
+                        <div className="flex w-full items-center justify-center h-full">
+                            <p className="p-4 text-center text-lg text-gray-500">공지사항이 없습니다.</p>
+                        </div>
                     )}
                 </div>
             </div>

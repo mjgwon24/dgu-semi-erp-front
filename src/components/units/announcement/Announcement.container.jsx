@@ -4,7 +4,7 @@ import AnnouncementUI from "@/src/components/units/announcement/Announcement.pre
 
 export default function Announcement() {
     const announcements = [
-        {title: '공지1', content: '공지내용 1 공지내용 1 공지내용 1 공지내용 1공지내용  1 공지내용 1공지내용 1 공지내용 1 공지내용 1 공지내용 1공지내용  1 공지내용 1공지내용 1 공지내용 1 공지내용 1 공지내용 1공지내용  1 공지내용 1공지내용 1 공지내용 1 ', date: '2024-01-12', id: '12345678'},
+        {title: '공지1', content: '공지내용 1 공지내용 1 공지내용 1 공지내용 1공지내용  1 공지내용 1공지내용 1 공지내용 1 공지내용 1 공지내용 1공지내용  1 공지내용 1공지내용 1 공지내용 1 공지내용 1 공지내용 1공지내용  1 공지내용 1공지내용 1 공지내용 1 ', date: '2024-09-12', id: '12345678'},
         {title: '공지1', content: '공지내용 1', date: '2024-08-12', id: '91561235'},
         {title: '공지1', content: '공지내용 1', date: '2024-08-12', id: '61537845'},
         {title: '공지1', content: '공지내용 1', date: '2024-08-12', id: '78413453'},
