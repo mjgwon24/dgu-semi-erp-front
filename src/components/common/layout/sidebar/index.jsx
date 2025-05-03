@@ -16,13 +16,13 @@ export default function SideBarLayout() {
     const currentUrl = usePathname();
     const [isSidebarFolded, setIsSidebarFolded] = useState(false);
 
-    const menuBaseClass = "flex items-center cursor-pointer space-x-3 rounded-md py-1.5 px-3 hover:bg-white hover:bg-opacity-25 w-full";
+    const menuBaseClass = "flex items-center cursor-pointer space-x-3 rounded-md py-2 px-3 hover:bg-white hover:bg-opacity-25 w-full";
     const textBaseClass = "select-none weight-700 text-[#FDFDFD]";
 
     return (
         <div className="flex flex-col justify-between h-full bg-gradient-to-b from-[#4A96EC] via-[#4A96EC] to-[#237BE6]"
                 style={{
-                        width: isSidebarFolded ? "70px" : "210px"
+                        width: isSidebarFolded ? "70px" : "230px"
                     }}
         >
             <div className="flex flex-col"
@@ -40,7 +40,7 @@ export default function SideBarLayout() {
                     </h1>
                 </Link>
 
-                <div className="flex flex-col space-y-5 pt-10" style={{ display: isSidebarFolded ? "none" : "" }}>
+                <div className="flex flex-col space-y-3 pt-10" style={{ display: isSidebarFolded ? "none" : "" }}>
                     <Link href="/announcement"
                           className={`${menuBaseClass} ${currentUrl === "/announcement" ? "bg-white text-[#106BDB]" : "text-white"}`}
                           style={{color: currentUrl === "/announcement" ? "#106BDB" : "", backgroundColor: currentUrl === "/announcement" ? "white" : "",}}
