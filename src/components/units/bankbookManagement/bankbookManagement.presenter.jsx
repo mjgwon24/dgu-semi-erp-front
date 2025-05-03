@@ -40,7 +40,7 @@ export default function BankbookManagementUI({
     setCurrentPage2
 }) {
     return (
-        <div className="flex h-full bg-[#F7F7F7]">
+        <div className="flex h-full min-w-[1482px]">
 
                 <div className="flex flex-col gap-7 p-5 w-full">
                     <ConditionBar
@@ -54,7 +54,7 @@ export default function BankbookManagementUI({
                     />
                     <div className="flex flex-row gap-2 w-full">
                         <TableWrapper 
-                            title="통장 조회" 
+                            title="통장 조회"
                             subTitle={`${dataSource==undefined?0:dataSource.length}건`} 
                             hasAddButton={permission1=="admin"} 
                             handleAdd={handleAdd}
@@ -74,8 +74,8 @@ export default function BankbookManagementUI({
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
                                 />
-                            
                         </TableWrapper>
+
                         {selected!=-1&&
                             <TableWrapper
                                 title={`${dataSource[selected]?dataSource[selected].crew:""} 통장 내역 상세`} 
