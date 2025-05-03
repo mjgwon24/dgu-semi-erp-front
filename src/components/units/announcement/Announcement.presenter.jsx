@@ -68,7 +68,7 @@ export default function AnnouncementUI({
                 </div>
             </div>
 
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center ">
                 {renderPagination(currentPage,totalPages)}
             </div>
         </div>
