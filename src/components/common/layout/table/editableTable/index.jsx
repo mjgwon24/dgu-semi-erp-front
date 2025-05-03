@@ -194,10 +194,11 @@ useEffect(()=>{
 },[currentPage]);
   return (
     <div className={`flex flex-col w-full max-w-[${width}] rounded-md`}>
-        <div className={`h-[${height-20}px] overflow-hidden rounded-md bg-none`}>
+        <div className={`h-[${height}px] overflow-hidden rounded-md bg-none`}>
             <div ref={tableRef} className={"w-full overflow-hidden rounded-md bg-none"}>
                 <Table
-                className={`rounded-md bg-white border border-gray-300 h-[${height-20}px]`}
+                className={`rounded-md bg-white border border-gray-300`}
+                style={{height:`${height}px`}}
                 columns={columns}
                 dataSource={dataSource?dataSource.slice((currentPage - 1) * pageSize, currentPage * pageSize):[]}
                 components={components}
