@@ -16,7 +16,7 @@ export default function PeopleManagementPage() {
         {
           title: 'No',
           dataIndex: 'No',
-          width: '15%',
+          width: '14%',
           editable: false,
           type:'id'
         },
@@ -114,7 +114,7 @@ export default function PeopleManagementPage() {
         {
           title: 'No',
           dataIndex: 'No',
-          width: '6%',
+          width: '5%',
           editable: false,
           type:'id'
         },
@@ -138,7 +138,7 @@ export default function PeopleManagementPage() {
           {
             title:'학번',
             dataIndex: 'grade',
-            width: '7%',
+            width: '9%',
             editable: true,
             type:'number',
             maxlength:7
