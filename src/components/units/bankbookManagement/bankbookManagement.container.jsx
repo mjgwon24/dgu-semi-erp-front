@@ -107,7 +107,7 @@ export default function BankbookManagementPage() {
         {
           title: '금액',
           dataIndex: 'amount',
-          width: '10%',
+          width: '8%',
           editable: true,
           type:'money',
     
@@ -115,7 +115,7 @@ export default function BankbookManagementPage() {
         {
             title:'남은 금액',
             dataIndex: 'restAmount',
-            width: '10%',
+            width: '8%',
             editable: true,
             type:'money'
         }
