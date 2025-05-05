@@ -40,9 +40,9 @@ export default function PeopleManagementUI({
     setCurrentPage2
 }) {
     return (
-        <div className="flex h-full bg-[#F7F7F7] w-full">
+        <div className="flex h-full w-full min-w-[1482px]">
 
-                <div className="w-full flex flex-col gap-7 border-t-[1px] border-solid border-black p-5">
+                <div className="w-full flex flex-col gap-7 p-5">
                     <ConditionBar
                         title={"인원 관리"}
                         conditions={conditions}
@@ -53,7 +53,7 @@ export default function PeopleManagementUI({
                         types={types}
                     />
                     <div className="w-full flex flex-row justify-between">
-                        <div className="w-[34.3%]">
+                        <div className="w-[36%]">
                             <TableWrapper 
                                 title="인원 조회" 
                                 subTitle={`${dataSource.length}건`} 
@@ -71,7 +71,7 @@ export default function PeopleManagementUI({
                                         selected={selected}
                                         setSelected={setSelected}
                                         width={"100%"}
-                                        height={513}
+                                        height={505}
                                         currentPage={currentPage}
                                         setCurrentPage={setCurrentPage}
                                         />
@@ -98,7 +98,7 @@ export default function PeopleManagementUI({
                                         selected={selected2}
                                         setSelected={setSelected2}
                                         width={"100%"}
-                                        height={513}
+                                        height={505}
                                         currentPage={currentPage2}
                                         setCurrentPage={setCurrentPage2}
                                         />
