@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
                     <div className="">
                         <SideBarLayout />
                     </div>
-                    <div className="flex-grow flex flex-col bg-[#FCFCFC] rounded-2xl my-3 mr-3">
+                    <div className="flex-grow flex flex-col bg-[#FAFAFA] rounded-2xl my-5 mr-4">
                         <div className="">
                             <HeaderLayout />
                         </div>
