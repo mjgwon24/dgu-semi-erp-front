@@ -46,7 +46,7 @@ export default function SignUpUI({
             }}
             >
                     
-        <div className="flex w-full h-screen justify-center items-center bg-[#F7F7F7]">
+        <div className="flex w-full h-screen min-h-[900px] justify-center items-center bg-[#F7F7F7]">
             <div className="flex flex-col items-center justify-center border rounded-2xl shadow-xl bg-[#FFFFFF] h-5/6 py-14 px-32 w-2/5 min-w-[600px]">
             {isContractOpen ? 
             
