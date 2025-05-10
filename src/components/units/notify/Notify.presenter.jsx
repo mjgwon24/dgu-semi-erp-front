@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderPagination } from "@/src/components/common/layout/table/pagination";
 
-export default function NotifyUI({ currentPage, totalPages, handlePageChange, selectedMenu, setSelectedMenu, sideMenus, data }) {
+export default function NotifyUI({ currentPage, totalPages, handlePageChange, selectedMenu, setSelectedMenu, sideMenus, data, categoryCounts }) {
     return (
         <div className="flex flex-col gap-5 p-5 h-full">
             <div className="flex flex-col gap-2">
@@ -19,7 +19,7 @@ export default function NotifyUI({ currentPage, totalPages, handlePageChange, se
                                 ${selectedMenu === menu ? 'border-[#1E7EE4] bg-[#F0F7FF]' : 'bg-white'}`}
                             onClick={() => setSelectedMenu(menu)}>
                             <p className={`${selectedMenu === menu ? 'weight-700 text-[#1E7EE4]' : 'weight-600'}`}>{menu}</p>
-                            <p className="text-[#808080] weight-500">3</p>
+                            <p className="text-[#808080] weight-500">{categoryCounts[menu] || 0}</p>
                         </div>
                     ))}
                 </div>
@@ -53,14 +53,14 @@ export default function NotifyUI({ currentPage, totalPages, handlePageChange, se
                                 </>
                             ))
                         ) : (
-                            <div className="flex flex-col justify-center items-center h-full">
+                            <div className="flex flex-col justify-center items-center min-h-[300px]">
                                 <p className="text-[#4C545B] text-[14px] weight-500">알림이 없습니다.</p>
                             </div>
                         )}
                     </div>
                     <div
                         className="content-center text-center w-full h-[10%]">
-                        {renderPagination(currentPage, totalPages, handlePageChange)}
+                    {renderPagination(currentPage, totalPages, handlePageChange)}
                     </div>
                 </div>
 
