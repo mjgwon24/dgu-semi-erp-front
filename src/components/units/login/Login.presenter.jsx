@@ -23,8 +23,8 @@ export default function LoginUI({
             >
 
             
-        <div className="flex w-full h-screen justify-center items-center bg-[#F7F7F7]">
-            <form className="flex flex-col items-center justify-center border rounded-2xl shadow-xl bg-[#FFFFFF] h-5/6  px-32 py-40 px-32 gap-12 w-2/5 min-w-[600px]" onSubmit={handleSubmit}>
+        <div className="flex w-full h-screen min-h-[900px] justify-center items-center bg-[#F7F7F7]">
+            <form className="flex flex-col items-center justify-center border rounded-2xl shadow-xl bg-[#FFFFFF] h-5/6 px-32 py-40 px-32 gap-12 w-2/5 min-w-[600px]" onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-12 w-full">
                     <div className="flex flex-col items-center">
                         <label className="text-3xl font-[700] text-[#247CE6]">동국대학교</label>
