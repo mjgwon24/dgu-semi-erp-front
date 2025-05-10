@@ -34,11 +34,15 @@ export default function PeopleManagementUI({
     setLoading2,
     selected2,
     setSelected2,
+    currentPage,
+    setCurrentPage,
+    currentPage2,
+    setCurrentPage2
 }) {
     return (
-        <div className="flex h-full bg-[#F7F7F7]">
+        <div className="flex h-full w-full min-w-[1482px]">
 
-                <div className="flex flex-col gap-7 border-t-[1px] border-solid border-black p-5">
+                <div className="w-full flex flex-col gap-7 p-5">
                     <ConditionBar
                         title={"인원 관리"}
                         conditions={conditions}
@@ -48,45 +52,59 @@ export default function PeopleManagementUI({
                         options={options}
                         types={types}
                     />
-                    <div className="flex flex-row gap-2">
-                        <TableWrapper 
-                            title="인원 조회" 
-                            subTitle={`${dataSource.length}건`} 
-                            hasAddButton={permission1=="admin"} 
-                            handleAdd={handleAdd}
-                            handleAddTitle={"추가"}
-                            width="700px">
-                            <EditableTable
-                                dataSource={dataSource}
-                                setDataSource={setDataSource}
-                                defaultColumns={defaultColumns}
-                                loading={loading}
-                                setLoading={setLoading}
-                                permission={permission1}
-                                selected={selected}
-                                setSelected={setSelected}
-                                />
-                            
-                        </TableWrapper>
-                        <TableWrapper 
-                            title="DEVELOPVER 인원 조회 상세" 
-                            subTitle={`${dataSource2.length}건`} 
-                            hasAddButton={permission2=="admin"} 
-                            handleAdd={handleAdd2}
-                            handleAddTitle={"추가"}
-                            width="900px">
-                            <EditableTable
-                                dataSource={dataSource2}
-                                setDataSource={setDataSource2}
-                                defaultColumns={defaultColumns2}
-                                loading={loading2}
-                                setLoading={setLoading2}
-                                permission={permission2}
-                                selected={selected2}
-                                setSelected={setSelected2}
-                                />
-                            
-                        </TableWrapper>
+                    <div className="w-full flex flex-row justify-between">
+                        <div className="w-[36%]">
+                            <TableWrapper 
+                                title="인원 조회" 
+                                subTitle={`${dataSource.length}건`} 
+                                hasAddButton={permission1=="admin"} 
+                                handleAdd={handleAdd}
+                                handleAddTitle={"추가"}
+                                width={"100%"}>
+                                    <EditableTable
+                                        dataSource={dataSource}
+                                        setDataSource={setDataSource}
+                                        defaultColumns={defaultColumns}
+                                        loading={loading}
+                                        setLoading={setLoading}
+                                        permission={permission1}
+                                        selected={selected}
+                                        setSelected={setSelected}
+                                        width={"100%"}
+                                        height={505}
+                                        currentPage={currentPage}
+                                        setCurrentPage={setCurrentPage}
+                                        />
+                                
+                            </TableWrapper>
+                        </div>
+
+                        <div className="w-[63%]">
+                            <TableWrapper 
+                                title={`${dataSource2[selected]?dataSource2[selected].crew:""} 인원 조회 상세`}
+                                subTitle={`${dataSource2.length}건`} 
+                                hasAddButton={permission2=="admin"} 
+                                handleAdd={handleAdd2}
+                                handleAddTitle={"통장 추가"}
+                                width={"100%"}>
+                                <div className="w-full">
+                                    <EditableTable
+                                        dataSource={dataSource2}
+                                        setDataSource={setDataSource2}
+                                        defaultColumns={defaultColumns2}
+                                        loading={loading2}
+                                        setLoading={setLoading2}
+                                        permission={permission2}
+                                        selected={selected2}
+                                        setSelected={setSelected2}
+                                        width={"100%"}
+                                        height={505}
+                                        currentPage={currentPage2}
+                                        setCurrentPage={setCurrentPage2}
+                                        />
+                                </div>
+                            </TableWrapper>
+                        </div>
                     </div>
         </div>
 </div>

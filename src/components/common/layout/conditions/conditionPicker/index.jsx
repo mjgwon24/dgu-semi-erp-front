@@ -44,7 +44,7 @@ export default function ConditionPicker(props) {
     }
 
     if (type === "rangeNumber") {
-        const {from, to, maxNum} = value;
+        const { from = 0, to = 0, maxNum = max } = value || {};
 
         return (
             <Input.Group compact>
@@ -117,7 +117,7 @@ export default function ConditionPicker(props) {
     }
 
     if (type === "rangeDate") {
-        const {from, to} = value;
+        const { from = "", to = "" } = value || {};
 
         return (
             <RangePicker

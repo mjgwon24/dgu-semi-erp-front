@@ -16,7 +16,7 @@ export default function PeopleManagementPage() {
         {
           title: 'No',
           dataIndex: 'No',
-          width: '20%',
+          width: '14%',
           editable: false,
           type:'id'
         },
@@ -48,7 +48,7 @@ export default function PeopleManagementPage() {
         {
             title:'상태',
             dataIndex: 'status',
-            width: '20%',
+            width: '15%',
             editable: true,
             type:'select',
             selectboxWidth:'10px',
@@ -114,14 +114,14 @@ export default function PeopleManagementPage() {
         {
           title: 'No',
           dataIndex: 'No',
-          width: '2%',
+          width: '5%',
           editable: false,
           type:'id'
         },
         {
             title:'이름',
             dataIndex: 'person',
-            width: '5%', 
+            width: '6%', 
             editable: true,
             type:'text',
             maxlength:5
@@ -129,7 +129,7 @@ export default function PeopleManagementPage() {
         {
             title: '학과',
             dataIndex: 'crew',
-            width: '15%',
+            width: '12%',
             editable: true,
             type:'select',
             selectboxWidth:'135px',
@@ -138,7 +138,7 @@ export default function PeopleManagementPage() {
           {
             title:'학번',
             dataIndex: 'grade',
-            width: '3%',
+            width: '9%',
             editable: true,
             type:'number',
             maxlength:7
@@ -163,7 +163,7 @@ export default function PeopleManagementPage() {
         {
             title:'상태',
             dataIndex: 'status',
-            width: '9%',
+            width: '7%',
             editable: true,
             type:'select',
             selectboxWidth:'80px',
@@ -173,6 +173,8 @@ export default function PeopleManagementPage() {
     const [dataSource2, setDataSource2] = useState([]);
     const [count2, setCount2] = useState(null);
     const [loading2, setLoading2] = useState(true);
+    const [currentPage,setCurrentPage] = useState(1);
+    const [currentPage2,setCurrentPage2] = useState(1);
     const fetchData2 = async () => {
         try{
             setLoading2(true);
@@ -185,7 +187,7 @@ export default function PeopleManagementPage() {
                     No: index + 1,
                     person: '김이현',
                     crew: '컴퓨터공학과',
-                    grade: `${index + 10}`,
+                    grade: `2021212816`,
                     how: '팀원',
                     date: dayjs().add(index, 'day').format('YYYY-MM-DD'),
                     status: index % 2 === 0 ? '활동중' : '수료',
@@ -219,14 +221,10 @@ export default function PeopleManagementPage() {
         setCount2(count2 + 1);
     };
     const [conditions, setConditions] = useState({
-        expenseType: "운영비",
         clubName: "개발 동아리",
-        paymentDate: {from: todayString, to: lastMonthString},
         status: "대기",
-        content: "",
-        draftDate: {from: todayString, to: lastMonthString},
-        drafter: "",
-        amount: {from: 0, to: 5000000}
+        currentPeoples: {from: 0, to: 5000000},
+        totalPeoples: {from: 0, to: 5000000},
     });
 
     const labels = {
@@ -261,7 +259,11 @@ export default function PeopleManagementPage() {
         fetchData();
         fetchData2();
     }, []);
-
+    useEffect(()=>{
+        fetchData2();
+        setSelected2(0);
+        setCurrentPage2(1);
+    },[selected])
     return (
         <PeopleManagementUI conditions={conditions}
         setConditions={setConditions}
@@ -286,7 +288,11 @@ export default function PeopleManagementPage() {
         loading2={loading2}
         setLoading2={setLoading2}
         selected2={selected2}
-        setSelected2={setSelected2}/>
+        setSelected2={setSelected2}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        currentPage2={currentPage2}
+        setCurrentPage2={setCurrentPage2}/>
 )
     ;
 }
