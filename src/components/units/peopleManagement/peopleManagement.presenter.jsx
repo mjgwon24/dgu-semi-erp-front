@@ -18,6 +18,7 @@ export default function PeopleManagementUI({
     types,
     dataSource,
     setDataSource,
+    count,
     permission1,
     handleAdd,
     defaultColumns,
@@ -27,6 +28,7 @@ export default function PeopleManagementUI({
     setSelected,
     dataSource2,
     setDataSource2,
+    count2,
     permission2,
     handleAdd2,
     defaultColumns2,
@@ -53,7 +55,7 @@ export default function PeopleManagementUI({
                         types={types}
                     />
                     <div className="w-full flex flex-row justify-between">
-                        <div className="w-[36%]">
+                        <div className="w-[35%]">
                             <TableWrapper 
                                 title="인원 조회" 
                                 subTitle={`${dataSource.length}건`} 
@@ -67,6 +69,7 @@ export default function PeopleManagementUI({
                                         defaultColumns={defaultColumns}
                                         loading={loading}
                                         setLoading={setLoading}
+                                        count={count}
                                         permission={permission1}
                                         selected={selected}
                                         setSelected={setSelected}
@@ -81,11 +84,9 @@ export default function PeopleManagementUI({
 
                         <div className="w-[63%]">
                             <TableWrapper 
-                                title={`${dataSource2[selected]?dataSource2[selected].crew:""} 인원 조회 상세`}
+                                title={`${dataSource[selected]?dataSource[selected].crew:""} 인원 조회 상세`}
                                 subTitle={`${dataSource2.length}건`} 
-                                hasAddButton={permission2=="admin"} 
-                                handleAdd={handleAdd2}
-                                handleAddTitle={"통장 추가"}
+                                hasAddButton={false} 
                                 width={"100%"}>
                                 <div className="w-full">
                                     <EditableTable
@@ -94,6 +95,7 @@ export default function PeopleManagementUI({
                                         defaultColumns={defaultColumns2}
                                         loading={loading2}
                                         setLoading={setLoading2}
+                                        count={count2}
                                         permission={permission2}
                                         selected={selected2}
                                         setSelected={setSelected2}
