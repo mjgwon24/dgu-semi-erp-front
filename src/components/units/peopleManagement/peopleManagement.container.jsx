@@ -3,6 +3,7 @@ import { useState,useEffect } from "react";
 import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
+import { responsiveArray } from "antd/es/_util/responsiveObserver";
 
 dayjs.locale('zh-cn');
 export default function PeopleManagementPage() {
@@ -63,29 +64,30 @@ export default function PeopleManagementPage() {
         try{
             setLoading(true);
             // 임의의 API 호출(여기서 API 연결)
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-            const baseData = response.data;
-    
-            // 임의로 100개의 데이터 생성
-            const data = Array.from({ length: 100 }, (_, index) => {
-                const item = baseData[index % baseData.length]; // 데이터 순환
+            const response = await axios.get('http://localhost:8081/user/me/club?page='+(currentPage-1)+'&size=8', {
+                withCredentials: true,
+              });
+            const baseData = response.data.content;
+            console.log(response.data);
+            const data = baseData.map((item,index)=>{
                 return {
-                    No: index + 1,
-                    how: '운영비',
-                    crew: '컴퓨터공학과',
-                    content: `${item.name} - ${index + 1}`, // 고유한 이름 추가
-                    person: '김이현',
-                    howpay: '카드',
-                    date: dayjs().add(index, 'day').format('YYYY-MM-DD'), // 날짜를 하루씩 증가
-                    currentPeople: (10 + index).toString(), // 금액에 변동 추가
-                    totalPeople: (20 + index).toString(), // 금액에 변동 추가
-                    status: index % 2 === 0 ? '대기' : '완료', // 상태를 번갈아 표시
-                    file: null,
+                    No: (currentPage-1)*8 + index + 1,
+                    crew: item.name,
+                    currentPeople: item.clubMembers.filter((data) => data.status=="ACTIVE").length,
+                    totalPeople: item.clubMembers.length.toString(),
+                    status: item.status === 'ACTIVE' ? '활동중' : '활동중지',
+                    clubId: item.id
                 };
-            });
+            })
+
+            setClubNames(baseData.map((item,index)=>{
+                return item.name;
+            }))
   
             setDataSource(data);
-            setCount(data.length);
+            console.log(response.data.paginationInfo.totalElements);
+            setCount(response.data.paginationInfo.totalElements);
+            
         }
         catch(error){
             console.error('데이터 로딩 실패:', error);
@@ -141,7 +143,7 @@ export default function PeopleManagementPage() {
             width: '9%',
             editable: true,
             type:'number',
-            maxlength:7
+            maxlength:10
         },
         {
           title: '역할',
@@ -178,24 +180,23 @@ export default function PeopleManagementPage() {
     const fetchData2 = async () => {
         try{
             setLoading2(true);
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+            const clubId = dataSource[selected].clubId;
+            const response = await axios.get("http://localhost:8081/club/member?clubId="+clubId.toString()+"&status=ACTIVE&page="+(currentPage2-1)+"&size=8");
             const baseData = response.data;
-    
-            const data = Array.from({ length: 100 }, (_, index) => {
-                const item = baseData[index % baseData.length];
+            const data = baseData.content.map((item, index)=>{
                 return {
-                    No: index + 1,
-                    person: '김이현',
-                    crew: '컴퓨터공학과',
-                    grade: `2021212816`,
-                    how: '팀원',
-                    date: dayjs().add(index, 'day').format('YYYY-MM-DD'),
-                    status: index % 2 === 0 ? '활동중' : '수료',
-                };
-            });
+                        No: (currentPage2-1)*8 + index + 1,
+                        person: item.name,
+                        crew: item.major,
+                        grade: item.studentNumber.toString(),
+                        how: item.role=='MEMBER'?"일반 회원":item.role=="LEADER"?"회장":item.role=="VICE_LEADER"?"부회장":"총무",
+                        date: item.joinedAt.split("T")[0],
+                        status: item.status=="ACTIVE"?"활동중":item.status=="INACTIVE"?"수료":"정지",
+                }
+            })
   
             setDataSource2(data);
-            setCount2(data.length);
+            setCount2(response.data.paginationInfo.totalElements);
         }
         catch(error){
             console.error('데이터 로딩 실패:', error);
@@ -248,13 +249,14 @@ export default function PeopleManagementPage() {
         totalPeoples:"rangeNumber"
     }
 
-    const options = {
-        status: ["모집중", "마감"],
-        clubName: ["빅데이터 동아리", "머신러닝 동아리", "개발 동아리"]
-    }
+    
+    const [clubNames,setClubNames] = useState(["빅데이터 동아리", "머신러닝 동아리", "개발 동아리"]);
     const [selected,setSelected] = useState(-1);
     const [selected2,setSelected2] = useState(-1);
-
+    const options = {
+        status: ["대기","활동중", "활동중지"],
+        clubName: clubNames
+    }
     useEffect(() => {
         fetchData();
         fetchData2();
@@ -264,6 +266,16 @@ export default function PeopleManagementPage() {
         setSelected2(0);
         setCurrentPage2(1);
     },[selected])
+    useEffect(()=>{
+        fetchData();
+        fetchData2();
+        setSelected2(0);
+    },[currentPage])
+
+    useEffect(()=>{
+        fetchData2();
+        setSelected2(0);
+    },[currentPage2])
     return (
         <PeopleManagementUI conditions={conditions}
         setConditions={setConditions}
@@ -273,6 +285,7 @@ export default function PeopleManagementPage() {
         types={types}
         dataSource={dataSource}
         setDataSource={setDataSource}
+        count={count}
         permission1={permission1}
         handleAdd={handleAdd}
         defaultColumns={defaultColumns}
@@ -282,6 +295,7 @@ export default function PeopleManagementPage() {
         setSelected={setSelected}
         dataSource2={dataSource2}
         setDataSource2={setDataSource2}
+        count2={count2}
         permission2={permission2}
         handleAdd2={handleAdd2}
         defaultColumns2={defaultColumns2}

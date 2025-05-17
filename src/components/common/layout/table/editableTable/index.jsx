@@ -8,7 +8,7 @@ import HeaderCell from '../tableHeader';
 import EditableRow from '../tableRow';
 import { Empty } from "antd";
 import { renderPagination } from "@/src/components/common/layout/table/pagination";
-const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,selected,setSelected,currentPage,setCurrentPage,permission,width,height,onRowDoubleClick}) => {
+const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoading,count,selected,setSelected,currentPage,setCurrentPage,permission,width,height,onRowDoubleClick}) => {
 
     const today = new Date();
     const todayString = today.toISOString().split("T")[0];
@@ -16,51 +16,16 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
     const lastMonthString = lastMonth.toISOString().split("T")[0];
     
     const isAdmin = permission=="admin";
-    
-    // 데이터 요청 함수
-    const fetchData = async () => {
-        try{
-            setLoading(true);
-            // 임의의 API 호출(여기서 API 연결)
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-            const baseData = response.data;
-    
-            // 임의로 100개의 데이터 생성
-            const data = Array.from({ length: 100 }, (_, index) => {
-                const item = baseData[index % baseData.length]; // 데이터 순환
-                return {
-                    No: index + 1,
-                    club: 'DEVELOPERdddddddddddddddddDEVELOPERddddddddddddddddd'
-                };
-            });
-  
-            setDataSource(data);
-            setCount(data.length);
-        }
-        catch(error){
-            console.error('데이터 로딩 실패:', error);
-        }
-        finally{
-            setLoading(false);
-        }
-    };
-    
-   
-
-
-
-    
-  const tableRef = useRef(null);
-  const [scrollConfig, setScrollConfig] = useState({
-    x: "100%",
-    y: 400,
-  });
+    const tableRef = useRef(null);
+    const [scrollConfig, setScrollConfig] = useState({
+        x: "100%",
+        y: 400,
+    });
 
   const checkScroll = () => {
     if (tableRef.current) {
       Array.from(document.getElementsByClassName('ant-table-body')).forEach((tableBody)=>{
           if (tableBody) {
-            console.log(tableBody);
             const parentHeight = height;
             const tableHeight = tableBody.scrollHeight;
     
@@ -71,9 +36,6 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
                 }
                 return prev;
             });
-          }
-          else{
-            console.log(tableBody);
           }
       })
     }
@@ -90,6 +52,7 @@ const EditableTable = ({dataSource, setDataSource,defaultColumns,loading,setLoad
     },
 };
 const onRowClick = (index)=>{
+    console.log("onrowClick");
     setSelected(index);
 }
 const handleSave = (row) => {
@@ -131,7 +94,7 @@ const columns = defaultColumns.map((col) => {
 });
 
 
-const totalPages = dataSource&&dataSource.length!=0?Math.ceil(dataSource.length / pageSize):0; // 전체 페이지 수
+const totalPages = count?Math.ceil(count / pageSize):dataSource&&dataSource.length!=0?Math.ceil(dataSource.length / pageSize):0; // 전체 페이지 수
 // 페이지네이션 버튼 생성 함수
 const generatePageButton = (page) => (
     <button
@@ -192,6 +155,7 @@ useEffect(() => {
 useEffect(()=>{
     setSelected(0);
 },[currentPage]);
+console.log(158,dataSource?dataSource.slice(0,  pageSize):[]);
   return (
     <div className={`flex flex-col w-full max-w-[${width}] rounded-md`}>
         <div className={`h-[${height}px] overflow-hidden rounded-md bg-none`}>
@@ -200,14 +164,15 @@ useEffect(()=>{
                 className={`rounded-md bg-white border border-gray-300`}
                 style={{height:`${height}px`}}
                 columns={columns}
-                dataSource={dataSource?dataSource.slice((currentPage - 1) * pageSize, currentPage * pageSize):[]}
+                dataSource={dataSource?dataSource.slice(0,  pageSize):[]}
                 components={components}
                 bordered={false}
                 pagination={false}
                 rowKey="No"
                 scroll={scrollConfig}
                 onRow={(record, rowIndex) => ({
-                    onClick: () => onRowClick(rowIndex),
+                    index:rowIndex,
+                    onRowClick: () => onRowClick(rowIndex),
                     onDoubleClick: () => {
                         if (onRowDoubleClick) {
                             onRowDoubleClick(record);
