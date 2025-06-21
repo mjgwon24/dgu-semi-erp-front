@@ -18,7 +18,8 @@ export default function GeneralScheduleUI({
     deleteSchedule,
     handleClubChange,
     currentClub,
-    setSelectedDate
+    setSelectedDate,
+    handleOpenDeleteModal
 }) {
 
     const repeatText = {
@@ -144,7 +145,7 @@ export default function GeneralScheduleUI({
                                                     {hasPermission && 
                                                     <div className="flex flex-row gap-2 justify-end">
                                                         <Button color="default" variant="outlined" onClick={() => handleOpenModal("edit", item)}>편집</Button>
-                                                        <Button color="danger" variant="outlined" onClick={() => deleteSchedule(item.id)}>삭제</Button>
+                                                        <Button color="danger" variant="outlined" onClick={() => handleOpenDeleteModal(item)}>삭제</Button>
                                                     </div>
                                                 }
                                                 </div>
@@ -164,3 +165,4 @@ export default function GeneralScheduleUI({
         </ConfigProvider>       
     )
 }
+

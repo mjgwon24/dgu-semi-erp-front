@@ -14,8 +14,12 @@ export default function AddSchedulePresenter({
     setIsDatePickerOpen,
     hasErrors,
     errors,
-    club
+    club,
+    isRepeatEndPickerOpen,
+    setIsRepeatEndPickerOpen,
 }) {
+    // 반복이 선택된 경우에만 종료일 DatePicker 노출
+    const showRepeatEndPicker = form.repeat && form.repeat !== "NONE";
 
     return (
         <Dialog
@@ -34,9 +38,14 @@ export default function AddSchedulePresenter({
 
                     <div className="flex flex-col">
                         <label className="text-black text-[16px] font-medium">제목</label>
-                        <input type="text" name="title" value={form.title} onChange={handleChange}
-                               className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.title ? "border-red-500" : ""}`}
-                               placeholder="일정 제목 입력"/>
+                        <input
+                            type="text"
+                            name="title"
+                            value={form.title}
+                            onChange={handleChange}
+                            className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.title ? "border-red-500" : ""}`}
+                            placeholder="일정 제목 입력"
+                        />
                         {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
                     </div>
 
@@ -53,7 +62,6 @@ export default function AddSchedulePresenter({
                                 format="YYYY-MM-DD HH:mm"
                                 value={form.date}
                                 onChange={handleDateChange}
-           
                                 className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.date ? "border-red-500" : ""}`}
                                 getPopupContainer={(trigger) => trigger.parentElement}
                                 open={isDatePickerOpen}
@@ -65,9 +73,14 @@ export default function AddSchedulePresenter({
 
                     <div className="flex flex-col">
                         <label className="text-black text-[16px] font-medium">장소</label>
-                        <input type="text" name="place" value={form.place} onChange={handleChange}
-                               className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.place ? "border-red-500" : ""}`}
-                               placeholder="장소 입력"/>
+                        <input
+                            type="text"
+                            name="place"
+                            value={form.place}
+                            onChange={handleChange}
+                            className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.place ? "border-red-500" : ""}`}
+                            placeholder="장소 입력"
+                        />
                         {errors.place && <p className="text-red-500 text-sm">{errors.place}</p>}
                     </div>
 
@@ -95,7 +108,7 @@ export default function AddSchedulePresenter({
                                     border: "1px solid #d1d5db",
                                 }}
                                 options={[
-                                    { value: null, label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>안함</div> },
+                                    { value: "NONE", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>안함</div> },
                                     { value: "DAILY", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매일</div> },
                                     { value: "WEEKLY", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매주</div> },
                                     { value: "MONTHLY", label: <div style={{ height: "45px", display: "flex", alignItems: "center" }}>매월</div> },
@@ -104,10 +117,31 @@ export default function AddSchedulePresenter({
                         </ConfigProvider>
                         {errors.repeat && <p className="text-red-500 text-sm">{errors.repeat}</p>}
                     </div>
+
+                    {/* 반복 종료일 DatePicker - 반복이 선택된 경우에만 노출 */}
+                    {showRepeatEndPicker && (
+                        <div className="flex flex-col mt-4">
+                            <label className="text-black text-[16px] font-medium">반복 종료일</label>
+                            <ConfigProvider locale={locale}>
+                                <DatePicker
+                                    value={form.repeat_end}
+                                    onChange={(date) => handleChange({ target: { name: "repeat_end", value: date } })}
+                                    className={`w-full border border-gray-300 rounded px-4 py-2 text-[16px] ${errors.repeat_end ? "border-red-500" : ""}`}
+                                    getPopupContainer={(trigger) => trigger.parentElement}
+                                    open={isRepeatEndPickerOpen}
+                                    onOpenChange={(open) => setIsRepeatEndPickerOpen(open)}
+                                />
+                            </ConfigProvider>
+                            {errors.repeat_end && <p className="text-red-500 text-sm">{errors.repeat_end}</p>}
+                        </div>
+                    )}
+
                 </div>
 
-                <button onClick={handleSubmit}
-                        className="w-[120px] h-[40px] bg-[#4368BA] text-white text-[16px] font-bold rounded-lg hover:bg-blue-700 mt-4">
+                <button
+                    onClick={handleSubmit}
+                    className="w-[120px] h-[40px] bg-[#4368BA] text-white text-[16px] font-bold rounded-lg hover:bg-blue-700 mt-4"
+                >
                     {modalType === "create" ? "추가" : "편집"}
                 </button>
             </DialogContent>

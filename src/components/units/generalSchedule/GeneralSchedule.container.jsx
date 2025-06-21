@@ -1,11 +1,12 @@
 import GeneralScheduleUI from "@/src/components/units/generalSchedule/GeneralSchedule.presenter";
 import AddScheduleContainer from "../../common/modals/AddSchedule/AddScheduleContainer";
+import DeleteScheduleContainer from "../../common/modals/DeleteSchedule/DeleteScheduleContainer";
 import koLocale from "date-fns/locale/ko";
-import { format, parseISO } from "date-fns";
+import { parseISO, eachDayOfInterval, isSameDay, isSameWeek, isSameMonth, startOfMonth, endOfMonth, isBefore, eachMonthOfInterval, format, addMonths } from "date-fns";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useRef } from "react";
 import axios from "axios";
-
+import {  } from "date-fns";
 export default function GeneralSchedule() {
     const user = {
         permission : "ADMIN"
@@ -28,9 +29,14 @@ export default function GeneralSchedule() {
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [openModal, setOpenModal] = useState(false);
+    const [modalType, setModalType] = useState(null);
     const [currentSchedule, setCurrentSchedule] = useState(null);
     const [currentClub, setCurrentClub] = useState(clubList[0]);
-    const [modalType, setModalType] = useState(null);
+
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+    const [scheduleToDelete, setScheduleToDelete] = useState(null);
+    const [deleteType, setDeleteType] = useState(null);
 
     const handleOpenModal = (type, schedule = null) => {
         setModalType(type);
@@ -38,6 +44,24 @@ export default function GeneralSchedule() {
         console.log(currentSchedule);
         setOpenModal(true);
     };
+
+    const handleOpenDeleteModal = (schedule) => {
+        console.log(schedule.repeat);
+        console.log(schedule.id);
+        if (schedule.repeat != null){
+            setDeleteType("repeat");
+        }
+        else {
+            setDeleteType("normal");
+        }
+        setScheduleToDelete(schedule);
+        setOpenDeleteModal(true);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setOpenDeleteModal(false);
+        setDeleteType(null);
+    }
 
     const handleCloseModal = () => {
         setModalType(null);
@@ -100,15 +124,79 @@ export default function GeneralSchedule() {
             queryClient.invalidateQueries(["scheduleList", currentClub?.club_id, selectedDate.getFullYear(), selectedDate.getMonth()]);
             toast.success("일정이 삭제되었습니다.");
         },
-        onError: (err) => {
+        onError: (err, scheduleId) => {
             console.error("일정 삭제 실패:", err);
+            console.log(scheduleId);
             toast.error("삭제에 실패했습니다.");
         },
     });
 
+    const handleExcludeDate = async () => {
+        try {
+            const excluded_date = scheduleToDelete.date; // format: "yyyy-MM-dd"
+            await axios.post(
+                `http://localhost:8081/schedule/${scheduleToDelete.id}/exclude`,
+                { excluded_date }
+            );
+            queryClient.invalidateQueries(["scheduleList"]);
+            handleCloseDeleteModal();
+        } catch (err) {
+            console.error("반복 일정 한 건 삭제 실패:", err);
+        }
+    };
+
     const handleSaveSchedule = (payload) => {
         saveSchedule(payload);
     };
+
+//     function expandRepeatedSchedules(scheduleList, selectedDate) {
+//     const expanded = [];
+
+//     const monthStart = startOfMonth(selectedDate);
+//     const monthEnd = endOfMonth(selectedDate);
+//     const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
+
+//     scheduleList.forEach(schedule => {
+//         const originDate = parseISO(schedule.date);
+//         const repeat = schedule.repeat;
+//         const repeatEnd = schedule.repeat_end ? parseISO(schedule.repeat_end) : null;
+
+//         const isWithinRepeat = (day) => {
+//             return !isBefore(day, originDate) && (!repeatEnd || !isAfter(day, repeatEnd));
+//         };
+
+//         if (!repeat || repeat === "NONE") {
+//             if (
+//                 originDate.getFullYear() === selectedDate.getFullYear() &&
+//                 originDate.getMonth() === selectedDate.getMonth()
+//             ) {
+//                 expanded.push(schedule);
+//             }
+//             return;
+//         }
+
+//         daysInMonth.forEach(day => {
+//             if (!isWithinRepeat(day)) return;
+
+//             if (repeat === "DAILY") {
+//                 expanded.push({ ...schedule, date: format(day, "yyyy-MM-dd") });
+
+//             } else if (repeat === "WEEKLY") {
+//                 if (day.getDay() === originDate.getDay()) {
+//                     expanded.push({ ...schedule, date: format(day, "yyyy-MM-dd") });
+//                 }
+
+//             } else if (repeat === "MONTHLY") {
+//                 // 각 달의 원래 날짜와 일치하는 날에만 생성
+//                 if (day.getDate() === originDate.getDate()) {
+//                     expanded.push({ ...schedule, date: format(day, "yyyy-MM-dd") });
+//                 }
+//             }
+//         });
+//     });
+
+//     return expanded;
+// }
 
     function groupByDate(scheduleList) {
         const grouped = {};
@@ -121,6 +209,7 @@ export default function GeneralSchedule() {
         return grouped;
     }
 
+    //const expandedScheduleList = expandRepeatedSchedules(scheduleList, selectedDate);
     const groupedSchedule = groupByDate(scheduleList);
 
     return (
@@ -142,7 +231,7 @@ export default function GeneralSchedule() {
             clubList={clubList}
             handleClubChange={handleClubChange}
             currentClub={currentClub}
-            
+            handleOpenDeleteModal={handleOpenDeleteModal}
         />
         <AddScheduleContainer
             type={modalType}
@@ -152,6 +241,14 @@ export default function GeneralSchedule() {
             onSave={handleSaveSchedule}
             club={currentClub}
             setSelectedDate={setSelectedDate}
+        />
+        <DeleteScheduleContainer
+            isOpen={openDeleteModal}
+            onClose={handleCloseDeleteModal}
+            deleteType={deleteType}
+            deleteSchedule={deleteSchedule}
+            scheduleToDelete={scheduleToDelete}
+            handleExcludeDate={handleExcludeDate}
         />
         </>
     )
