@@ -26,9 +26,15 @@ function mapClubsToDataSource(clubs) {
 function mapAccountInfoToDataSource2(accountInfo) {
     if (!accountInfo || !Array.isArray(accountInfo.accountHistories)) return [];
 
+    const typeMap = {
+        DEPOSIT: '입금',
+        WITHDRAW: '출금',
+        TRANSFER: '이체'
+    };
+
     return accountInfo.accountHistories.map((history, index) => ({
         No: index + 1,
-        tradetype: history.payType || '',
+        tradetype: typeMap[history.payType] || '',
         content: history.content || '',
         amount: String(history.totalAmount ?? 0),
         restAmount: String(history.usedAmount ?? 0),
