@@ -1,10 +1,6 @@
-import SideBarLayout from "@/src/components/common/layout/sidebar";
-import HeaderLayout from "@/src/components/common/layout/header";
 import ConditionBar from "@/src/components/common/layout/conditions/conditionbar";
 import TableWrapper from "@/src/components/common/layout/table/tableWrapper";
 import EditableTable from "@/src/components/common/layout/table/editableTable";
-import { useState,useEffect } from "react";
-import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
@@ -79,7 +75,7 @@ export default function BankbookManagementUI({
                         {selected!=-1&&
                             <TableWrapper
                                 title={`${dataSource[selected]?dataSource[selected].crew:""} 통장 내역 상세`} 
-                                subTitle={`${setDataSource2==undefined?0:dataSource.length}건`} 
+                                subTitle={`${setDataSource2==undefined?0:dataSource2.length}건`}
                                 hasAddButton={permission2=="admin"} 
                                 handleAdd={handleAdd2}
                                 handleAddTitle={"통장 추가"}
@@ -89,16 +85,19 @@ export default function BankbookManagementUI({
                                     <div className="w-[20%] rounded-md bg-white border border-gray-300 h-[504px] overflow-hidden p-6">
                                         <div className="flex flex-col gap-3">
                                             <div className="flex flex-col">
-                                                <div>{selected2!=-1?"계좌번호":""}</div>
-                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.bankbookNumber:""}</div>
+                                                <div>{selected2 != -1 ? "계좌번호" : ""}</div>
+                                                <div>{selected2 != -1 && dataSource2 && dataSource2[selected2]
+                                                    ? dataSource2[selected2].bankbook.bankbookNumber : ""}</div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <div>{selected2!=-1?"개설일":""}</div>
-                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.createdAt:""}</div>
+                                                <div>{selected2 != -1 ? "개설일" : ""}</div>
+                                                <div>{selected2 != -1 && dataSource2 && dataSource2[selected2]
+                                                    ? dataSource2[selected2].bankbook.createdAt : ""}</div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <div>{selected2!=-1?"소유주":""}</div>
-                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.owner:""}</div>
+                                                <div>{selected2 != -1 ? "소유주" : ""}</div>
+                                                <div>{selected2 != -1 && dataSource2 && dataSource2[selected2]
+                                                    ? dataSource2[selected2].bankbook.owner : ""}</div>
                                             </div>
                                         </div>
                                     </div>
