@@ -181,6 +181,9 @@ export default function BankbookManagementPage() {
      */
     const { data: clubsData, isLoading: isClubsLoading } = useAccountClubs(currentPage - 1, 8);
     const clubs = clubsData?.clubs || [];
+    const paginationInfo = clubsData?.paginationInfo || { totalElements: 0, totalPages: 1, currentPage: 0 };
+    const totalElements = paginationInfo.totalElements;
+    const totalPages = paginationInfo.totalPages;
     const dataSource = mapClubsToDataSource(clubs);
     const selectedClubOrigin = dataSource[selected]?.origin;
     const clubId = selectedClubOrigin?.clubId ?? null;
@@ -272,6 +275,7 @@ export default function BankbookManagementPage() {
             setCurrentPage={setCurrentPage}
             currentPage2={currentPage2}
             setCurrentPage2={setCurrentPage2}
+            totalElements={totalElements}
         />
     );
 }
