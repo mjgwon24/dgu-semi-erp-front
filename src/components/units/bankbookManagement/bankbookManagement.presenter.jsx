@@ -21,6 +21,7 @@ export default function BankbookManagementUI({
     setLoading,
     selected,
     setSelected,
+    accountInfo,
     dataSource2,
     setDataSource2,
     permission2,
@@ -86,18 +87,18 @@ export default function BankbookManagementUI({
                                         <div className="flex flex-col gap-3">
                                             <div className="flex flex-col">
                                                 <div>{selected2 != -1 ? "계좌번호" : ""}</div>
-                                                <div>{selected2 != -1 && dataSource2 && dataSource2[selected2]
-                                                    ? dataSource2[selected2].bankbook.bankbookNumber : ""}</div>
+                                                <div>{selected2 != -1 && accountInfo
+                                                    ? accountInfo.bankbookNumber : ""}</div>
                                             </div>
                                             <div className="flex flex-col">
                                                 <div>{selected2 != -1 ? "개설일" : ""}</div>
-                                                <div>{selected2 != -1 && dataSource2 && dataSource2[selected2]
-                                                    ? dataSource2[selected2].bankbook.createdAt : ""}</div>
+                                                <div>{selected2 != -1 && accountInfo
+                                                    ? accountInfo.createdAt : ""}</div>
                                             </div>
                                             <div className="flex flex-col">
                                                 <div>{selected2 != -1 ? "소유주" : ""}</div>
-                                                <div>{selected2 != -1 && dataSource2 && dataSource2[selected2]
-                                                    ? dataSource2[selected2].bankbook.owner : ""}</div>
+                                                <div>{selected2 != -1 && accountInfo
+                                                    ? accountInfo.owner : ""}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -118,13 +119,10 @@ export default function BankbookManagementUI({
                                             />
                                     </div>
                                 </div>
-                                
-                                
                             </TableWrapper>
                         }
                     </div>
+                </div>
         </div>
-</div>
-)
-    ;
+    );
 }

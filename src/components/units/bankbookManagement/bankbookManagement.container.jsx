@@ -21,9 +21,26 @@ function mapClubsToDataSource(clubs) {
 }
 
 /**
- * 통장 상세 API 데이터 변환
+ * 통장 정보 API 데이터 변환
  */
-function mapAccountInfoToDataSource2(accountInfo) {
+function mapAccountInfo(accountInfo) {
+    if (!accountInfo) return {
+        bankbookNumber: '',
+        createdAt: '',
+        owner: '',
+    };
+
+    return {
+        bankbookNumber: accountInfo.number || '',
+        createdAt: accountInfo.createdAt ? accountInfo.createdAt.slice(0, 10) : '',
+        owner: accountInfo.ownerName || ''
+    };
+}
+
+/**
+ * 거래내역 상세 API 데이터 변환
+ */
+function mapAccountHistoriesToDataSource2(accountInfo) {
     if (!accountInfo || !Array.isArray(accountInfo.accountHistories)) return [];
 
     const typeMap = {
@@ -38,11 +55,6 @@ function mapAccountInfoToDataSource2(accountInfo) {
         content: history.content || '',
         amount: String(history.totalAmount ?? 0),
         restAmount: String(history.usedAmount ?? 0),
-        bankbook: {
-            bankbookNumber: accountInfo.number || '',
-            createdAt: accountInfo.createdAt ? accountInfo.createdAt.slice(0, 10) : '',
-            owner: accountInfo.ownerName || ''
-        },
         origin: history
     }));
 }
@@ -174,7 +186,10 @@ export default function BankbookManagementPage() {
     const clubId = selectedClubOrigin?.clubId ?? null;
 
     const { data: accountInfoData, isLoading: isAccountInfoLoading } = useAccountInfo(clubId, currentPage2 - 1, 8);
-    const dataSource2 = mapAccountInfoToDataSource2(accountInfoData);
+    const accountInfo = mapAccountInfo(accountInfoData);
+    const dataSource2 = mapAccountHistoriesToDataSource2(accountInfoData);
+
+    console.log("****** dataSource2 : ", dataSource2);
 
     /**
      * 동아리 추가 핸들러 (mutation 사용 등 로직 변경 필요)
@@ -243,6 +258,7 @@ export default function BankbookManagementPage() {
             setLoading={() => {}} // 변경 필요
             selected={selected}
             setSelected={setSelected}
+            accountInfo={accountInfo}
             dataSource2={dataSource2}
             setDataSource2={() => {}} // 변경 필요
             permission2={permission2}
