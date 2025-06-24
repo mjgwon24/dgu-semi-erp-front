@@ -36,8 +36,10 @@ export default function BankbookManagementUI({
     setCurrentPage,
     currentPage2,
     setCurrentPage2,
-    totalElements,
-    totalPages
+    clubTotalElements,
+    clubTotalPages,
+    accountTotalElements,
+    accountTotalPages
 }) {
     return (
         <div className="flex h-full min-w-[1482px]">
@@ -55,7 +57,7 @@ export default function BankbookManagementUI({
                     <div className="flex flex-row gap-2 w-full">
                         <TableWrapper 
                             title="통장 조회"
-                            subTitle={`${totalElements}건`}
+                            subTitle={`${clubTotalElements}건`}
                             hasAddButton={permission1=="admin"} 
                             handleAdd={handleAdd}
                             handleAddTitle={"추가"}
@@ -73,8 +75,8 @@ export default function BankbookManagementUI({
                                 height={505}
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
-                                totalPages={totalPages}
-                                totalElements={totalElements}
+                                totalPages={clubTotalPages}
+                                totalElements={clubTotalElements}
                             />
                         </TableWrapper>
 
@@ -121,6 +123,8 @@ export default function BankbookManagementUI({
                                             height={505}
                                             currentPage={currentPage2}
                                             setCurrentPage={setCurrentPage2}
+                                            totalPages={accountTotalPages}
+                                            totalElements={accountTotalElements}
                                             />
                                     </div>
                                 </div>

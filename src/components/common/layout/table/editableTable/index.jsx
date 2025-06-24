@@ -155,7 +155,7 @@ const EditableTable = ({
                       scroll={scrollConfig}
                       onRow={(record, rowIndex) => ({
                           index:rowIndex,
-                          onClick: () => handleRowClick(rowIndex),
+                          onRowClick: () => handleRowClick(rowIndex),
                           onDoubleClick: () => onRowDoubleClick?.(record),
                           className:
                               rowIndex === selected

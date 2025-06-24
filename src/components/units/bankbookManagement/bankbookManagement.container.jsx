@@ -181,14 +181,17 @@ export default function BankbookManagementPage() {
      */
     const { data: clubsData, isLoading: isClubsLoading } = useAccountClubs(currentPage - 1, 8);
     const clubs = clubsData?.clubs || [];
-    const paginationInfo = clubsData?.paginationInfo || { totalElements: 0, totalPages: 1, currentPage: 0 };
-    const totalElements = paginationInfo.totalElements;
-    const totalPages = paginationInfo.totalPages;
+    const clubsPaginationInfo = clubsData?.paginationInfo || { totalElements: 0, totalPages: 1, currentPage: 0 };
+    const clubTotalElements = clubsPaginationInfo.totalElements;
+    const clubTotalPages = clubsPaginationInfo.totalPages;
     const dataSource = mapClubsToDataSource(clubs);
     const selectedClubOrigin = dataSource[selected]?.origin;
     const clubId = selectedClubOrigin?.clubId ?? null;
 
     const { data: accountInfoData, isLoading: isAccountInfoLoading } = useAccountInfo(clubId, currentPage2 - 1, 8);
+    const accountPaginationInfo = accountInfoData?.paginationInfo || { totalElements: 0, totalPages: 1, currentPage: 0 };
+    const accountTotalElements = accountPaginationInfo.totalElements;
+    const accountTotalPages = accountPaginationInfo.totalPages;
     const accountInfo = mapAccountInfo(accountInfoData);
     const dataSource2 = mapAccountHistoriesToDataSource2(accountInfoData);
 
@@ -262,12 +265,16 @@ export default function BankbookManagementPage() {
             setLoading2={() => {}} // 변경 필요
             selected2={selected2}
             setSelected2={setSelected2}
+
+            clubTotalElements={clubTotalElements}
+            clubTotalPages={clubTotalPages}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+
+            accountTotalElements={accountTotalElements}
+            accountTotalPages={accountTotalPages}
             currentPage2={currentPage2}
             setCurrentPage2={setCurrentPage2}
-            totalElements={totalElements}
-            totalPages={totalPages}
         />
     );
 }
