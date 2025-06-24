@@ -14,7 +14,7 @@ function mapClubsToDataSource(clubs) {
     if (!Array.isArray(clubs)) return [];
 
     return clubs.map((club, index) => ({
-        No: index + 1,
+        No: club.clubId,
         crew: club.clubName || '',
         origin: club
     }));
@@ -234,15 +234,6 @@ export default function BankbookManagementPage() {
         setCount2(count2 + 1);
     };
 
-    /**
-     * 아래 로직은 사용되는지 확인 필요함
-     */
-        // const today = new Date();
-        // const todayString = today.toISOString().split("T")[0];
-        // const lastMonth = new Date(today.setMonth(today.getMonth() - 1));
-        // const lastMonthString = lastMonth.toISOString().split("T")[0];
-    const [count, setCount] = useState(null);
-    const [count2, setCount2] = useState(null);
 
     return (
         <BankbookManagementUI
@@ -276,6 +267,7 @@ export default function BankbookManagementPage() {
             currentPage2={currentPage2}
             setCurrentPage2={setCurrentPage2}
             totalElements={totalElements}
+            totalPages={totalPages}
         />
     );
 }

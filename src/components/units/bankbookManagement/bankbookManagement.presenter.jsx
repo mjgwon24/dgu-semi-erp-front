@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
 dayjs.locale('zh-cn');
+
 export default function BankbookManagementUI({
     conditions,
     setConditions,
@@ -35,11 +36,11 @@ export default function BankbookManagementUI({
     setCurrentPage,
     currentPage2,
     setCurrentPage2,
-    totalElements
+    totalElements,
+    totalPages
 }) {
     return (
         <div className="flex h-full min-w-[1482px]">
-
                 <div className="flex flex-col gap-7 p-5 w-full">
                     <ConditionBar
                         title={"통장 관리"}
@@ -50,6 +51,7 @@ export default function BankbookManagementUI({
                         options={options}
                         types={types}
                     />
+
                     <div className="flex flex-row gap-2 w-full">
                         <TableWrapper 
                             title="통장 조회"
@@ -71,7 +73,9 @@ export default function BankbookManagementUI({
                                 height={505}
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
-                                />
+                                totalPages={totalPages}
+                                totalElements={totalElements}
+                            />
                         </TableWrapper>
 
                         {selected!=-1&&
