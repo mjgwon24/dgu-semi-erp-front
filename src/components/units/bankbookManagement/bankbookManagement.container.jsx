@@ -10,11 +10,11 @@ dayjs.locale('zh-cn');
 /**
  * 동아리 목록 API 데이터 변환
  */
-function mapClubsToDataSource(clubs) {
+function mapClubsToDataSource(clubs, currentPage, pageSize = 8) {
     if (!Array.isArray(clubs)) return [];
 
     return clubs.map((club, index) => ({
-        No: club.clubId,
+        No: (currentPage - 1) * pageSize + index + 1,
         crew: club.clubName || '',
         origin: club
     }));
@@ -40,7 +40,7 @@ function mapAccountInfo(accountInfo) {
 /**
  * 거래내역 상세 API 데이터 변환
  */
-function mapAccountHistoriesToDataSource2(accountInfo) {
+function mapAccountHistoriesToDataSource2(accountInfo, currentPage, pageSize = 8) {
     if (!accountInfo || !Array.isArray(accountInfo.accountHistories)) return [];
 
     const typeMap = {
@@ -50,7 +50,7 @@ function mapAccountHistoriesToDataSource2(accountInfo) {
     };
 
     return accountInfo.accountHistories.map((history, index) => ({
-        No: index + 1,
+        No: (currentPage - 1) * pageSize + index + 1,
         tradetype: typeMap[history.payType] || '',
         content: history.content || '',
         amount: String(history.totalAmount ?? 0),
@@ -184,7 +184,7 @@ export default function BankbookManagementPage() {
     const clubsPaginationInfo = clubsData?.paginationInfo || { totalElements: 0, totalPages: 1, currentPage: 0 };
     const clubTotalElements = clubsPaginationInfo.totalElements;
     const clubTotalPages = clubsPaginationInfo.totalPages;
-    const dataSource = mapClubsToDataSource(clubs);
+    const dataSource = mapClubsToDataSource(clubs, currentPage);
     const selectedClubOrigin = dataSource[selected]?.origin;
     const clubId = selectedClubOrigin?.clubId ?? null;
 
@@ -193,9 +193,7 @@ export default function BankbookManagementPage() {
     const accountTotalElements = accountPaginationInfo.totalElements;
     const accountTotalPages = accountPaginationInfo.totalPages;
     const accountInfo = mapAccountInfo(accountInfoData);
-    const dataSource2 = mapAccountHistoriesToDataSource2(accountInfoData);
-
-    console.log("****** dataSource2 : ", dataSource2);
+    const dataSource2 = mapAccountHistoriesToDataSource2(accountInfoData, currentPage2);
 
     /**
      * 동아리 추가 핸들러 (mutation 사용 등 로직 변경 필요)
