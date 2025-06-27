@@ -1,14 +1,11 @@
-import SideBarLayout from "@/src/components/common/layout/sidebar";
-import HeaderLayout from "@/src/components/common/layout/header";
 import ConditionBar from "@/src/components/common/layout/conditions/conditionbar";
 import TableWrapper from "@/src/components/common/layout/table/tableWrapper";
 import EditableTable from "@/src/components/common/layout/table/editableTable";
-import { useState,useEffect } from "react";
-import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
 dayjs.locale('zh-cn');
+
 export default function BankbookManagementUI({
     conditions,
     setConditions,
@@ -25,6 +22,7 @@ export default function BankbookManagementUI({
     setLoading,
     selected,
     setSelected,
+    accountInfo,
     dataSource2,
     setDataSource2,
     permission2,
@@ -37,11 +35,14 @@ export default function BankbookManagementUI({
     currentPage,
     setCurrentPage,
     currentPage2,
-    setCurrentPage2
+    setCurrentPage2,
+    clubTotalElements,
+    clubTotalPages,
+    accountTotalElements,
+    accountTotalPages
 }) {
     return (
         <div className="flex h-full min-w-[1482px]">
-
                 <div className="flex flex-col gap-7 p-5 w-full">
                     <ConditionBar
                         title={"통장 관리"}
@@ -52,10 +53,11 @@ export default function BankbookManagementUI({
                         options={options}
                         types={types}
                     />
+
                     <div className="flex flex-row gap-2 w-full">
                         <TableWrapper 
                             title="통장 조회"
-                            subTitle={`${dataSource==undefined?0:dataSource.length}건`} 
+                            subTitle={`${clubTotalElements}건`}
                             hasAddButton={permission1=="admin"} 
                             handleAdd={handleAdd}
                             handleAddTitle={"추가"}
@@ -73,13 +75,15 @@ export default function BankbookManagementUI({
                                 height={505}
                                 currentPage={currentPage}
                                 setCurrentPage={setCurrentPage}
-                                />
+                                totalPages={clubTotalPages}
+                                totalElements={clubTotalElements}
+                            />
                         </TableWrapper>
 
                         {selected!=-1&&
                             <TableWrapper
                                 title={`${dataSource[selected]?dataSource[selected].crew:""} 통장 내역 상세`} 
-                                subTitle={`${setDataSource2==undefined?0:dataSource.length}건`} 
+                                subTitle={`${setDataSource2==undefined?0:dataSource2.length}건`}
                                 hasAddButton={permission2=="admin"} 
                                 handleAdd={handleAdd2}
                                 handleAddTitle={"통장 추가"}
@@ -89,16 +93,19 @@ export default function BankbookManagementUI({
                                     <div className="w-[20%] rounded-md bg-white border border-gray-300 h-[504px] overflow-hidden p-6">
                                         <div className="flex flex-col gap-3">
                                             <div className="flex flex-col">
-                                                <div>{selected2!=-1?"계좌번호":""}</div>
-                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.bankbookNumber:""}</div>
+                                                <div>{selected2 != -1 ? "계좌번호" : ""}</div>
+                                                <div>{selected2 != -1 && accountInfo
+                                                    ? accountInfo.bankbookNumber : ""}</div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <div>{selected2!=-1?"개설일":""}</div>
-                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.createdAt:""}</div>
+                                                <div>{selected2 != -1 ? "개설일" : ""}</div>
+                                                <div>{selected2 != -1 && accountInfo
+                                                    ? accountInfo.createdAt : ""}</div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <div>{selected2!=-1?"소유주":""}</div>
-                                                <div>{selected2!=-1&&dataSource2?dataSource2[selected2].bankbook.owner:""}</div>
+                                                <div>{selected2 != -1 ? "소유주" : ""}</div>
+                                                <div>{selected2 != -1 && accountInfo
+                                                    ? accountInfo.owner : ""}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -116,16 +123,15 @@ export default function BankbookManagementUI({
                                             height={505}
                                             currentPage={currentPage2}
                                             setCurrentPage={setCurrentPage2}
+                                            totalPages={accountTotalPages}
+                                            totalElements={accountTotalElements}
                                             />
                                     </div>
                                 </div>
-                                
-                                
                             </TableWrapper>
                         }
                     </div>
+                </div>
         </div>
-</div>
-)
-    ;
+    );
 }
