@@ -5,6 +5,7 @@ export default function ConditionBar(props) {
         title,
         conditions,
         setConditions,
+        handleSearch,
         labels,
         orderKeys,
         options,
@@ -17,11 +18,6 @@ export default function ConditionBar(props) {
             ...prev,
             [id]: value,
         }));
-    };
-
-    // 조회 버튼 클릭 핸들러
-    const handleSearch = () => {
-        console.log(`Search: ${JSON.stringify(conditions)}`);
     };
 
     return (
