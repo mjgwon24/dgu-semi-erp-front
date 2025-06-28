@@ -12,12 +12,14 @@ dayjs.locale('zh-cn');
 export default function PeopleManagementUI({
     conditions,
     setConditions,
+    handleSearch,
     labels,
     orderKeys,
     options,
     types,
     dataSource,
     setDataSource,
+    totalPages,
     count,
     permission1,
     handleAdd,
@@ -28,6 +30,7 @@ export default function PeopleManagementUI({
     setSelected,
     dataSource2,
     setDataSource2,
+    totalPages2,
     count2,
     permission2,
     handleAdd2,
@@ -49,6 +52,7 @@ export default function PeopleManagementUI({
                         title={"인원 관리"}
                         conditions={conditions}
                         setConditions={setConditions}
+                        handleSearch={handleSearch}
                         labels={labels}
                         orderKeys={orderKeys}
                         options={options}
@@ -58,7 +62,7 @@ export default function PeopleManagementUI({
                         <div className="w-[35%]">
                             <TableWrapper 
                                 title="인원 조회" 
-                                subTitle={`${dataSource.length}건`} 
+                                subTitle={`${count}건`} 
                                 hasAddButton={permission1=="admin"} 
                                 handleAdd={handleAdd}
                                 handleAddTitle={"추가"}
@@ -77,6 +81,7 @@ export default function PeopleManagementUI({
                                         height={505}
                                         currentPage={currentPage}
                                         setCurrentPage={setCurrentPage}
+                                        totalPages={totalPages}
                                         />
                                 
                             </TableWrapper>
@@ -84,8 +89,8 @@ export default function PeopleManagementUI({
 
                         <div className="w-[63%]">
                             <TableWrapper 
-                                title={`${dataSource[selected]?dataSource[selected].crew:""} 인원 조회 상세`}
-                                subTitle={`${dataSource2.length}건`} 
+                                title={`${dataSource?.[selected]?dataSource[selected].crew:""} 인원 조회 상세`}
+                                subTitle={`${count2}건`} 
                                 hasAddButton={false} 
                                 width={"100%"}>
                                 <div className="w-full">
@@ -103,6 +108,7 @@ export default function PeopleManagementUI({
                                         height={505}
                                         currentPage={currentPage2}
                                         setCurrentPage={setCurrentPage2}
+                                        totalPages={totalPages2}
                                         />
                                 </div>
                             </TableWrapper>
