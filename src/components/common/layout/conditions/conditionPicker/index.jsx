@@ -44,17 +44,15 @@ export default function ConditionPicker(props) {
     }
 
     if (type === "rangeNumber") {
-        const { from = 0, to = 0, maxNum = max } = value || {};
-
         return (
             <Input.Group compact>
                 <InputNumber
                     type="number"
-                    defaultValue={from}
-                    onChange={(value) => onChange({ target: { value: { from: value, to } }})}
+                    onChange={(v) => {onChange({...value,from:v})}}
                     min={min}
-                    max={maxNum}
+                    max={max}
                     style={{width: 110, fontSize: "14px", borderRight: 0}}
+                    value={value?.from}
                 />
                 <Input
                     style={{
@@ -71,11 +69,11 @@ export default function ConditionPicker(props) {
                 />
                 <InputNumber
                     type="number"
-                    defaultValue={to}
-                    onChange={(value) => onChange({ target: { value: { from, to: value } }})}
+                    onChange={(v) => {onChange({...value,to:v})}}
                     min={min}
-                    max={maxNum}
+                    max={max}
                     style={{width: 110, fontSize: "14px", borderLeft: 0}}
+                    value={value?.to}
                 />
             </Input.Group>
         );

@@ -16,7 +16,6 @@ export default function ConditionItem(props) {
     if (label === undefined) {
         throw new Error("orderKeys에 작성한 conditions와 일치하는 label이 지정되지 않았습니다. 다시 가서 작성하고 오세요^^");
     }
-
     return (
         <div className="flex flex-row items-center p-2 gap-2">
             <label className="weight-600 text-[15px] w-[80px] text-right">{label}</label>
@@ -25,7 +24,7 @@ export default function ConditionItem(props) {
                     id={id}
                     type={type}
                     value={value}
-                    onChange={onChange}
+                    onChange={(v) => onChange(id, v)}
                     options={options}
                     placeholder={placeholder}
                     min={min}
