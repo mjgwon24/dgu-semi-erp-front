@@ -24,11 +24,25 @@ export default function SignUpUI({
     isContractOpen,
     onAgreeAllClick,
     isNextStep,
-    onNextStepButton
+    onNextStepButton,
+    selectedClubId,
+    setSelectedClubId,
+    otpEmail,
+    requestOtp,
+    nickname,
+    onNicknameChange,
+    otpCode,
+    onOtpChange,
+    showPassword,
+    setShowPassword,
+    isOtpRequested,
+    verifyOtp,
+    selectedMajor,
+    setSelectedMajor
 }) {
 
     return (
-        
+
         <ConfigProvider
             theme={{
                 components: {
@@ -45,11 +59,11 @@ export default function SignUpUI({
                 },
             }}
             >
-                    
+
         <div className="flex w-full h-screen min-h-[900px] justify-center items-center bg-[#F7F7F7]">
             <div className="flex flex-col items-center justify-center border rounded-2xl shadow-xl bg-[#FFFFFF] h-5/6 py-14 px-32 w-2/5 min-w-[600px]">
-            {isContractOpen ? 
-            
+            {isContractOpen ?
+
             (
                 <SignUpContract
                     allChecked={allChecked}
@@ -69,18 +83,48 @@ export default function SignUpUI({
                 </div>
 
                 {isNextStep ? (
-        
+
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col gap-2 w-full text-lg">
-                        <Input placeholder="학번" style={{height:"62px", padding:"11px"}}/> 
-                        <Select placeholder="전공" options={majorOptions} style={{height:"62px"}}/>
-                        <Select placeholder="동아리" options={clubOptions} style={{height:"62px"}}/>
+                        <Input placeholder="학번" value={studentNum} onChange={onStudentNumChange} style={{height:"62px", padding:"11px"}}/>
+                        <Select
+                          placeholder="전공"
+                          options={majorOptions}
+                          value={majorOptions.find(option => option.value === selectedMajor)}
+                          onChange={(option) => setSelectedMajor(option.value)}
+                          style={{height:"62px"}}
+                          showSearch
+                          filterOption={(input, option) =>
+                            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                          }
+                        />
+                        <Select placeholder="동아리" options={clubOptions} value={selectedClubId} onChange={setSelectedClubId} style={{height:"62px"}}/>
 
                         <div className="flex flex-row w-full gap-2">
-                            <Input placeholder="이메일" style={{height:"62px", padding:"11px"}}/> 
-                            <button className="bg-[#237BE6] rounded-lg text-base px-10 text-[#FFFFFF]" style={{ height: "62px", whiteSpace: "nowrap" }}>인증</button>
+                            <Input placeholder="이메일" value={otpEmail} onChange={(e) => onEmailChange(e)} style={{height:"62px", padding:"11px"}}/>
+                            <button type="button" className="bg-[#237BE6] rounded-lg text-base px-10 text-[#FFFFFF]" style={{ height: "62px", whiteSpace: "nowrap" }} onClick={requestOtp}>인증</button>
                         </div>
-                    
+
+                        <Input placeholder="이름" value={nickname} onChange={onNicknameChange} style={{height:"62px", padding:"11px"}}/>
+                        {isOtpRequested && (
+                          <div className="flex flex-row w-full gap-2">
+                            <Input
+                              placeholder="OTP 인증번호"
+                              value={otpCode}
+                              onChange={onOtpChange}
+                              style={{ height: "62px", padding: "11px" }}
+                            />
+                            <button
+                              type="button"
+                              className="bg-[#237BE6] rounded-lg text-base px-6 text-[#FFFFFF]"
+                              style={{ height: "62px", whiteSpace: "nowrap" }}
+                              onClick={verifyOtp}
+                            >
+                              인증번호 확인
+                            </button>
+                          </div>
+                        )}
+
                         <Checkbox className="text-base font-[700] text-[#3C3C3C]" checked={allChecked} onChange={onCheckAllChange}>전체 동의</Checkbox>
 
                         <div className="flex flex-row items-center w-full">
@@ -95,7 +139,7 @@ export default function SignUpUI({
                             <Checkbox className=" text-[#808080]" checked={checkedList.option3} onChange={onCheckChange} name="option3">이용약관 동의</Checkbox>
                             <button className="text-[#808080] text-base" onClick={openContract}>&gt;</button>
                         </div>
-                    
+
                     </div>
 
                     <div className="flex flex-col gap-2 w-full items-center">
@@ -103,14 +147,40 @@ export default function SignUpUI({
                         <label className="text-[#3C3C3C]">이미 계정이 있으신가요? <Link href={"/login"} className="text-[#247CE6]">로그인</Link> 하러가기</label>
                     </div>
                 </div>
-                    
+
             ) : (
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col gap-2 w-full text-lg">
-                        <Input placeholder="계정명" style={{height:"62px", padding:"11px"}}/> 
-                        <Input placeholder="이름" style={{height:"62px", padding:"11px"}}/>
-                        <Input placeholder="비밀번호" style={{height:"62px", padding:"11px"}}/>
-                    
+                        <Input placeholder="계정명" style={{height:"62px", padding:"11px"}}/>
+                        <div className="relative">
+                          <Input
+                            placeholder="비밀번호"
+                            style={{ height: "62px", padding: "11px" }}
+                            type={showPassword ? "text" : "password"}
+                            onPressEnter={(e) => {
+                              e.preventDefault();
+                              onNextStepButton();
+                            }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            style={{
+                              position: "absolute",
+                              right: "12px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              fontSize: "0.875rem",
+                              color: "#808080",
+                              background: "transparent",
+                              border: "none",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {showPassword ? "숨기기" : "표시"}
+                          </button>
+                        </div>
+
                     </div>
 
                     <div className="flex flex-col gap-2 w-full items-center">
@@ -122,10 +192,10 @@ export default function SignUpUI({
                     </div>
                 </div>
             )}
-                
+
             </form>
             )}
-                
+
             </div>
         </div>
 
