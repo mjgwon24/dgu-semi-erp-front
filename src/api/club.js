@@ -14,8 +14,6 @@ export async function fetchAllClubs() {
         withCredentials: true,
       }
     );
-    console.log(1414);
-    console.log(response.data);
     return response.data;
 }
 

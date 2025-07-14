@@ -33,7 +33,7 @@ export default function ConditionPanel(props) {
                     ))}
                 </div>
 
-                <div className="p-2">
+                <div className="p-2 h-auto flex flex-col justify-end">
                     <Button color="primary" variant="outlined"
                             style={{width: 70}} onClick={onSearch}>
                         조회

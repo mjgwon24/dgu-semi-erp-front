@@ -5,7 +5,7 @@ import TableWrapper from "@/src/components/common/layout/table/tableWrapper";
 import EditableTable from "@/src/components/common/layout/table/editableTable";
 import {useEffect, useState} from "react";
 
-export default function BudgetPlanUI({ conditions, setConditions, labels, orderKeys, options, types, defaultColumns, dataSource, setDataSource, loading, setLoading, permission1, handleAdd }) {
+export default function BudgetPlanUI({ conditions, setConditions, labels, orderKeys, options, types, defaultColumns, dataSource, setDataSource, loading, setLoading, permission1, handleAdd, currentPage, setCurrentPage, totalPages, totalElements}) {
     return (
         <div className="flex flex-col gap-7 p-5">
             <ConditionBar
@@ -34,6 +34,10 @@ export default function BudgetPlanUI({ conditions, setConditions, labels, orderK
                         setLoading={setLoading}
                         permission={permission1}
                         setSelected={() => {}}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}
+                        totalElements={totalElements}
                     />
 
                 </TableWrapper>

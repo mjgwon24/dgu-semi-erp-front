@@ -23,7 +23,7 @@ export default function ConditionPicker(props) {
         return (
             <Input
                 value={value}
-                onChange={onChange}
+                onChange={(e)=>{onChange(e.target.value);}}
                 placeholder={placeholder}
                 style={{width: 130, fontSize: "14px"}}
             />
@@ -121,7 +121,7 @@ export default function ConditionPicker(props) {
             <RangePicker
                 popupStyle={{fontSize: "14px"}}
                 defaultValue={[dayjs(from, 'YYYY-MM-DD'), dayjs(to, 'YYYY-MM-DD')]}
-                onChange={(_, dateString) => onChange({ target: { value: { from: dateString[0], to: dateString[1] } }})}
+                onChange={(_, dateString) => onChange({ from: dateString[1], to: dateString[0] })}
             />
         );
     }

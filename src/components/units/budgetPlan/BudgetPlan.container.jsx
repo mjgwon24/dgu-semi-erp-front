@@ -1,27 +1,48 @@
 import {useEffect, useState} from "react";
 import BudgetPlanUI from "@/src/components/units/budgetPlan/BudgetPlan.presenter";
 import dayjs from "dayjs";
+import {useAccountClubs, useAccountInfo} from "@/src/hooks/useAccountInfo";
+import {useBudgetPlanInfo, useBudgetUsageInfo, useBudgetReport} from "@/src/hooks/useBudgetPlanInfo";
+import { useAllClubs } from "@/src/hooks/useClubInfo";
+
+function mapBudgetPlansToDataSource(budgetPlans, currentPage, allClubs, pageSize = 8) {
+    if (!Array.isArray(budgetPlans)) return [];
+    return budgetPlans.map((budgetPlan, index) => ({
+        No: (currentPage - 1) * pageSize + index + 1,
+        executionType: budgetPlan.executeType,
+        clubName: budgetPlan.clubName,
+        paymentDate: budgetPlan.expectedPaymentDate.split("T")[0],
+        status: budgetPlan.status=="HOLD"?"대기":budgetPlan.status=="REJECTED"?"반려":"승인",
+        content: budgetPlan.content,
+        draftDate: budgetPlan.createdAt.split("T")[0],
+        drafter: budgetPlan.drafter,
+        amount: budgetPlan.paymentAmount,
+    }));
+}
 
 export default function BudgetPlan() {
+    const { data: allClubsData, isLoading: isAllClubsLoading } = useAllClubs();
+    const allClubs = allClubsData?.content || [];
+    
     const today = new Date();
     const todayString = today.toISOString().split("T")[0];
     const lastMonth = new Date(today.setMonth(today.getMonth() - 1));
     const lastMonthString = lastMonth.toISOString().split("T")[0];
 
     const [conditions, setConditions] = useState({
-        expenseType: "운영비",
-        clubName: "개발 동아리",
-        paymentDate: {from: todayString, to: lastMonthString},
+        executeType: "운영비",
+        clubName: "전체",
+        paymentDate: {from: lastMonthString, to: todayString},
         status: "대기",
         content: "",
-        draftDate: {from: todayString, to: lastMonthString},
+        draftDate: {from: lastMonthString, to: todayString},
         drafter: "",
         amount: {from: 0, to: 100000, maxNum: 100000}
     });
 
     const labels = {
-        expenseType: "집행 유형",
-        clubName: "동아리",
+        executeType: "집행 유형",
+        clubName: "동아리명",
         paymentDate: "결제 예정일",
         status: "상태",
         content: "내용",
@@ -31,7 +52,7 @@ export default function BudgetPlan() {
     };
 
     const orderKeys = [
-        "expenseType",
+        "executeType",
         "clubName",
         "paymentDate",
         "status",
@@ -42,7 +63,7 @@ export default function BudgetPlan() {
     ];
 
     const types = {
-        expenseType: "select",
+        executeType: "select",
         clubName: "selectWithSearch",
         paymentDate: "rangeDate",
         status: "select",
@@ -52,11 +73,35 @@ export default function BudgetPlan() {
         amount: "rangeNumber"
     }
 
+
     const options = {
-        expenseType: ["운영비", "행사비", "소모품 구매"],
+        executeType: ["운영비", "행사비", "소모품 구매"],
         status: ["대기", "승인", "반려"],
-        clubName: ["빅데이터 동아리", "머신러닝 동아리", "개발 동아리"]
+        clubName: ["전체", ...allClubs.map((c) => c.name)],
     }
+    const [selected,setSelected] = useState(-1);    // 동아리 목록 선택 인덱스
+
+    const [currentPage,setCurrentPage] = useState(1);
+
+    const { data: budgetPlansData, isLoading: isBudgetPlansLoading } = useBudgetPlanInfo(currentPage - 1, 8,
+        conditions.executeType,
+        conditions.clubName,
+        conditions.paymentDate,
+        conditions.status,
+        conditions.content,
+        conditions.draftDate,
+        conditions.drafter,
+        conditions.amount
+    );
+    const budgetPlans = budgetPlansData?.content || [];
+    const budgetPlansPaginationInfo = budgetPlansData?.paginationInfo || { totalElements: 0, totalPages: 1, currentPage: 0 };
+    const budgetPlanTotalElements = budgetPlansData?.totalElements;
+    const budgetPlanTotalPages = budgetPlansData?.totalPages;
+    const dataSource = mapBudgetPlansToDataSource(budgetPlans, currentPage, allClubs);
+    const selectedClubOrigin = dataSource[selected]?.origin;
+    const budgetPlanId = selectedClubOrigin?.budgetPlanId ?? null;
+
+
 
     const defaultColumns = [
         {
@@ -80,7 +125,7 @@ export default function BudgetPlan() {
             width: '5%',
             editable: true,
             type:'select',
-            selects: ['빅데이터 동아리', '머신러닝 동아리', '개발 동아리']
+            selects: allClubs.map(c => c.name)
         },
         {
             title:'내용',
@@ -115,7 +160,7 @@ export default function BudgetPlan() {
         {
             title:'금액',
             dataIndex: 'amount',
-            width: '1%',
+            width: '5%',
             editable: true,
             type:'money',
             maxlength:10000000
@@ -130,44 +175,8 @@ export default function BudgetPlan() {
         }
     ];
 
-    const [dataSource, setDataSource] = useState([]);
     const [count, setCount] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    // 데이터 요청 함수
-    const fetchData = async () => {
-        try{
-            setLoading(true);
-            // 임의의 API 호출(여기서 API 연결)
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-            const baseData = response.data;
-
-            // 임의로 100개의 데이터 생성
-            const data = Array.from({ length: 100 }, (_, index) => {
-                const item = baseData[index % baseData.length]; // 데이터 순환
-                return {
-                    No: index + 1,
-                    executionType: '소모품 구매',
-                    clubName: '빅데이터 동아리',
-                    content: '',
-                    drafter: '',
-                    draftDate: dayjs().add(index, 'day').format('YYYY-MM-DD'), // 날짜를 하루씩 증가
-                    paymentDate: dayjs().add(index, 'day').format('YYYY-MM-DD'), // 날짜를 하루씩 증가
-                    amount: 0,
-                    status: ['대기', '승인', '반려'][index % 3],
-                };
-            });
-
-            setDataSource(data);
-            setCount(data.length);
-        }
-        catch(error){
-            console.error('데이터 로딩 실패:', error);
-        }
-        finally{
-            setLoading(false);
-        }
-    };
 
     const handleAdd = () => {
         const newData = defaultColumns.reduce((acc, column) => {
@@ -183,16 +192,10 @@ export default function BudgetPlan() {
         }, {});
         setDataSource([...dataSource, newData]);
         setCount(count + 1);
-    };
-
-    // 컴포넌트 마운트 시 데이터 로드
-    useEffect(() => {
-        fetchData();
-    }, []);
-
+    };    
     const permission1 = "admin";
 
-    return <BudgetPlanUI
+    return (<BudgetPlanUI
         conditions={conditions}
         setConditions={setConditions}
         labels={labels}
@@ -200,11 +203,15 @@ export default function BudgetPlan() {
         options={options}
         types={types}
         dataSource={dataSource}
-        setDataSource={setDataSource}
+        setDataSource={()=>{}}
         defaultColumns={defaultColumns}
         loading={loading}
         setLoading={setLoading}
         handleAdd={handleAdd}
         permission1={permission1}
-        />
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={budgetPlanTotalPages}
+        totalElements={budgetPlanTotalElements}
+        />);
 }
