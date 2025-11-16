@@ -19,6 +19,7 @@ export default function AnnouncementUI({
     
     const { RangePicker } = DatePicker;
     const dateFormat = "YYYY-MM-DD";
+    const dateTimeFormat = "YYYY-MM-DDTHH:mm:ss"
 
     return (
         <div className="flex flex-col p-4 h-full gap-4">
@@ -33,8 +34,8 @@ export default function AnnouncementUI({
                             format={dateFormat}
                             onChange={(dates) => {
                                 if (dates) {
-                                    setStartDate(dates[0]?.format(dateFormat) || "");
-                                    setEndDate(dates[1]?.format(dateFormat) || "");
+                                    setStartDate(dates[0]?.startOf(startDate).format(dateTimeFormat) || "");
+                                    setEndDate(dates[1]?.endOf(endDate).format(dateTimeFormat) || "");
                                 } else {
                                     setStartDate("");
                                     setEndDate("");
