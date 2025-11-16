@@ -67,9 +67,17 @@ export default function AnnouncementUI({
                     )}
                 </div>
             </div>
-
-            <div className="flex justify-center ">
-                {renderPagination(currentPage,totalPages)}
+            
+            <div className="w-full flex flex-row justify-between">
+                <div className="grow-2">
+                    
+                </div>
+                <div className="flex justify-center">
+                    {renderPagination(currentPage,totalPages)}
+                </div>
+                <div className="px-6 bg-[#1E7EE4] py-2 text-[#FFFFFF] rounded-xl font-bold cursor-pointer">
+                    글쓰기
+                </div>
             </div>
         </div>
     );

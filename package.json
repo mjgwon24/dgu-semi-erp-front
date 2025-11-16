@@ -19,7 +19,7 @@
     "axios": "^1.7.9",
     "dateutil": "^0.1.0",
     "dayjs": "^1.11.13",
-    "next": "14.2.23",
+    "next": "^14.2.33",
     "next-transpile-modules": "^10.0.1",
     "react": "^18",
     "react-dom": "^18",

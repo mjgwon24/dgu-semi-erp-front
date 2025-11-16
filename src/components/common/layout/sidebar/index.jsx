@@ -39,12 +39,12 @@ export default function SideBarLayout() {
 
                 <div className="flex flex-col space-y-3 pt-10">
                     <Link href="/announcement"
-                          className={`${menuBaseClass} ${currentUrl.startsWith("/announcement") ? "bg-white text-[#106BDB]" : "text-white"}`}
-                          style={{color: currentUrl.startsWith("/announcement") ? "#106BDB" : "", backgroundColor: currentUrl === "/announcement" ? "white" : "",}}
+                          className={`${menuBaseClass} ${currentUrl&&currentUrl.startsWith("/announcement") ? "bg-white text-[#106BDB]" : "text-white"}`}
+                          style={{color: currentUrl&&currentUrl.startsWith("/announcement") ? "#106BDB" : "", backgroundColor: currentUrl === "/announcement" ? "white" : "",}}
                           onClick={() => setBudgetMenuOpen(false)}>
                         <ArticleIcon fontSize="small" />
                         {!isSidebarFolded && (
-                            <span className={textBaseClass} style={{color: currentUrl.startsWith("/announcement") ? "#106BDB" : "",}}>
+                            <span className={textBaseClass} style={{color: currentUrl&&currentUrl.startsWith("/announcement") ? "#106BDB" : "",}}>
                                 공지사항
                             </span>
                         )}
